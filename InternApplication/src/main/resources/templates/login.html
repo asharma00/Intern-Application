@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link rel="stylesheet" href="../static/css/style.css"
+	th:href="@{css/style.css}">
+<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+
+	
+
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+
+	
+
+<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+
+<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+<script src="../static/js/jquery.validate.min.js" th:src="@{js/jquery.validate.min.js}"></script>
+
+<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css"
+	th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+
+<script>
+
+function resetpassword(){
+	var pno=null;
+	if ($("#forgotpassuname").val()=="")
+		{
+		alert("Enter a username");
+		}
+	else{
+	
+	
+	$.ajax({
+			url : "/internapp/api/v4/checkuser",
+			type : "GET",
+			data:{ 
+				"email":$("#forgotpassuname").val()
+			},
+			
+			success : function(data) {
+				
+				if(data.length<=0){
+					alert("Username does not exist");
+				}
+				else{
+					
+					
+					pno=data[0][1];
+					
+					
+					//alert(pno);
+					//alert("username exists");
+					
+					
+					$.ajax({
+			url : "/internapp/api/v4/mailpass",
+			type : "POST",
+			data:{ 
+				"email":$("#forgotpassuname").val(),
+				"contact":pno
+			},
+			
+			success : function(data) {
+				alert("Your new password has been sent to your registered email id.");
+				location.reload();
+			}
+			
+			});
+					
+					
+					
+					
+					
+				}
+				
+			}
+			
+	});
+	
+	
+	
+	
+	
+	}
+}
+
+</script>
+
+
+
+
+
+</head>
+<body>
+		<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+<a class="navbar-brand" href="#" th:href="@{/}"><img 
+     src="../static/images/0.jpg"
+     th:src="@{images/0.jpg}"
+     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+     
+
+</a>
+
+
+
+<ul class="navbar-nav ml-auto">
+			</ul>
+		
+	</nav>
+
+	<br>
+	<br>
+	<div class="container">
+		<div class="row" style="width: 50%; margin: auto">
+			<div class="col-12">
+
+				<h1>User Login Page</h1>
+				<form th:action="@{/login}" method="post">
+
+					<!-- error message -->
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">Invalid user name or
+							password.</div>
+					</div>
+
+					<!-- logout message -->
+					<div th:if="${param.logout}">
+						<div class="alert alert-info">You have been logged out.</div>
+					</div>
+
+					<div class="form-group">
+						<label for="username"> User name </label> : <input type="text"
+							class="form-control" id="username" name="username"
+							placeholder="Enter Email ID" autofocus="autofocus">
+					</div>
+
+					<div class="form-group">
+						<label for="password">Password</label>: <input type="password"
+							id="password" name="password" class="form-control"
+							placeholder="Enter Password" />
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" name="login-submit" id="login-submit"
+									class="form-control btn btn-primary" value="Log In" />
+							</div>
+						</div>
+					</div>
+					
+					
+						<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-6">
+								
+									
+									
+									
+									
+									<a
+					 href="#" data-toggle="modal"
+					data-target="#forgotpasswordmodal">Forgot password?</a>
+					<div class="modal fade" id="forgotpasswordmodal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="forgotpasswordmodallLabel" >Reset password</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body" style="background-color:#80e5ff;">
+									<div class="form-group">
+										<label for="forgotpassuname"> Username</label> <input
+											class="form-control" type="text" value="" id="forgotpassuname" placeholder="Enter username">
+									</div>
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="resetpassword()"
+										class="btn btn-primary">Reset password</button>
+								</div>
+							</div>
+						</div>
+					</div>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+							</div>
+						</div>
+					</div>
+					
+					
+					
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

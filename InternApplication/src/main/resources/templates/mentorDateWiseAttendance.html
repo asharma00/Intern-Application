@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+	
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Intern Application Website</title>
+	<link rel="icon" href="../static/images/indian_railways.jpeg" th:href="@{images/indian_railways.jpeg}" type="image/png">
+	<link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+	
+	<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+	
+	<style id="antiClickjack"> body{display:none !important;} </style>
+	
+	<script type="text/javascript">
+		if(self===top)
+		{
+			var antiClickjack = document.getElementById("antiClickjack");
+			antiClickjack.parentNode.removeChild(antiClickjack);
+		}
+		else
+		{
+			top.location= self.location;
+		}
+	</script>
+
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+	<script src="../static/js/jquery.validate.min.js" th:src="@{js/jquery.validate.min.js}"></script>
+
+	<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+
+	<style>
+		/*To add calendar ui*/
+		.ui-datepicker {
+		    width: 300px;
+		    height: auto;
+		    margin: 1px auto 0;
+		    font: 12pt Times New Roman, sans-serif;
+		    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+		    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);*/
+		}
+		
+		    .ui-datepicker table {
+		        width: 100%;
+		        height: auto;
+		    }
+		
+		.ui-datepicker-header {
+		    background: #3399ff;
+		    color: #ffffff;
+		    font-family:'Times New Roman';
+		    border-width: 1px 0 0 0;
+		    border-style: solid;
+		    border-color: #111;
+		}
+		
+		.ui-datepicker-title {
+		    text-align: center;
+		    font-size: 17px;
+		
+		}
+		
+		.ui-datepicker-prev {
+		    float: left;
+		    cursor: pointer;
+		    /*background-position: center -30px;*/
+		}
+		
+		.ui-datepicker-next {
+		    float: right;
+		    cursor: pointer;
+		    /*background-position: center 0px;*/
+		}
+		
+		.ui-datepicker thead {
+		    background-color: #f7f7f7;
+		
+		    /*border-bottom: 1px solid #bbb;*/
+		}
+		
+		.ui-datepicker th {
+		    background-color:#808080;
+		    text-transform: uppercase;
+		    font-size: 8pt;
+		    color: #ffffff;
+		    /*text-shadow: 1px 0px 0px #fff;*/
+		    /*filter: dropshadow(color=#fff, offx=1, offy=0);*/
+		}
+		
+		.ui-datepicker tbody td {
+		    padding: 0;
+		    /*border-right: 1px solid #808080;*/
+		}
+		
+		    .ui-datepicker tbody td:last-child {
+		        border-right: 0px;
+		    }
+		
+		.ui-datepicker tbody tr {
+		    border-bottom: 1px solid #bbb;
+		}
+		
+		    .ui-datepicker tbody tr:last-child {
+		        border-bottom: 0px;
+		    }
+		
+		.ui-datepicker a {
+		    text-decoration: none;
+		}
+		
+		.ui-datepicker td span, .ui-datepicker td a {
+		    display: inline-block;
+		    /*font-weight: bold;*/
+		    text-align: center;
+		    width: 30px;
+		    height: 30px;
+		    line-height: 30px;
+		    color: #ffffff;
+		    /*text-shadow: 1px 1px 0px #fff;*/
+		    /*filter: dropshadow(color=#fff, offx=1, offy=1);*/
+		}
+		
+		.ui-datepicker-calendar .ui-state-default {
+		      background: linear-gradient(#999999, #737373);
+		      color:#ffffff;
+		      height:40px;
+		      width:40px;
+		
+		}
+		
+		.ui-datepicker-calendar .ui-state-hover {
+		    background: #33adff;
+		    color: #FFFFFF;
+		}
+		
+		.ui-datepicker-calendar .ui-state-active {
+		    background: #33adff;
+		    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    color: #e0e0e0;
+		    text-shadow: 0px 1px 0px #4d7a85;
+		    border: 1px solid #55838f;
+		    position: relative;
+		    margin: -1px;
+		}
+		
+		.ui-datepicker-unselectable .ui-state-default {
+		    background: #D6F4BE;
+		    color: #000000;
+		}
+		/*End of calendar ui*/
+	</style>
+
+	<script>
+	
+		var currentUser = null;
+		
+		$(document).ready(function() 
+			{
+				//to get current user
+				getCurrentUserName();
+				getCurrentUserName3();
+				
+				$("#fromDate").datepicker
+				({
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  changeYear:true,
+					  constrainInput:true,
+					  maxDate:new Date(),
+					  gotocurrent:true,
+					  onSelect: function(selected) 
+					  {
+				          $("#toDate").datepicker("option","minDate", selected)
+				      }
+				});
+		  
+  
+				$("#toDate").datepicker
+				({
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  changeYear:true,
+					  constrainInput:true,
+					  maxDate:new Date(),
+					  gotocurrent:true,
+					  onSelect: function(selected) 
+					  {
+				          $("#fromDate").datepicker("option","maxDate", selected)
+				      }
+				});
+			});
+			
+	
+			function getCurrentUserName()    //function to get email of logged in user
+			{
+				$.ajax
+				({
+					url : "/internapp/email",
+					type : "GET",
+					success : function(data)
+					{
+						currentUser = data;
+					},
+				});
+			}
+			
+			
+			function getCurrentUserName3()
+			{
+				$.ajax
+				({
+					url : "/internapp/email",
+					type : "GET",
+					success : function(data)
+					{
+						currentUser = data;
+						$.ajax
+						({
+							url : "/internapp/api/v3/attendance/getEmailMentorWise",
+							type : "GET",
+							data:
+							{ 
+								"mentorEmail" : currentUser
+							},
+							contentType: "application/json; charset=utf-8",
+			        		dataType: "json",
+							success : function(data) 
+							{
+								$('#selectNameAllowedLeave').find('option').remove();
+								if(data.length>0)
+								{
+									$('#selectNameAllowedLeave').append("<option value=''>SELECT</option>");
+									for(var i=0;i<data.length;i++)
+									{
+										$('#selectNameAllowedLeave').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+									}
+								}
+								else
+								{
+									alert("No results found");
+								}
+					
+							},
+							error : function(error) 
+							{ }
+						});
+					}
+				});	
+			}
+	
+	
+			function exportTableToExcel(tableID, filename = '')
+			{
+			    var downloadLink;
+			    var dataType = 'application/vnd.ms-excel';
+			    var tableSelect = document.getElementById(tableID);
+			    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+			   
+			    // Specify file name
+			    filename = filename?filename+'.xls':'excel_data.xls';
+			   
+			    // Create download link element
+			    downloadLink = document.createElement("a");
+			   
+			    document.body.appendChild(downloadLink);
+		   
+			    if(navigator.msSaveOrOpenBlob)
+			    {
+			        var blob = new Blob(['\ufeff', tableHTML], 
+			        {
+			            type: dataType
+			        });
+			        navigator.msSaveOrOpenBlob( blob, filename);
+			    }
+			    else
+			    {
+			        // Create a link to the file
+			        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+			   
+			        // Setting the file name
+			        downloadLink.download = filename;
+			       
+			        //triggering the function
+			        downloadLink.click();
+			    }
+			}
+
+
+		    function getAttendanceOfTrainee()
+		    {
+		    	var fromDate=$("#fromDate").val();
+		    	var toDate=$("#toDate").val();
+		    	if(fromDate=="")
+		    	{
+			    	alert("Please select From Date");
+			    	return false;
+		    	}
+		    	if(toDate=="")
+		    	{
+			    	alert("Please select To Date");
+			    	return false;
+		    	}
+		    	$.ajax
+		    	({
+		  			url : "/internapp/api/v3/attendance/displayAttendanceDateWise2",
+		  			type : "GET",
+		  			data:
+		  			{  
+		  				"mentorEmail":currentUser,
+		  				"fromDate": fromDate,
+		  				"toDate":toDate
+		  			},
+		  			contentType: "application/json; charset=utf-8",
+		            dataType: "json",
+		  			success : function(data) 
+		  			{
+		  				document.getElementById("div123").innerHTML='';
+		  				if(data.length>0)
+		  				{
+		  					$('#exportexcel').show();			
+		  					document.getElementById("div123").innerHTML ='<div class=bottom style="margin-left:5%;">'
+				  				+'<br>'+'<br>'
+				  				+'<table border = "1" width = "95%" id="myTable">'
+				  				+' <tr>'
+				  				+'<th  width="10%" bgcolor = "yellow"><center>Name</center></th>'
+				  				+'<th  width="10%" bgcolor = "yellow"><center>Email</center></th>'
+				  				+'<th  width="5%" bgcolor = "yellow"><center>Project</center></th>'
+				  				+'<th  width="5%" bgcolor = "yellow"><center>Date</center></th>'
+				  				+'<th  width="5%" bgcolor = "yellow"><center>In Time</center></th>'
+				  				+'<th  width="5%" bgcolor = "yellow"><center>Out Time</center></th>'
+				  				+'<th  width="25%" bgcolor = "yellow"><center>Target</center></th>'
+				  				+'<th  width="25%" bgcolor = "yellow"><center>Work Progress</center></td>'
+				  				+'<th  width="5%" bgcolor = "yellow"><center>Attendance Status</center></td>'
+				  				+'</tr>'
+				  						  		
+		  						for(var i=0;i<data.length;i++)
+		  						{
+		  							var target=data[i][8];  
+		  							if(target==null)  
+		  							{
+										target="N/A";
+									}
+		  							var workProgress=data[i][9];  
+		  							if(workProgress==null)  
+		  							{
+										workProgress="N/A";
+									}
+		  							$("#myTable > tbody:last").append('<tr>'
+		  								+'<tr>'
+		  								+'<td width="10%"><center>'+data[i][2]+'</td>'
+		  							    +'<td width="10%" >'+data[i][1]+'</td>'
+		  							    +'<td width="5%" >'+data[i][3]+'</center></td>'
+		  							    +'<td width="5%"><center>'+data[i][4]+'</center></td>'
+		  							    +'<td width="5%"><center>'+data[i][5]+'</center></td>'
+		  							    +'<td width="5%"><center>'+data[i][6]+'</center></td>'
+		  							    +'<td width="25%"><center>'+target+'</center></td>'
+		  							    +'<td width="25%"><center>'+workProgress+'</center></td>'
+		  							    +'<td width="5%"><center>'+data[i][7]+'</center></td>'
+		  							 	+' </tr>');
+		  					}
+		  				}
+		  				else
+		  				{
+		  					alert("No results found");
+		  				}
+		  			},
+		  			error : function(error) 
+		  			{
+						alert("No record found!")
+		  			}
+		  		});
+		    }
+		    
+		    
+		    function markAttendance()   //function for add attendance
+			{
+				var date = $("#date").val().split("-");
+				date = date[2] + "/" + date[1] + "/" + date[0];
+				$.ajax
+				({
+					url : "/internapp/api/v3/attendance/adminMark",
+					type : "POST",
+					data : 
+					{
+						"email" : $('#userEmail').val(),
+						"markDate" : date,
+						"markInTime" : $("#inTime").val(),
+						"markOutTime" : $("#outTime").val()
+					},
+					success : function(data) 
+					{
+						if (data == 0) 
+						{
+							//alert("Attendance marked already");
+						} 
+						else 
+						{
+							//alert("Attendance marked successfully");
+						}
+					},
+					error : function(error) 
+					{ }
+				});
+				window.location.reload();
+			}
+			
+			
+			function permitLeave()   //function for permit leave
+			{
+				if ($("#selectNameAllowedLeave").val()=="")
+				{
+					alert("Please select Intern to whome you allowed leave beyond 7 days");
+				}
+				else
+				{
+					$.ajax
+					({
+						url : "/internapp/api/v3/permitLeave",
+						type : "POST",
+						data:
+						{ 
+							"email":$("#selectNameAllowedLeave").val()
+						},
+						success : function(data) 
+						{
+							if(data==-1)
+							{
+								alert("Username does not exist");
+								$('#allowLeaveModal').hide();
+							}
+							else if(data==1)
+							{
+								alert("Permission granted to Apply Leave beyond 7 days");
+								$('#allowLeaveModal').hide();
+							}
+							else
+							{
+								alert("Error! Kindly try again");
+								$('#allowLeaveModal').hide();
+							}
+						}
+					});
+				}
+			}
+			
+			
+			function changePassword()   //function for changing password
+			{
+				if ($("#newPassword").val() == $("#confirmNewPassword").val()) 
+				{
+					$.ajax
+					({
+						url : "/internapp/changePassword",
+						type : "POST",
+						data : 
+						{
+							"currentPassword" : $("#currentPassword").val(),
+							"newPassword" : $("#newPassword").val()
+						},
+						success : function(data) 
+						{
+							if (data == 0) 
+							{
+								alert("Changed Password Successfully");
+							} 
+							else if (data == 1) 
+							{
+								//alert(email);
+								alert("Current Password does not match with the actual password");
+							}
+						},
+						error : function(error) 
+						{ }
+					});
+				} 
+				else 
+				{
+					alert("Confirm Password does not match new password")
+				}
+			}
+    
+    </script>
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#" th:href="@{/}"><img 
+     		src="../static/images/0.jpg"
+     		th:src="@{images/0.jpg}"
+     		style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+     	</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-expand" id="navbarText"> 
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item mr-4">
+					<div class="dropdown nav-link">
+						<div class="dropdown-menu dropdown-menu-center p-5" style="width: 320px;margin-left:50%;" aria-labelledby="dropdownMenuButton">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</li>
+				
+				
+				<!-- MENU OF TOGGLE NAVIGATION -->
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnDashboard"><a th:href="@{/mentorPage}" style="color:white;">Dashboard</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary" id="btnChangePassword" data-toggle="modal" data-target="#mentorChangePassword">Change Password</button>
+				</li>
+				<!--li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary" id="btnChangePassword" data-toggle="modal" data-target="#mentorChangePassword">Reset Password</button>
+				</li-->
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAddAttendance" data-toggle="modal" data-target="#addAttendanceModal">Add attendance</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnPermitLeave" data-toggle="modal" data-target="#allowLeaveModal">Permit leave</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave"><a th:href="@{/mentorLeaves}" style="color:white;">Approve leave</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout"><a th:href="@{/logout}" style="color:white;">Logout</a></button>
+				</li>
+				<!-- END OF MENU OF TOGGLE NAVIGATION -->
+				
+			</ul>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+	<legend class="text-center" style="color:black; font-size:35px; font-family:Microsoft Tai Le; font-weight:bold;">Check Date Wise Attendance</legend>
+ 
+    <div class="my-3" >
+		<center>
+			<form>
+				<button type="button" style="float:left; margin-top:-7%;" class="btn btn-primary">
+					<a class="nav-link" th:href="@{/mentorPage}" style="color:white;">Back</a>
+				</button>
+  				
+ 				<label style="font-size:120%; font-family:Verdana, Geneva, Tahoma, sans-serif;">From Date</label>&nbsp;&nbsp;&nbsp;
+ 					<input type="text"  name="fromDate"  id="fromDate" autocomplete="off"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 				<label style="font-size:120%; font-family:Verdana, Geneva, Tahoma, sans-serif;">To Date</label>&nbsp;&nbsp;&nbsp;
+ 					<input type="text"  name="toDate"  id="toDate"  autocomplete="off"/>
+  				<br><button type="button"  class="btn btn-primary" onclick = "getAttendanceOfTrainee()" id="btnemail">Submit</button>
+			</form>
+			
+			<div id="div123"></div>
+			
+			<br>
+			<div>
+				<button type="button"  class="btn btn-info" onclick = "exportTableToExcel('div123', $('#projectid').val()+'_'+$('#fromDate').val()+'_'+$('#toDate').val())" id="exportexcel" style="display:none;">Export To Excel</button>
+			</div>
+		</center> 
+    </div>
+    
+    
+    <!-- ADD ATTENDANCE MODAL -->
+	<div class="modal fade" id="addAttendanceModal" role="dialog">
+    	<div class="modal-dialog">
+      		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+	        	<div class="modal-body">
+	         		<div class="form-group">
+						<label for="userEmail">Email address</label> 
+						<input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp" placeholder="Enter email">
+					</div>
+	         		<div class="form-group">
+						<label for="date">Date</label> 
+						<input class="form-control" type="date" value="" id="date">
+					</div>
+	         		<div class="form-group">
+						<label for="inTime">In Time</label> 
+						<input class="form-control" type="time" value="" id="inTime">
+					</div>
+					<div class="form-group">
+						<label for="outTime">Out Time</label> 
+						<input class="form-control" type="time" value="" id="outTime">
+					</div>
+					<div class="text-center m-4">
+						<button type="button" class="btn btn-primary" onclick="markAttendance()">Submit</button>
+					</div>
+	        	</div>
+	         	<div class="modal-footer"> 
+	          		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+	         	</div>
+			</div>
+    	</div>
+    </div>
+	<!-- END OF ADD ATTENDANCE MODAL-->
+	
+	
+	<!-- PERMIT LEAVE MODAL -->
+	<div class="modal fade" id="allowLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 35%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Permit Leave Beyond 7 Days</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+				</div>
+				<div class="modal-body" style="background-color:#80e5ff;">
+					<div class="form-inline">
+						<!--div class="form-group" >
+							<label for="projectNameAllowedLeave" style="color:black;">Select Project</label> 
+								<select class="form-control"  id="projectNameAllowedLeave">
+									<option value="">Select</option>
+			                        <option value="All">All</option>
+			                        <option value="BELA">BELA</option>
+			                        <option value="BLW">BLW</option>
+			                        <option value="MCFRBL">MCFRBL</option>
+								</select>
+						</div-->
+						<div class="form-group">
+							<label for="selectNameAllowedLeave" style="color:black;margin-left:10px;">Select Student</label> 
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<select class="form-control"  id="selectNameAllowedLeave">
+									<option value="">Select</option>
+			                    </select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" onclick="permitLeave()" class="btn btn-primary">Permit Leave</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF PERMIT LEAVE MODAL -->
+	
+	
+	<!-- CHANGE PASSWORD MODAL -->
+	<div class="modal fade" id="mentorChangePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 35%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Change Password</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+				</div>
+				<div class="modal-body" style="background-color:#80e5ff;">
+					<div class="form-group">
+						<label for="currentPassword">Current Password</label>
+						<input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+					</div>
+					<div class="form-group">
+						<label for="newPassword">New Password</label> 
+						<input	type="password" class="form-control" id="newPassword" placeholder="Enter New Password">
+					</div>
+					<div class="form-group">
+						<label for="confirmNewPassword">Confirm New Password</label>
+						<input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm New Password">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF CHANGE PASSWORD MODAL -->
+    
+</body>
+</html>

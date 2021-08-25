@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<title>CRIS Home Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../static/css/w3.css" th:href="@{css/w3.css}">
+<link rel="stylesheet" href="../static/css/boot.css" th:href="@{css/boot.css}">
+
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<style>
+body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+/* Set the width of the sidebar to 120px */
+.w3-sidebar {width: 120px;background: #222;}
+/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
+#main {margin-left: 120px}
+/* Remove margins from "page content" on small screens */
+@media only screen and (max-width: 600px) {#main {margin-left: 0}}
+
+
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4d88ff;border-radius: 8px;} 
+
+
+
+
+</style>
+<body class="w3-black">
+
+<!-- Icon Bar (Sidebar - hidden on small screens) -->
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
+  <!-- Avatar image in top left corner -->
+  <img src="../static/images/0.jpg" th:src="@{images/0.jpg}" style="width:100%">
+  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
+    <i class="fa fa-home w3-xxlarge"></i>
+    <p>HOME</p>
+  </a>
+  <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-user w3-xxlarge"></i>
+    <p>ABOUT</p>
+  </a>
+  <a href="#photos" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-eye w3-xxlarge"></i>
+    <p>PHOTOS</p>
+  </a>
+  <a href="#internship" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-envelope w3-xxlarge"></i>
+    <p>INTERNSHIPS</p>
+  </a>
+  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-envelope w3-xxlarge"></i>
+    <p>CONTACT</p>
+  </a>
+</nav>
+
+<!-- Navbar on small screens (Hidden on medium and large screens) -->
+<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
+  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
+    <a href="#" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
+    <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT</a>
+    <a href="#photos" class="w3-bar-item w3-button" style="width:25% !important">PHOTOS</a>
+    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
+    <a href="#internship" class="w3-bar-item w3-button" style="width:25% !important">INTERNSHIPS</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div class="w3-padding-large" id="main">
+  <!-- Header/Home -->
+  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
+    <h1><span class="w3-hide-small">Centre for Railway Information Systems</span></h1>
+    <p>IT Services</p>
+    <img  src="../static/images/CRIS.png"
+     th:src="@{images/CRIS.png}" alt="logo" class="w3-image" width="600" height="600">
+  </header>
+  <p><center><button class="button button1"><a th:href="@{/toregister}" style="color:white;">Apply for Internship</a></button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  <button class="button button1"><a th:href="@{/login}" style="color:white;">Login</a></button></center></p>
+  
+
+  <!-- About Section -->
+  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
+    <h2 class="w3-text-light-grey">Centre for Railway Information Systems</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>In 1982, Indian Railways (IR) set up a central organisation to computerise freight operations. The Ministry of Railways saw the need in 1986 for a dedicated, autonomous organisation and established CRIS, an umbrella organisation for all information technology-related activities on Indian Railways. It was tasked with designing, developing and implementing the Freight Operations Information System (FOIS) and its communications infrastructure. CRIS began functioning in July 1986 as an autonomous organisation headed by an executive director (later renamed managing director).
+
+A unique feature of CRIS is the collaboration by IT literates from Indian Railways. Systems managed by CRIS have been recognised by Computerworld.[1][2] CRIS received the Prime Minister Award for Excellence in Public Administration on 21 April 2008, and the IBM Beacon and Top Star Awards for e-working on 1 May of that year.</p>
+    <p>The Centre for Railway Information Systems (CRIS) designs, develops, implements and maintains most of the important information systems of Indian Railways. It is located in Chanakyapuri, New Delhi. CRIS was established by the India's Ministry of Railways in 1986.
+    </p>
+   
+   
+   
+      <h2 class="w3-text-light-grey">Work</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>CRIS designs, develops, implements and maintains information systems for Indian Railways. It has also developed, implemented and maintained IT systems for the Andaman and Nicobar Islands ship-ticketing system. The number of projects handled by CRIS has increased from three in 2000 to more than 80 by 2018. Most of the softwares developed by CRIS are outsourced.
+
+COA (Control Office Application), which assists train controllers (despatchers) in planning and tracking the movement of trains across the network, shares its data with applications such as NTES (with which passengers can obtain a train's location and expected movement) and FOIS. Train punctuality reports are generated through ICMS (Integrated Coaching Management System), which also receives data from COA.    </p>
+   
+   
+
+   
+    
+    
+     
+    
+    
+  <!-- Portfolio Section -->
+  <div class="w3-padding-64 w3-content" id="photos">
+    <h2 class="w3-text-light-grey">My Photos</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <!-- Grid for photos -->
+    <div class="w3-row-padding" style="margin:0 -16px">
+      <div class="w3-half">
+        <img src="../static/images/irctc.jpg" th:src="@{images/irctc.jpg}" style="width:100%">
+        <img src="../static/images/download.jpg" th:src="@{images/download.jpg}" style="width:100%">
+        <img src="../static/images/D-YKey5XoAANvJK.jpg" th:src="@{images/D-YKey5XoAANvJK.jpg}" style="width:100%">
+        <img src="../static/images/rail.jpg" th:src="@{images/rail.jpg}" style="width:100%">
+        
+      </div>
+
+      <div class="w3-half">
+        <img src="../static/images/cris-office.jpg" th:src="@{images/cris-office.jpg}" style="width:100%">
+        <img src="../static/images/indian-railway-train-travel.jpg" th:src="@{images/indian-railway-train-travel.jpg}" style="width:100%">
+        <img src="../static/images/india-pollachi-background-nature.jpg" th:src="@{images/india-pollachi-background-nature.jpg}" style="width:100%">
+        <img src="../static/images/hi.jpg" th:src="@{images/hi.jpg}" style="width:100%">
+      </div>
+    <!-- End photo grid -->
+    </div>
+  <!-- End Portfolio Section -->
+  </div>
+
+
+<div class="w3-content w3-justify w3-text-grey w3-padding-64" id="internship">
+    <h2 class="w3-text-light-grey">Internship</h2>
+    <hr style="width:200px" class="w3-opacity">
+    <p>An internship is a professional learning experience that offers meaningful, practical work related to a student's field of study or career interest. An internship gives a student the opportunity for career exploration and development, and to learn new skills.</p>
+    <p>The Internship experience is both valuable and helpful to a student and gives the opportunity to look at accounting from a teaching perspective. Here the accounting skills get enhanced from a principle. A lot to learn and to experience different things at this place with the co-operative staff members who act as mentor to the interns.</p>
+    <p><center><button class="button button1"><a th:href="@{/toregister}" style="color:white;">Apply for Internship</a></button></center></p>
+    
+    
+  <!-- Contact Section -->
+  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+    <h2 class="w3-text-light-grey">Contact Us</h2>
+    <hr style="width:200px" class="w3-opacity">
+
+    <div class="w3-section">
+      <p><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>Location: India, New Delhi</p>
+      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: 011 2410 4525</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Website: www.cris.org.in</p>
+      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i> Address:  opp. Safdarjung Raillway Station, Chanakyapuri, New Delhi, Delhi 110021</p>
+    </div><br>
+
+
+    
+  <!-- End Contact Section -->
+  </div>
+  
+  
+  
+  
+    <!-- Footer -->
+  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
+    <center><i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i></center>
+    <!-- End footer -->
+  </footer>
+
+<!-- END PAGE CONTENT -->
+</div>
+
+</body>
+</html>

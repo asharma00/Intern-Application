@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link rel="stylesheet" href="../static/css/style.css"
+	th:href="@{css/style.css}">
+<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+
+	
+
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+
+	
+
+<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+
+<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+<script src="../static/js/jquery.validate.min.js" th:src="@{js/jquery.validate.min.js}"></script>
+
+<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css"
+	th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+
+<style>
+/* .ui-datepicker-week-end a { */
+/*     color: red !important; */
+/* } */
+.close-icon {
+  cursor: pointer;
+  position: absolute;
+  top: auto;
+  right: 0;
+}
+table.ui-datepicker-calendar td.ui-datepicker-week-end:nth-child(1) a
+{
+  
+    color:red !important;
+}
+
+
+</style>
+
+<script>
+	var user = null;
+	var _validFilejpeg = [".jpeg",".jpg"];
+	var maxSizejpeg = '1024';
+	$(document).ready(function() {
+		$("#leaveFrom").datepicker(
+				{
+				  dateFormat:"dd-mm-yy",
+				  changeMonth:true,
+				  changeYear:true,
+				  constrainInput:true,
+				  gotocurrent:true,
+
+
+				});
+		
+		$("#leaveTo").datepicker(
+				{
+				  dateFormat:"dd-mm-yy",
+				  changeMonth:true,
+				  changeYear:true,
+				  constrainInput:true,
+				  gotocurrent:true,
+
+
+				});
+		
+		
+		getCurrentUser();
+		
+		
+$('.close-icon').on('click',function() {
+  $(this).closest('.card').fadeOut();
+})
+	});
+
+	function getCurrentUser() {
+		var picid;
+		
+		$.ajax({
+			url : "/internapp/currentUser",
+			type : "GET",
+			success : function(data) {
+				
+				if (data != null) {
+					user = data;
+					$('#trainingDur').html(user[4]+" to "+user[5] +"     <b>and Asigned Project:</b> "+user[6]);
+					//alert("0"+user[0]);
+					//picid=user[0].toString();
+					
+					$.ajax({
+						url : "/internapp/api/v3/getid",
+						type : "GET",
+						data:{
+						"email":user[1]	
+						},
+					
+					
+					
+			success : function(data){
+				//alert("id"+data);
+				
+				picid=data.toString();
+					$(".userName").text(user[2]);
+					$(".userEmail").text(user[1]);
+				$(".userImage").attr(
+							"src",
+							"http://203.176.112.83/uploads/"+picid+"/1/"+user[3]);
+					
+					
+					$(".userImage").attr("alt", user[2]);
+	
+					getAcceptedAttendance();
+					}
+
+					});
+				}
+			},
+			error : function(error) {
+			}
+		});
+	}
+	
+	
+
+	
+	
+function getAcceptedAttendance() {
+		
+		$.ajax({
+			url : "/internapp/api/v3/attendance/acceptedAttendance",
+			type : "GET",
+			data : {
+				"id" : user[0]
+			},
+			success : function(data) {
+				
+				if (data != null) {
+					for (i = 0; i < data.length; i++) {
+						var dateField= data[i].attendanceDate.substring(0,10);
+						var dateArray=dateField.split("-");
+						var dateAsDDMMYYYY= dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
+						
+						$('.acceptedAttendance').append(
+								'<li class="list-group-item">'
+										+ '<div class="row" style="background-color:#80e5ff;">'
+										+ '<div class="col-4" style="color:green;">'
+										+ dateAsDDMMYYYY + '</div>'
+										+ '<div class="col-4" style="color:green;">'
+										+ data[i].attendanceInTime + '</div>'
+										+ '<div class="col-4" style="color:green;">'
+										+ data[i].attendanceOutTime
+										+ '</div></div></li>')
+					}
+				}
+				getRejectedAttendance();
+				getPendingAttendance();
+			},
+			error : function(error) {
+			}
+		});
+	}
+
+
+	function getPendingAttendance() {
+		$.ajax({
+			url : "/internapp/api/v3/attendance/pendingAttendanceById",
+			type : "GET",
+			data : {
+				"id" : user[0]
+			},
+			success : function(data) {
+				if (data != null) {
+					for (i = 0; i < data.length; i++) {
+						var dateField= data[i].attendanceDate.substring(0,10);
+						
+						var dateArray=dateField.split("-");
+						var dateAsDDMMYYYY= dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
+						$('.pendingAttendance').append(
+								'<li class="list-group-item">'
+										+ '<div class="row" style="background-color:#80e5ff;">'
+										+ '<div class="col-4"  style="color:black;">'
+										+ dateAsDDMMYYYY + '</div>'
+										+ '<div class="col-4" style="color:black;">'
+										+ data[i].attendanceInTime + '</div>'
+										+ '<div class="col-4" style="color:black;">'
+										+ data[i].attendanceOutTime
+										+ '</div></div></li>')
+					}
+				}
+			},
+			error : function(error) {
+			}
+		});
+	}
+	
+	function getRejectedAttendance() {
+		$.ajax({
+			url : "/internapp/api/v3/attendance/rejectedAttendance",
+			type : "GET",
+			data : {
+				"id" : user[0]
+			},
+			success : function(data) {
+				if (data != null) {
+					for (i = 0; i < data.length; i++) {
+						var dateField= data[i].attendanceDate.substring(0,10);
+						var dateArray=dateField.split("-");
+						var dateAsDDMMYYYY= dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
+						$('.rejectedAttendance').append(
+								'<li class="list-group-item">'
+										+ '<div class="row" style="background-color:#80e5ff;">'
+										+ '<div class="col-4"  style="color:red;">'
+										+ dateAsDDMMYYYY + '</div>'
+										+ '<div class="col-4" style="color:red;">'
+										+ data[i].attendanceInTime + '</div>'
+										+ '<div class="col-4" style="color:red;">'
+										+ data[i].attendanceOutTime
+										+ '</div></div></li>')
+					}
+				}
+			},
+			error : function(error) {
+			}
+		});
+	}
+	
+	
+	
+	function markLeave(){
+		 
+		 
+		if($("#leaveFrom").val()==$("#leaveTo").val() && $("#leaveFromTime").val()=="Afternoon" && $("#leaveToTime").val()=="Forenoon")
+		{
+				alert("This leave duration is not valid");
+				return;
+		}
+		 
+		 
+		
+		var d1 = new Date($("#leaveFrom").val());
+		var fms = d1.getTime();
+	    var id=user[0];
+		
+		var d2 = new Date($("#leaveTo").val());
+		var tms = d2.getTime();
+		$.ajax({
+			url : "/internapp/api/v3/leave/mark",
+			type : "POST",
+			data : {
+				"id" : id,
+				"leaveFrom" : $("#leaveFrom").val(),
+				"leaveFromTime":$("#leaveFromTime").val(),
+				"leaveTo" : $("#leaveTo").val(),
+				"leaveToTime":$("#leaveToTime").val(),
+				"reason":$("#reasonL").val()
+			},
+			success : function(data){
+				 $("#leaveFrom").val('');
+				 $("#leaveTo").val('');
+				 
+				 if(data==50){
+					 alert("From date should come before To Date");
+					 return;
+				 }
+				 if(data==4){
+					 alert("You can not apply more that 7 day leave. Please contact Manoj Kumar (cris.manoj05@gmail.com)/ SPE/MU");
+					 return;
+				 }
+				if(data==0){
+					alert("something went wrong. make sure you have not already applied for a leave on this day"); //make a function to check if leave is approved then only show alert
+				}
+				else if(data==2)
+				{
+				alert("This is to inform you that you have applied leave beyond your permissible limit. Your training period will extended beyond your permissible limit.")
+				}
+				else if(data==3)
+					{
+					alert("Your leave request submitted successfully. You have already availed your permissible no of leave. Your training period will be extended beyond your permissible leave.")
+					}
+				else{
+					alert("submitted your application for leave successfully");
+					window.location.reload();
+				}
+				
+				
+			
+			}
+			});
+		
+	}
+	
+	
+	
+	
+	function Validateforjpeg(oInput) {   //if there is a need of specifying any other type, just add that particular type in var  _validFilejpeg
+	    if (oInput.type == "file") {
+	        var sFileName = oInput.value;
+	         if (sFileName.length > 0) {
+	            var blnValid = false;
+	            for (var j = 0; j < _validFilejpeg.length; j++) {
+	                var sCurExtension = _validFilejpeg[j];
+	                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+	                    blnValid = true;
+	                    break;
+	                }
+	            }
+	             
+	            if (!blnValid) {
+	                alert("Sorry, this file is invalid, allowed extension is: " + _validFilejpeg.join(", "));
+	                oInput.value = "";
+	                return false;
+	            }
+	        }
+	    }
+	   
+	    fileSizeValidatejpeg(oInput);
+	}
+	
+	
+	
+	
+	function fileSizeValidatejpeg(fdata) {
+		 if (fdata.files && fdata.files[0]) {
+	                var fsize = fdata.files[0].size/1024;//The files property of an input element returns a FileList. fdata is an input element,fdata.files[0] returns a File object at the index 0.
+	                if(fsize > maxSizejpeg) {
+	                	 alert('Maximum file size exceeded, This file size is: ' + fsize + "KB. Files should be less than 1 mb ");
+	                	 fdata.value = "";   //so that the file name is not displayed on the side of the choose file button
+	                	 return false;
+	                } else {
+	                	 displayImage(fdata);
+	                }
+	     }
+	 }
+	
+	
+	function displayImage(input) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			$('#userImage').attr('src', e.target.result).width(150).height(200);
+		};
+
+		reader.readAsDataURL(input.files[0]);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function markAttendance() {
+		
+		if($("#outTime").val()<$("#inTime").val()){
+			alert("enter a valid time slot");
+			return;
+		}
+		
+		$.ajax({
+			url : "/internapp/api/v3/attendance/mark",
+			type : "POST",
+			data : {
+				"id" : user[0],
+				"inTime" : $("#inTime").val(),
+				"outTime" : $("#outTime").val()
+			},
+			success : function(data) {
+				if (data == 0) {
+					alert("Marked your attendance already");
+					window.location.reload();
+				} else {
+					alert("Marked your attendance successfully");
+					window.location.reload();
+				}
+				
+				
+				
+				
+				
+			},
+			error : function(error) {
+			}
+		});
+	}
+
+function markAttendanceIn() {
+
+	if($("#targetForDay").val()!="")
+	{
+		
+		$.ajax({
+			url : "/internapp/api/v3/attendance/markIn",
+			type : "POST",
+			data : {
+				"id" : user[0],
+				"lateReason" : $("#checkInLateReason").val(),
+				"targetDay" : $("#targetForDay").val(),
+				"workFromCheckin" : $('input[name="workFrom"]:checked').val()
+			},
+			success : function(data) {
+				if (data == 0) {
+					alert("Marked your attendance already");
+					window.location.reload();
+				} else {
+					alert("Marked your attendance successfully");
+					window.location.reload();
+				}
+				
+				
+				
+				
+				
+			},
+			error : function(error) {
+			}
+		});
+}
+	else
+		{
+		alert("Kindly enter work plan for today");
+		}
+	}
+	
+function markAttendanceOut() {
+
+	if( $("#workStatus").val()!="")
+		{
+	$.ajax({
+		url : "/internapp/api/v3/attendance/markOut",
+		type : "POST",
+		data : {
+			"id" : user[0],
+			"earlyReason" : $("#checkOutEarlyReason").val(),
+			"workStatusDay" : $("#workStatus").val(),
+			"workFromCheckout" : $('input[name="workFromCheckout"]:checked').val()
+		},
+		success : function(data) {
+			if (data == 0) {
+				alert("You can not mark Check In, First apply for Check In");
+				window.location.reload();
+			} 
+			else if (data == 1) {
+				alert("You are already Check Out");
+				window.location.reload();
+			}
+			else {
+				alert("Marked your attendance successfully");
+				window.location.reload();
+			}
+			
+			
+			
+			
+			
+		},
+		error : function(error) {
+		}
+	});
+}
+	else
+		{
+		alert("Kindly enter work progress for today");
+		}
+}
+	
+	function changePasswordView() {
+		$(".attendance").hide();
+		$(".showRoaster").hide();
+		$(".changePassword").show();
+		$(".showLeaves").hide();
+		$(".changePhoto").hide();
+		$(".showHoliday").hide();
+		$(".changeProfile").hide();
+	}
+	
+	
+	function changePhotoView() {
+		$(".attendance").hide();
+		$(".changePassword").hide();
+		$(".showLeaves").hide();
+		$(".showRoaster").hide();
+		$(".changePhoto").show();
+		$(".showHoliday").hide();
+		$(".changeProfile").hide();
+	}
+
+	
+function changeProfileView() {
+		
+		$.ajax({
+			url : "/internapp/api/v3/getprofile",
+			type : "GET",
+			data:{
+			"email":user[1]	
+			},
+			success: function(data){	
+		
+		
+		
+		$(".attendance").hide();
+		$(".changePassword").hide();
+		$(".showRoaster").hide();
+		$(".showLeaves").hide();
+		$(".changePhoto").hide();
+		$(".showHoliday").hide();
+		document.getElementById("profilechange").innerHTML='';
+		document.getElementById("profilechange").innerHTML='<label for="currentemail">Email</label> '
+			
+			+'<input type="email" class="form-control" id="currentemail" value='+user[1]+' placeholder="'+user[1]+' " readonly>'
+			
+			
+			
+			+'<label for="phoneno">Phone number</label> '
+			+'<input type="text" class="form-control" id="newnumber"'
+			+'value="'+data[0][0]+'" placeholder="'+data[0][0]+'">'
+		
+			+'<label for="address" Required>Address</label> '
+			+'<textarea rows = "3" cols = "60" class="form-control" id="newaddress"'
+			+'placeholder="'+data[0][1]+'">'+data[0][1]+'</textarea>'
+			+'<h6>NOTE: If you want to change any of this information, type it and click on submit </h6>'
+			
+		$(".changeProfile").show();
+			
+			
+			}
+			
+		});
+	}
+	
+	
+	function goToDashboard() {
+		$(".attendance").show();
+		$(".changePassword").hide();
+		$(".showLeaves").hide();
+		$(".showHoliday").hide();
+		$(".changePhoto").hide();
+		$(".changeProfile").hide();
+		$(".showRoaster").hide();
+	}
+
+	function changePassword() {
+		if ($("#newPassword").val() == $("#confirmNewPassword").val()) {
+			$
+					.ajax({
+						url : "/internapp/changePassword",
+						type : "POST",
+						data : {
+							"currentPassword" : $("#currentPassword").val(),
+							"newPassword" : $("#newPassword").val()
+						},
+						success : function(data) {
+							if (data == 0) {
+								alert("Changed Password Successfully");
+							} else if (data == 1) {
+								alert("Current Password does not match with the actual password");
+							}
+						},
+						error : function(error) {
+						}
+					});
+		} else {
+			alert("Confirm Password does not match new password")
+		}
+	}
+	
+	
+	
+	function changeProfile(){
+		var v=$("#newnumber").val();
+		var Email=$("#currentemail").val();
+		var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+
+	    if( !$.trim(Email).match(pattern)){
+	    	alert("Enter a valid email address");
+	    }
+		
+		
+		if($("#newnumber").val()=='' || $("#newaddress").val()=='' || $("#currentemail").val()=='' ){
+			alert("Fields cannot be empty");
+			return;
+		}
+		if($.isNumeric(v)){
+			
+		}
+		else{
+			alert("Enter a valid number");
+			return;
+		}
+		if(v.length!=10){
+			alert("Phone number should be of 10 digits");
+			return;
+		}
+		
+		
+			
+			$.ajax({
+				url : "/internapp/api/v3/changeProfile",
+				type : "POST",
+				data : {
+					"email" : user[1],
+					"newemail" : $("#currentemail").val(),
+					"address" : $("#newaddress").val(),
+					"phno" : $("#newnumber").val()
+				},
+				success : function(data) {
+					if (data == 1) {
+						alert("Changed Profile Successfully");
+						window.location.reload();
+					} else if (data == 0) {
+						alert("A problem occurred");
+					}
+				},
+				error : function(error) {
+				}
+			});
+			
+			
+		
+	}
+	
+	
+	function changePhoto() {
+		//if no photo selected then alert no photo selected
+		form = new FormData();
+		  file = document.getElementById("photo2").files[0];
+		  if(document.getElementById("photo2").files.length === 0 ){
+			  alert("Choose a photo");
+		  }
+		  
+		  else{
+		  form.append('file', file);  //to display the file name after it is selected
+		  form.append('id', user[0]); 
+		  form.append('type', 1);
+		  $.ajax({
+		    	type: 'POST',
+		        url: "/internapp/api/v2/upload",
+		        data: form,
+		        processData: false,
+		        contentType: false,
+		        success: function(data) {
+		        	alert("Updated your photo successfully");
+		        	window.location.reload();
+		    	
+		  }
+		  });
+	}}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+function viewL(){
+		
+		
+		$.ajax({
+			url : "/internapp/api/v3/leaves/getAll",
+			type : "get",
+			data : {
+				
+				"email":user[1]
+			},
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) {
+		
+		
+			$(".attendance").hide();
+			$(".changePassword").hide();
+			$(".showRoaster").hide();
+			$(".showLeaves").show();
+			$(".showHoliday").hide();
+			$(".changePhoto").hide();
+			$(".changeProfile").hide();
+			
+		
+		document.getElementById("thediv").innerHTML='';
+		
+		if(data.length>0){
+		document.getElementById("thediv").innerHTML ='<div class=bottom>'
+			
+	    	
+	    	
+	    	
+	    	+'<table class="table table-striped table-responsive-md"  >'
+            +'<col style="width:6%">'
+            +'<col style="width:6%">'
+            +'<col style="width:6%">'
+            +'<col style="width:4%">'
+            +'<col style="width:4%">'
+            +'<col style="width:4%">'
+           
+           
+            
+            
+            +' <thead>'
+            +'<tr>'
+            	
+            +'<th style="width:6%">From</th>'
+            +'<th style="width:6%">To</th>'
+            +'<th style="width:6%">Reason for Leave</th>'
+            +'<th style="width:4%">Total</th>'
+            +'<th style="width:4%">Status</th>'
+            +'<th style="width:4%">Action</th>'
+            
+            
+            +'</tr>'
+            +' </thead>'
+          +'</table>'
+           
+            for(var i=0;i<data.length;i++)
+				{
+            	var dateArray1=data[i][3].split("-");
+					var formatedDate1=dateArray1[2]+"-"+dateArray1[1]+"-"+dateArray1[0];
+					
+					var dateArray2=data[i][4].split("-");
+					var formatedDate2=dateArray2[2]+"-"+dateArray2[1]+"-"+dateArray2[0];
+					
+					
+            	document.getElementById("thediv").innerHTML += 
+			    	'<table class="table table-striped table-responsive-md"  >'
+			    	
+                    +'<col style="width:6%">'
+                    +'<col style="width:6%">'
+                    +'<col style="width:6%">'
+                    +'<col style="width:4%">'
+                    +'<col style="width:4%">'
+                    +'<col style="width:4%">'
+                   
+            		+' <tbody>'
+            		+'<tr>'
+            		+'<td bgcolor="#f5e6ff" style="width:6%">'+formatedDate1+' ('+data[i][8]+')</td>'
+    +'<td bgcolor="#f5e6ff" style="width:6%">'+formatedDate2+' ('+data[i][9]+')</td>'
+    +'<td bgcolor="#f5e6ff" style="width:6%">'+data[i][5]+'</td>'
+    +' <td bgcolor="#f5e6ff" style="width:4%">'+data[i][6]+'</td>'
+    +' <td bgcolor="#f5e6ff" style="width:4%">'+data[i][7]+'</td>'
+    
+    
+        if(data[i][7]=="Initiated")
+    		document.getElementById("thediv").innerHTML +='<td bgcolor="#f5e6ff" style="width:4%"><a class="btn btn-primary" id="btnAction'+i+'" data-toggle="modal" data-target="#withdrawLeaveModal" style="color:white;">Withdraw leave</a></td>'
+    	else if(data[i][7]=="Accepted")
+    		document.getElementById("thediv").innerHTML +='<td bgcolor="#f5e6ff" style="width:4%"><a class="btn btn-primary" id="btnAction'+i+'" data-toggle="modal" data-target="#cancelLeaveModal" style="color:white;">Cancel leave</a></td>'
+					
+ 
+ 
+    +'</tr>'
+    +' </tbody>' 
+    +'</table>'
+    	
+			}
+			}
+		else{
+			document.getElementById("thediv").innerHTML ='<h1>No leaves taken yet </h1>'
+		}
+			
+			}
+		});
+	}
+	
+	
+	
+function viewH(){
+
+        var currentYear="";
+		
+		$.ajax({
+			url : "/internapp/api/v3/findCurrentYear",
+			type : "GET",
+			
+			success : function(data) {
+				
+				currentYear=data;
+		
+		$.ajax({
+			url : "/internapp/api/v3/holidays/getAll",
+			type : "get",
+			data:{
+				"year":currentYear
+			},
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) {
+		
+			$(".attendance").hide();
+			$(".changePassword").hide();
+			$(".showLeaves").hide();
+			$(".showRoaster").hide();
+			$(".showHoliday").show();
+			$(".changeProfile").hide();
+			$(".changePhoto").hide();
+		
+		document.getElementById("thediv2").innerHTML='';
+		
+		if(data.length>0){
+		document.getElementById("thediv2").innerHTML ='<div class=bottom>'
+			
+	    	
+	    	
+	    	+'<h3>Holidays for the year '+currentYear+': </h3>'
+	    	+'<table class="table table-striped table-responsive-md"  >'
+            +'<col style="width:40%">'
+            +'<col style="width:60%">'
+           
+           
+           
+            
+            
+            +' <thead>'
+            +'<tr>'
+            	
+            +'<th style="width:40%">Date</th>'
+            +'<th style="width:60%">Description</th>'
+          
+            
+            
+            +'</tr>'
+            +' </thead>'
+          +'</table>'
+           
+            for(var i=0;i<data.length;i++)
+				{
+            	var dateArray1=data[i][0].split("-");
+				var formatedDate1=dateArray1[2]+"-"+dateArray1[1]+"-"+dateArray1[0];
+				
+			
+            	document.getElementById("thediv2").innerHTML += 
+			    	'<table class="table table-striped table-responsive-md"  >'
+			    	
+                    +'<col style="width:40%">'
+                    +'<col style="width:60%">'
+                 
+                   
+            		+' <tbody>'
+            		+'<tr>'
+            		+'<td bgcolor="#b3ffb3" style="width:40%">'+formatedDate1+'</td>'
+    +'<td bgcolor="#b3ffb3" style="width:60%">'+data[i][1]+'</td>'
+  
+  
+    
+        
+        
+ 
+    +'</tr>'
+    +' </tbody>' 
+    +'</table>'
+    
+			}
+			}
+		else{
+			document.getElementById("thediv2").innerHTML ='<h1>No holidays to show </h1>'
+		}
+			
+			}
+		});
+		
+			}
+		});
+	}
+	
+	
+	function viewRoaster()
+	{
+		$.ajax({
+			url : "/internapp/api/v3/roaster/getListDate",
+			type : "GET",
+			data : {
+				
+// 				"email":user[1]
+			},
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) {
+		
+		
+			$(".attendance").hide();
+			$(".changePassword").hide();
+			$(".showLeaves").hide();
+			$(".showRoaster").show();
+			$(".showHoliday").hide();
+			$(".changePhoto").hide();
+			$(".changeProfile").hide();
+			
+		
+		document.getElementById("rosterDiv").innerHTML='';
+		
+		if(data.length>0){
+		//document.getElementById("rosterDiv").innerHTML ='<div class=bottom>'
+            var tableHTML='<div class=bottom>'
+	    	+'<table class="table table-striped table-responsive-md">'
+            +'<col style="width:6%">'
+            +'<col style="width:6%">'
+            +'<col style="width:6%">'
+            +'<col style="width:4%">'
+            +' <thead>'
+            +'<tr>'
+            	
+            +'<th style="width:6%;vertical-align:middle;font-size:16px;" rowspan="2">Name/Date</th>'
+            for(var i=0; i<data.length;i++)
+            {
+            	tableHTML+='<th style="width:5%;font-size:13px;text-align:center;">'+data[i][2]+'</th>';
+            }
+            tableHTML+='</tr><tr>';
+            for(var i=0; i<data.length;i++)
+            {
+            	tableHTML+='<th style="width:5%;font-size:13px;text-align:center;">'+data[i][1]+'</th>'
+            }
+            tableHTML+='</tr>'
+
+            +' </thead><thead>'
+            +'<tr><td style="text-align:center;font-size:14px;">'+user[2]+'</td>';
+            for(var i=0; i<data.length; i++)
+            	{
+            	var workFromValue=null;
+				$.ajax({
+					url : "/internapp/api/v3/roaster/getRoasterData",
+					type : "GET",
+					async:false,
+					data : {
+						"studentid" : user[0],
+						"roasterDate" :data[i][1]
+					},
+					success : function(data) {
+						
+						if(data!=null)
+							{
+							if(data!="")
+								{
+								workFromValue =data;
+							
+								}
+							}
+					}
+				});
+				if(workFromValue==null)
+					workFromValue="N/A";
+			
+
+				tableHTML+="<td style='text-align:center;font-size:14px;'>"+workFromValue+"</td>"
+				
+				
+            	}
+            tableHTML+='</tr></tbody></table>'
+        
+          $('#rosterDiv').html(tableHTML);
+        
+     
+			}
+		else{
+			document.getElementById("rosterDiv").innerHTML ='<h1>No Roaster for You </h1>'
+		}
+			
+			}
+		});
+	}
+	
+</script>
+</head>
+<body style="margin-top: 0%;">
+		<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+<a class="navbar-brand " href="#" th:href="@{/}  " ><img 
+     src="../static/images/0.jpg"
+     th:src="@{images/0.jpg}"
+     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+</a>
+
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+data-target="#navbarText" aria-controls="navbarText"
+aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+
+<div class="collapse navbar-expand" id="navbarText"> 
+	
+	
+<ul class="navbar-nav ml-auto">
+				<li class="nav-item mr-4">
+					<div class="dropdown nav-link">
+						<a class="rounded-circle nav-user-image" href="#"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+							<img class="userImage rounded-circle" src="" alt=""
+							style="width: 55px; height: 55px;">
+						</a>
+						
+						<div class="dropdown-menu dropdown-menu-center p-5"
+							style="width: 320px;margin-left:50%;" aria-labelledby="dropdownMenuButton">
+							<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+							<div class="personalInformation">
+								<div class="card border-0 image-cropper">
+									<img class="card-img-top userImage rounded-circle" src=""
+										alt="" style="width: 100%; height: 200px; ">
+									<div class="card-body">
+										<h5 class="card-title userName"></h5>
+										<p class="card-text userEmail"></p>
+										<button type="button" class="btn btn-secondary"
+											onclick="changePasswordView()" >Change Password</button>
+											<br>
+											<br>
+											
+											<button type="button" class="btn btn-secondary"
+											onclick="changePhotoView()" >Change Photo</button>
+											<br>
+											<br>
+											<button type="button" class="btn btn-secondary"
+											onclick="changeProfileView()" >Change Profile</button>
+								 
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+				<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnmodel" onclick="viewL()">View Leaves</button>
+				</li>
+				
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+				<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnmodel" onclick="viewH()">View Holidays</button>
+				</li>
+				 <li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+				<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnmodel" onclick="viewRoaster()">View Roaster</button>
+				</li>
+				  <li sec:authorize="isAuthenticated()" class="nav-item mr-3"><a
+					class="nav-link text-white" href="#" data-toggle="modal"
+					data-target="#attendanceModal">Check In</a>
+					<div class="modal fade" id="attendanceModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel" >Check In</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:#80e5ff;">
+									<div class="form-group">
+										<label for="checkInLateReason">Provide Reason for Late Check-in</label> 
+										<textarea class="form-control"  id="checkInLateReason"></textarea>
+									</div>
+									<div class="form-group">
+										<label for="targetForDay">Work For Day</label> 
+										<textarea class="form-control"  id="targetForDay"></textarea>
+									</div>
+									<div>
+									 <p>Work From</p>
+									</div>
+									<div class="form-check-inline">
+									<label class="form-check-label" for="radio1">
+                              <input type="radio" class="form-check-input" id="radio1" name="workFrom" value="Home" checked>Home</label>
+                              </div>
+                              <div class="form-check-inline">
+                           <label class="form-check-label" for="radio2">
+                           <input type="radio" class="form-check-input" id="radio2" name="workFrom" value="Office">Office</label>
+                              </div>
+    				
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="markAttendanceIn()"
+										class="btn btn-primary">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div></li>  
+					
+					 <li sec:authorize="isAuthenticated()" class="nav-item mr-3"><a
+					class="nav-link text-white" href="#" data-toggle="modal"
+					data-target="#attendanceModalCheckout">Check Out</a>
+					<div class="modal fade" id="attendanceModalCheckout" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabelCheckout"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabelCheckout" >Check Out</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:#80e5ff;">
+									<div class="form-group">
+										<label for="checkOutEarlyReason">Provide Reason for Early Check-Out</label> 
+										<textarea class="form-control"  id="checkOutEarlyReason"></textarea>
+									</div>
+									<div class="form-group">
+										<label for="workStatus">Work Status</label> 
+										<textarea class="form-control"  id="workStatus"></textarea>
+									</div>
+									<div>
+									 <p>Work From</p>
+									</div>
+									<div class="form-check-inline">
+									<label class="form-check-label" for="radio1">
+                              <input type="radio" class="form-check-input" id="radioCheckout1" name="workFromCheckout" value="Home" checked>Home</label>
+                              </div>
+                              <div class="form-check-inline">
+                           <label class="form-check-label" for="radio2">
+                           <input type="radio" class="form-check-input" id="radioCheckout2" name="workFromCheckout" value="Office">Office</label>
+                              </div>
+    				
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="markAttendanceOut()"
+										class="btn btn-primary">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div></li>  
+					
+					
+					
+					<!-- 
+					<li sec:authorize="isAuthenticated()" class="nav-item mr-4"><a
+					class="nav-link text-white" href="#" data-toggle="modal"
+					data-target="#attendanceModal">Mark your attendance</a>
+					<div class="modal fade" id="attendanceModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel" >Mark Attendance</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:#80e5ff;">
+									<div class="form-group">
+										<label for="inTime">In Time</label> 
+										<input class="form-control" type="time" value="" id="inTime">
+									</div>
+									<div class="form-group">
+										<label for="outTime">Out Time</label> <input
+											class="form-control" type="time" value="" id="outTime"
+											placeholder="HH:MM AM/PM">
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="markAttendance()"
+										class="btn btn-primary">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div></li> -->
+					
+					
+					
+					
+					
+					
+					<li sec:authorize="isAuthenticated()" class="nav-item mr-3"><a
+					class="nav-link text-white" href="#" data-toggle="modal"
+					data-target="#leaveModal" >Apply for leave</a>
+					<div class="modal fade" id="leaveModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel2"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel2"  >Apply Leave</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body" style="background-color:#80e5ff;">
+								
+									<div class="form-group">
+									<table> 
+										<label for="leaveFrom">Leave from</label> <tr><td><input
+											class="form-control" type="text" value="" id="leaveFrom" autocomplete="off"></td>
+											<td> </td><td> </td><td> </td><td> </td> <td> </td><td> </td><td> </td>
+											 <td><select id="leaveFromTime" class="form-control" style=" position:relative; margin-top:2%;">
+											<option value="Forenoon" selected>Forenoon</option>
+											<option value="Afternoon">Afternoon</option>
+											</select></td></tr>
+									
+									</table>
+									</div>
+									<div class="form-group">
+									<table> 
+									
+										<label for="leaveTo">To</label><tr><td> <input
+											class="form-control" type="text" value="" id="leaveTo" autocomplete="off"></td>
+											<td> </td><td> </td><td> </td><td> </td> <td> </td><td> </td><td> </td>
+											<td><select id="leaveToTime" class="form-control">
+											<option value="Forenoon" >Forenoon</option>
+											<option value="Afternoon" selected>Afternoon</option>
+											</select ></td></tr>
+											</table>
+									</div>
+									<div class="form-group">
+										<label for="reasonL">Reason for leave</label> 
+											<textarea rows = "5" cols = "60" name = "description" id="reasonL" 
+	                                        placeholder="Enter the reason for leave" maxlength = "200" required></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="markLeave()"
+										class="btn btn-primary">Submit</button>
+								</div>
+							</div>
+						</div>
+					</div></li>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				<!-- <li sec:authorize="isAuthenticated()" class="nav-item active mr-4">
+					<a class="nav-link" href="javascript:goToDashboard()">Dashboard</a>
+				</li> -->
+				<li sec:authorize="isAuthenticated()" class="nav-item active">
+					<a class="nav-link" th:href="@{/logout}">Logout</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+<div><p style="margin-right:25px;text-align: right;"><b>Your Training Duration is:</b> <span id="trainingDur"></span></p></div>
+	<div class="row m-3 attendance">
+		<div class="col-4">
+			<h5 class="text-center mb-5">Accepted Attendance</h5>
+			<ul class="list-group acceptedAttendance">
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-4" style="background-color:#003d4d; color:white;">Date</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">In Time</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">Out Time</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-4">
+			<h5 class="text-center mb-5" >Rejected Attendance</h5>
+			<ul class="list-group rejectedAttendance">
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-4" style="background-color:#003d4d; color:white;">Date</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">In Time</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">Out Time</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-4">
+			<h5 class="text-center mb-5">Pending Attendance</h5>
+			<ul class="list-group pendingAttendance">
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-4" style="background-color:#003d4d; color:white;">Date</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">In Time</div>
+						<div class="col-4" style="background-color:#003d4d; color:white;">Out Time</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+		
+
+	<div class="card changePassword w-50 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#002966; color:white">Change Password
+		<button type="button" class="close-icon" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+		</div>
+		<div class="card-body" style="background-color:#b3d1ff;">
+			<form>
+				<div class="form-group">
+					<label for="currentPassword">Current Password</label> <input
+						type="password" class="form-control" id="currentPassword"
+						placeholder="Enter Current Password">
+				</div>
+				<div class="form-group">
+					<label for="newPassword">New Password</label> <input
+						type="password" class="form-control" id="newPassword"
+						placeholder="Enter Password">
+				</div>
+				<div class="form-group">
+					<label for="confirmNewPassword">Confirm New Password</label> <input
+						type="password" class="form-control" id="confirmNewPassword"
+						placeholder="Enter Password">
+				</div>
+				<button type="button" class="btn btn-primary"
+					onclick="changePassword()">Submit</button>
+			</form>
+			
+			
+		</div>
+		
+	
+	</div>
+	
+	
+	
+	
+	
+	
+		<div class="card changePhoto w-50 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#002966; color:white">Change Photo
+		<button type="button" class="close-icon" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+		
+		</div>
+		<div class="card-body" style="background-color:#b3d1ff;">
+			<form>
+				
+			
+			
+							<div class="col-md-6">
+								<img id="userImage" src="" alt="" />
+							</div>
+							<div class="form-group col-md-6">
+								<label for="photo2">Photo (In JPEG or JPG):</label> <input type="file"
+									 id="photo2" name="photo"
+									accept=".jpeg,.jpg" onchange="Validateforjpeg(this);">
+							</div>
+			<br>
+			<br>
+			<center> 
+				<button type="button" class="btn btn-primary"
+					onclick="changePhoto()">Submit</button>
+					</center>
+			</form>
+			
+			
+		</div>
+		
+	
+	</div>
+	
+	
+	
+	
+	
+	<div class="card changeProfile w-50 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#002966; color:white">Change Profile
+	   <button type="button" class="close-icon" aria-label="Close" >
+          <span aria-hidden="true">&times;</span>
+        </button>	
+		
+		</div>
+		<div class="card-body" style="background-color:#b3d1ff;">
+			<form id="form123">
+				
+			
+			
+							<div class="col-md-6" id="profilechange">
+								
+							</div>
+			<br>
+			<br>
+			<center> 
+				<button type="button" class="btn btn-primary"
+					onclick="changeProfile()">Submit</button>
+					</center>
+			</form>
+			
+			
+		</div>
+		
+	
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="card showLeaves w-50 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#003366;"><h4 style="color:white;">ALL THE LEAVES TAKEN TILL NOW</h4></div>
+		<div class="card-body">
+			<form>
+				<div class="form-group" id="thediv">
+					</div>
+			</form>
+		</div>
+
+	</div>
+	
+	<div class="card showRoaster w-80 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#003366;"><h4 style="color:white;">ALL Roaster Applicable for You</h4></div>
+		<div class="card-body">
+			<form>
+				<div class="form-group" id="rosterDiv">
+					</div>
+			</form>
+		</div>
+
+	</div>
+	
+	<div class="card showHoliday w-50 ml-auto mr-auto mt-5" 
+		style="display: none;">
+		<div class="card-header" style="background-color:#004d00;"><h4 style="color:white;">HOLIDAYS</h4></div>
+		<div class="card-body">
+			<form>
+				<div class="form-group" id="thediv2">
+				
+				
+					</div>
+			</form>
+			
+			
+		</div>
+		
+	
+	</div>
+
+	
+	
+	<!-- WITHDRAW LEAVE MODAL -->
+		<div class="modal fade" id="withdrawLeaveModal" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel3">
+	    	<div class="modal-dialog">
+	    		<div class="modal-content">
+	        		<div class="modal-header">
+	        			<h5 class="modal-title" id="withdrawLeaveModalLabel" style="color:black;">Withdraw Leave</h5>
+	          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        		</div>
+	        		<div class="modal-body" style="background-color:#80e5ff;">
+		         		<div class="form-group">
+							<label for="reasonW"><b>Reason for leave withdrawl</b></label>  
+							<textarea class="form-control"  id="reasonW" rows = "3" cols = "60" name = "description" maxlength="200"></textarea>
+						</div>
+	        		</div>
+	         		<div class="modal-footer"> 
+	         			<input type="button" class="btn btn-primary" name="submit" value="Submit" />
+	          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+	         		</div>
+				</div>
+			</div>
+		</div>
+		<!-- END OF WITHDRAW LEAVE MODAL -->
+		
+		
+		<!-- CANCEL LEAVE MODAL -->
+		<div class="modal fade" id="cancelLeaveModal" role="dialog">
+	    	<div class="modal-dialog">
+	    		<div class="modal-content">
+	        		<div class="modal-header">
+	        			<h5 class="modal-title" id="cancelLeaveModalLabel" style="color:black;">Cancel Leave</h5>
+	          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+	        		</div>
+	        		<div class="modal-body" style="background-color:#80e5ff;">
+		         		<div class="form-group">
+							<label for="reasonC"><b>Reason for leave cancellation</b></label> 
+							<textarea class="form-control"  id="reasonC" rows = "3" cols = "60" name = "description" maxlength="200"></textarea>
+						</div>
+	        		</div>
+	         		<div class="modal-footer"> 
+	         			<input type="button" class="btn btn-primary" name="submit" value="Submit" onclick=""/>
+	          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+	         		</div>
+				</div>
+			</div>
+		</div>
+		<!-- END OF CANCEL LEAVE MODAL -->
+	
+
+	
+	
+</body>
+</html>

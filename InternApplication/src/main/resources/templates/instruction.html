@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	
+
+<link rel="stylesheet" href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+
+	<style>
+	.submit-tab{
+background:#61EFD3;
+height:50px;
+width:140px;
+color:black;
+font-size:20px;
+
+border-radius: 5px;
+padding: 10px;
+box-shadow: 2px -2px 6px 0px;
+
+
+}
+	
+	
+	
+	</style>
+	<script>
+	  var user = null;
+	  	$(document).ready(function() {
+	  		getCurrentUser();
+	  	});
+
+	  	function getCurrentUser() {
+	  		
+	  		//alert("Current user");
+	  		
+	  		$.ajax({
+	  			url : "/internapp/currentUser",
+	  			type : "GET",
+	  			success : function(data) {
+	  				if (data != null) {
+	  					user = data;
+	  					//alert(user[0]);
+	  					//user[0] is the user id
+	  					
+	  				}
+	  			},
+	  			error : function(error) {
+	  			}
+	  		});
+	  	}
+	  	
+	  	function startexam(){
+	  		
+	  		//alert(user[0]);
+	  		
+	  		$.ajax({
+	  		url: window.location.origin + "/internapp/api/v3/checkflag",
+	  		type:"GET",
+	  		data:{
+	  			"id":user[0]
+	  		},
+	  		success : function(data){	  			
+	  			//alert("In success");
+	  			//alert(data.length);
+	  				if(data[0].flag==1)
+	  					{
+	  					alert("You have already given this exam, you can't give it more than once");
+	  					}
+	  				else{
+	  					
+	  					if(data[0].set_id==0)
+	  					{
+	  					alert("The test is to be conducted offline.");
+	  					return;
+	  					}
+	  					
+	  					
+	  					$.ajax({ 
+	  				  		url: "/internapp/api/v3/checktime",
+	  				  		type:"GET",
+	  				  		data:{
+	  				  			"id":user[0]
+	  					        
+	  				  		},
+	  				  		success : function(data){
+	  				  			//alert(data);
+	  					if(data!="1"){
+	  						//alert("hi");
+	  						alert("you cannot access the exam right now. Kindly access page after "+data);
+	  					}
+
+	  					else{
+	  						//alert("data is 1")
+	  						$.ajax({  
+	  				  			url : "/internapp/api/v3/setexamstartdate",
+	  				  			type : "POST",
+	  				  			data:{
+	  				  				"id" : user[0]
+	  				  			},
+	  				  			success : function(data) {
+	  						
+	  						// alert("next");
+	  						
+	  						if(data==1){  						
+	  					
+	  					//window.location.replace("http://localhost:8443/exam");  //replace this with the url of the exam
+	  					
+	  					window.location.href="/internapp/exam";
+	  						}
+	  						
+	  						else{
+	  							alert("something went wrong. Kindly contact at cris.manoj.05@gmail.com");
+	  						}
+	  						
+	  				  			
+	  				  			
+	  				  			}
+	  						
+	  						});
+	  				  			
+	  				  			
+	  				  			}
+	  					
+	  				  		}
+	  				  		
+	  				  		
+	  					});	
+	  				
+	  				
+	  				
+	  				
+	  				
+	  				}
+	  			
+	  			
+	  		}
+	  			
+	  			
+	  		
+	  		
+	  		
+	  		
+	 });
+	  		
+	  		
+	  	}
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	
+	  	$('input').on('click', function () {
+
+	  		
+	  		
+	  		$.ajax({
+		  		url: "/internapp/api/v3/checkflag",
+		  		
+		  		type:"GET",
+		  		data:{
+		  			"id":user[0]
+		  		},
+		  		success : function(data){
+		  			alert("second step");
+		  				if(data[0].flag==1)
+		  					{
+		  					alert("you have already given this exam, you can't give it more than once");
+		  					}
+		  				else{
+		  					//window.location.replace("http://localhost:8443/exam");
+		  					
+		  					window.location.href="/internapp/exam";
+		  				}
+		  			
+		  			
+		  		}
+		  			
+		  			
+		  		});
+	  	   
+	  	});
+	
+	</script>
+	
+	
+</head>
+<body>
+		<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+<a class="navbar-brand" href="#" th:href="@{/}"><img 
+     src="../static/images/0.jpg"
+     th:src="@{images/0.jpg}"
+     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+     
+
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+data-target="#navbarText" aria-controls="navbarText"
+aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse"id="navbarText">
+<ul class="navbar-nav ml-auto">
+			</ul>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+	<div class="container">
+		<div class="row" style="width: 50%; margin: auto">
+			<div class="col-12">
+			
+				<h1><center><b>Instructions Regarding Examination</b></center></h1>
+				<form th:action="@{/instruction}" method="post">
+				<div>
+				<br>
+				<h4>1. Read all the Questions carefully.</h4>
+				<h4>2. Each Questions contain ONE mark each.</h4>
+				<h4>3. No negative marking is there.</h4>
+				<h4>4. Submit button is provided against each Question. Submit answer of each question once you sure. After submit a question, you can not alter your answer.</h4>
+				<h4>5. Finally, Submit the test before the time gets over.</h4>
+				<h4>6. If you do not submit the test before the time gets over then automatically the test will be submitted as the time is over.</h4>
+				<br>
+				
+				<h2><b><i><center>ALL THE BEST!!!</center></i></b></h2>
+				<br>
+				 
+				</div>
+					<center>
+							<div class="col-sm-6 col-sm-offset-3">
+						
+			
+			
+			<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+			<a   th:onclick="'javascript:startexam();'" class="btn btn-primary nav-link instruction">Start Exam</a>
+			</li>
+							
+							</div>
+					</center>	
+						
+				</form>
+			
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+</head>
+<body>
+<h2>
+<!--             <span th:text="'Hello, ' + ${result.total_marks}"></span> -->
+
+Hello Result Page
+     </h2>
+</body>
+</html>

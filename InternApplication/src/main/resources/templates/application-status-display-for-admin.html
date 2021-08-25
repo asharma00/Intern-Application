@@ -1,0 +1,3027 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Application Status</title>
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+
+ <script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script> 
+<link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" th:href="@{css/jquery-ui-1.10.3.custom.css}">
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css"> 
+
+
+<!-- <link rel="stylesheet" href="../static/css/bootstrap.min.css" -->
+<!-- 	th:href="@{css/bootstrap.min.css}"> -->
+	
+<!-- <script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script> -->
+<!-- <script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script> -->
+<!-- <script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script> -->
+	
+<!-- <link rel="stylesheet" href="../static/css/style.css" -->
+<!-- 	th:href="@{css/style.css}"> -->
+
+<!-- <script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script> -->
+
+<!-- <script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script> -->
+<!-- <script src="../static/js/jquery.validate.min.js" th:src="@{js/jquery.validate.min.js}"></script> -->
+
+<!-- <link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" -->
+<!-- 	th:href="@{css/jquery-ui-1.10.3.custom.css}"> -->
+<!-- 	<link rel="stylesheet" href="../static/css/bootstrap.min.css" -->
+<!-- 	th:href="@{css/bootstrap.min.css}"> -->
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css"> 
+
+<style>
+
+body {
+	color: #566787;
+	background: #f5f5f5;
+	font-family: 'Varela Round', sans-serif;
+	font-size: 16px;
+}
+
+.container-xl{
+	margin:auto;
+	width:90%;
+} 
+
+.table-title {        
+	padding-bottom: 15px;
+	background: #435d7d;
+	color: #fff;
+	padding: 16px 30px;
+	min-width: 100%;
+/* 	margin: -20px -8px 10px; */
+	border-radius: 3px 3px 0 0;
+}
+.table-title h2 {
+	margin: 5px 0 0;
+	font-size: 24px;
+}
+.table{
+	margin:auto;
+	background: #fff;
+	padding: 20px 5px;
+	border-radius: 3px;
+	width: 100%;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+
+/*To add calendar ui*/
+
+.ui-datepicker {
+    width: 300px;
+    height: auto;
+    margin: 1px auto 0;
+    font: 12pt Times New Roman, sans-serif;
+    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);*/
+}
+
+    .ui-datepicker table {
+        width: 100%;
+        height: auto;
+    }
+
+.ui-datepicker-header {
+    background: #3399ff;
+    color: #ffffff;
+    font-family:'Times New Roman';
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: #111;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+    font-size: 17px;
+
+}
+
+.ui-datepicker-prev {
+    float: left;
+    cursor: pointer;
+    /*background-position: center -30px;*/
+}
+
+.ui-datepicker-next {
+    float: right;
+    cursor: pointer;
+    /*background-position: center 0px;*/
+}
+
+.ui-datepicker thead {
+    background-color: #f7f7f7;
+
+    /*border-bottom: 1px solid #bbb;*/
+}
+
+.ui-datepicker th {
+    background-color:#808080;
+    text-transform: uppercase;
+    font-size: 8pt;
+    color: #ffffff;
+    /*text-shadow: 1px 0px 0px #fff;*/
+    /*filter: dropshadow(color=#fff, offx=1, offy=0);*/
+}
+
+.ui-datepicker tbody td {
+    padding: 0;
+    /*border-right: 1px solid #808080;*/
+}
+
+    .ui-datepicker tbody td:last-child {
+        border-right: 0px;
+    }
+
+.ui-datepicker tbody tr {
+    border-bottom: 1px solid #bbb;
+}
+
+    .ui-datepicker tbody tr:last-child {
+        border-bottom: 0px;
+    }
+
+.ui-datepicker a {
+    text-decoration: none;
+}
+
+.ui-datepicker td span, .ui-datepicker td a {
+    display: inline-block;
+    /*font-weight: bold;*/
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #ffffff;
+    /*text-shadow: 1px 1px 0px #fff;*/
+    /*filter: dropshadow(color=#fff, offx=1, offy=1);*/
+}
+
+.ui-datepicker-calendar .ui-state-default {
+      background: linear-gradient(#999999, #737373);
+      color:#ffffff;
+      height:40px;
+      width:40px;
+
+}
+
+.ui-datepicker-calendar .ui-state-hover {
+    background: #33adff;
+    color: #FFFFFF;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #33adff;
+    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    color: #e0e0e0;
+    text-shadow: 0px 1px 0px #4d7a85;
+    border: 1px solid #55838f;
+    position: relative;
+    margin: -1px;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    background: #D6F4BE;
+    color: #000000;
+}
+
+/*End of calendar ui*/
+
+
+#resumeFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#resumeFileList li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#resumeFileList li:hover {
+    background-color: #DEF;
+}
+
+#idFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#idFileList li{
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#idFileList li:hover {
+    background-color: #DEF;
+}
+
+#certiFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#certiFileList li{
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#certiFileList li:hover {
+    background-color: #DEF;
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+
+.containerX {
+  position: relative;
+  width: 50%;
+  margin: auto;
+}
+
+.image {
+  opacity: 1;
+/*   width: 100%; */
+/*   height: 100%; */
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerX:hover .image {
+  opacity: 0.3;
+}
+
+.containerX:hover .middle {
+  opacity: 1;
+}
+
+</style>
+</head>
+
+<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+
+<a class="navbar-brand" href="#" th:href="@{/}"><img 
+     src="../static/images/0.jpg"
+     th:src="@{/images/0.jpg}"
+     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+</a>
+
+<ul class="navbar-nav ml-auto">
+			<li class="nav-item mr-4 btn btn-primary active"><a class="nav-link"
+			th:href="@{/searchApplication}">Back</a></li>
+</ul>
+<ul class="navbar-nav">
+			<li class="nav-item mr-4 btn btn-primary active"><a class="nav-link" href="/"
+			th:href="@{/admin}">Go to Home Page</a></li>
+</ul>
+
+</nav>
+
+<br>
+<br>
+<body style="margin-top: 0px; margin-bottom: 5%">
+
+<ul id='resumeFileList'>
+  <li id='linkBtn' data-action = "ViewResume">View File</li>
+  <li data-action = "EditResume">Edit File</li>
+</ul>
+
+<ul id='idFileList'>
+  <li id='linkBtn' data-action = "ViewId">View File</li>
+  <li data-action = "EditId">Edit File</li>
+</ul>
+
+<ul id='certiFileList'>
+  <li id='linkBtn' data-action = "ViewCerti">View File</li>
+  <li data-action = "EditCerti">Edit File</li>
+</ul>
+
+
+<div class="container-xl">
+
+<div class="table-title">
+	<h2 >Check Application Status (Email: <span id="email" th:text="${email}"></span>)</h2>
+</div>
+
+<table class="table table-bordered table-hover" th:if="${applicationFound == 'Yes'}">
+<thead>
+<tr>
+<th colspan=3 class="text-center"><b>--------------- APPLICATION ID: <span id="applicationId" th:text="${displayApplication.id}"></span> -------------</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th colspan=3 class="text-center">
+<b>------------ Personal Details -----------</b>
+</th>
+</tr>
+<tr>
+<td rowspan=4 style="padding:0px; margin:0px;" class="text-center">
+
+<div class="containerX text-center" style="margin-bottom:0px; padding-bottom:0px;">
+  <img th:if="${image != null}" th:src="${image}" alt="Image" class="image" style="height:180px; width:140px; vertical-align:bottom; padding-bottom:0px; margin-bottom:0px;"> 
+  <img th:if="${image == null}" th:src="@{/images/sampleimg.jpg}" style="height:180px; width:140px; vertical-align:bottom;" alt="Image"> 
+  <div class="middle">
+  	<div><a onclick="launchEditIndividualForImage();" href="#"><i class="material-icons">edit</i></a></div>
+  </div>
+</div>
+</td>
+
+<td colspan=2><b>Name: </b><span id="applicantName" th:text="${displayApplication.fullName}"></span></td>
+</tr>
+
+<tr>
+<td><b>Parent's Name: </b><span id="applicantParentName" th:text="${displayApplication.parentName}"></span></td>
+<td><b>Dob: </b><span id="applicantDob" th:text="${#dates.format(displayApplication.date_of_birth,'dd-MM-yyyy')}"></span></td>
+</tr>
+
+<tr>
+<td><b>Email: </b><span id="applicantEmail" th:text="${displayApplication.email}"></span></td>
+<td><b>Contact: </b><span id="applicantContact" th:text="${displayApplication.contact}"></span></td>
+</tr>
+<tr>
+<td colspan=2><b>Address: </b><span id="applicantAddress" th:text="${displayApplication.address}"></span></td>
+</tr>
+<tr>
+<th colspan=3 class="text-center">
+<b>------------ Academic Details -----------</b>
+</th>
+</tr>
+<tr>
+<td><b>College Name: </b><span id="applicantCollegeName" th:text="${displayApplication.schoolName}"></span></td>
+<td><b>College Id: </b><span id="applicantCollegeId" th:text="${displayApplication.schoolId}"></span></td>
+<td><b>Score: </b><span id="applicantScore" th:text="${displayApplication.score}"></span></td>
+</tr>
+<tr>
+<td colspan = 3 class="text-center text-muted">(Right click on the file to view or edit file)</td>
+</tr>
+<tr>
+<td><b>Resume: </b><span><a id="resumeViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/0|}" target="_blank">RESUME</a></span></td>
+<td><b>Id Proof: </b><span><a id="idViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/3|}" target="_blank">ID_PROOF</a></span></td>
+<td><b>Certificates: </b><span><a id="certiViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/2|}" target="_blank">CERTIFICATES</a></span></td>
+</tr>
+<tr>
+<td colspan=3><b>Area of Interest: </b><span id="applicantAreaOfInterest" th:text="${displayApplication.area_of_interest}"></span></td>
+</tr>
+
+
+<!-- STARTED -->
+<tr th:if="${displayApplication.status == 'Started'}">
+<td colspan=2 class="text-center"><b>Status: </b>The required documents are yet to be uploaded.</td>
+</tr>
+
+
+<!-- INITIATED -->
+<tr th:if="${displayApplication.status == 'Initiated'}">
+<td colspan=2 class="text-center"><b>Status: </b>The request for internship at CRIS is successfully registered.</td>
+<td>
+	<a class="btn btn-success text-white" href="#acceptRejectModal" data-toggle="modal">Accept/Reject</a>
+</td>
+</tr>
+
+
+<!-- APPROVED -->
+<tr th:if="${displayApplication.status == 'Approved'}">
+<td colspan=2 class="text-center"><b>Status: </b>The request for internship has been accepted.</td>
+<td>
+	<a class="btn btn-success text-white" onclick="loadExistingExamDetails()" href="#editExamModal" data-toggle="modal">Edit Exam Details</a>
+</td>
+</tr>
+
+
+<!-- REJECTED -->
+<tr th:if="${displayApplication.status == 'Rejected'}">
+<td colspan=2 class="text-center"><b>Status: </b>The request for internship has been rejected.</td>
+<td></td>
+</tr>
+
+
+<!-- EXAM -->
+<tr th:if="${displayApplication.status == 'Exam'}">
+<td colspan=2 class="text-center"><b>Status: </b>The request for internship has been accepted, and an examination has been scheduled as a part of the selection process.
+	<br><b>Date of examination: </b><span id="interviewTime" th:text="${#calendars.format(examMark.examdate, 'dd-MM-yyyy HH:mm')}"></span> 
+	<br><b>Meeting Link for Examination: </b><a th:href="@{${examMark.exam_meeting_link}}" target="_"><span th:text="${examMark.exam_meeting_link}"></span></a>
+</td>
+<td th:if="${examMark.set_id == 0}">
+	<a class="btn btn-success text-white" onclick="loadExistingExamDetails()" href="#editExamModal" data-toggle="modal">Edit Exam Details</a>
+	<a class="btn btn-success text-white" onclick="loadValuesForOfflineExam()" href="#" data-toggle="modal" data-target="#offlineMarksDetailsModal" name="bulk_id">Set Marks</a>
+</td>
+<td th:unless="${examMark.set_id == 0}">
+	<a class="btn btn-success text-white" onclick="loadExistingExamDetails()" href="#editExamModal" data-toggle="modal">Edit Exam Details</a>
+</td>
+</tr>
+
+
+<!-- NO EXAM -->
+<tr th:if="${displayApplication.status == 'NoExam'}">
+<td colspan=2 class="text-center"><b>Status: </b>Application has been accepted and No exam required for selected accepted intern.<br class="text-left"> If you want to take exam kindly click on <b>Edit Exam Details</b> button.</td>
+<td>
+	<a class="btn btn-success text-white" onclick="loadExistingExamDetails();" href="#editExamModal" data-toggle="modal">Edit Exam Details</a>
+</td>
+</tr>
+
+
+<!-- EXAM OVER -->
+<tr th:if="${displayApplication.status == 'ExamOver'}">
+<td class="text-left"><b>Status: </b>Candidate have already given Exam.</td>
+<td class="text-center"><b>Score: </b>Java:<span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+Python:<span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+Android:<span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+SQL:<span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span> ,&nbsp;
+Cloud:<span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span> 
+</td>
+<td> 
+   &nbsp;&nbsp;&nbsp;&nbsp;<span id="applicantId" style="display:none;" th:text="${displayApplication.id}"></span> <a class="btn btn-success text-white" href="#callForInterviewModal" data-toggle="modal" th:onclick="javascript:loadCallForInterviewModal()">Call for Interview</a>
+   &nbsp;&nbsp;<a class="btn btn-success text-white" onclick="loadReExamModal()" href="#reExamModal" data-toggle="modal">Conduct Exam Again</a>
+</td>
+</tr>
+
+
+<!-- REJECTED AFTER EXAM -->
+<tr th:if="${displayApplication.status == 'RejectedAfterExam'}">
+<td colspan=2 class="text-center"><b>Status: </b>The request for internship has been rejected after Exam.</td>
+</tr>
+
+
+<!-- MARKED / NO INTERVIEW -->
+<tr th:if="${displayApplication.status == 'Marked'  or displayApplication.status == 'NoInterview'}">
+<td class="text-left"><b>Status: </b>The applicant has successfully appeared for the <br>interview./ Interview Not required.</td>
+
+<td class="text-left"><b>Score : </b>Java:<span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+Python:<span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+Android:<span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+SQL:<span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span>,&nbsp;
+Cloud:<span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span>&nbsp;
+<br> <b>Interview Mark :</b> <span id="interview" th:text="${interviewMark}"></span>
+</td>
+<td>
+	<a class="btn btn-danger text-white" onclick="rejectInternAfterInterview();">Reject</a>
+	<a class="btn btn-success text-white" data-toggle="modal"  onclick="getMentorsForInitialAssignment();"  href="#interJoiningApprove">Internship Joining</a>
+	
+<!-- Bootstrap Modal -->
+  <div class="modal fade" id="interJoiningApprove" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">  
+		<div class="modal-content">
+				<div class="modal-header">  <!-- modal header -->
+				<h5 class="modal-title" id="exampleModalLabel">Internship joining</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div> <!-- modal header close -->
+			<div class="modal-body">  <!-- Modal body -->
+			<form>
+			<div class="job mb-5">
+			<div><label><b>Internship joining</b></label></div>
+			<div class="cmr12" id= "imr12"></div>
+			<div class="form-group row">
+	        <label for="jobStartDate" class="col-2 col-form-label">Start Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobStartDate"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobEndDate" class="col-2 col-form-label">End Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobEndDate"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobProject" class="col-2 col-form-label">Project</label>
+			<div class="col-10"><select class="form-control"  id="jobProject">
+					<option value="BELA">BELA</option>
+					<option value="BLW">BLW</option>
+					<option value="MCFRBL">MCFRBL</option>
+					           </select></div>
+			</div>
+							
+			<div class="form-group row">
+			<label for="jobMentor" class="col-2 col-form-label">Mentor</label>
+			<div class="col-10"><select class="form-control"  id="jobMentor"></select></div>
+			</div>
+							
+			<button type="button" class="btn btn-primary float-right" id="jobSubmitButton" onclick="jobJoin()">Submit</button>
+			</div>
+			</form>
+			</div>   <!-- close modal body -->
+			</div>  <!-- close modal content -->
+			</div>  <!-- close modal dialog -->
+			</div>  <!-- close modal -->
+			<!-- close modal -->
+<!-- End of Bootstrap Modal -->
+</td>
+</tr>
+
+
+<!-- INTERVIEW -->
+<tr th:if="${displayApplication.status == 'Interview'}">
+<td colspan=2 class="text-left"><b>Status: </b>The applicant has an interview scheduled at <b><span id="interviewTime" th:text="${#calendars.format(examMark.interview_time, 'dd/MM/yyyy HH:mm')}"></span></b> as a part of the selection process.<br><b>Interview Link: </b><a th:href="@{${examMark.interview_meeting_link}}" target="_"><span th:text="${examMark.interview_meeting_link}"></span></a></td>
+<td>
+	<a class="btn btn-success text-white" href="#interviewMarkModal" data-toggle="modal">Give Marks for Interview</a>
+</td>
+</tr>
+
+
+<!-- REJECT AFTER INTERVIEW -->
+<tr th:if="${displayApplication.status == 'RejectAfterInterview'}">
+<td class="text-left"><b>Status: </b>The request for internship has been rejected after Interview.</td>
+<td class="text-center"><b>Score: </b>Java:<span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+Python:<span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+Android:<span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+SQL:<span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span> ,&nbsp;
+Cloud:<span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span> 
+</td>
+<td>
+ <span id="applicantId" style="display:none;" th:text="${displayApplication.id}"></span> <a class="btn btn-success text-white" href="#callForInterviewModal" data-toggle="modal" th:onclick="javascript:loadCallForInterviewModal()">Retake Interview</a>
+</td>
+</tr>
+
+
+
+<!-- JOINING APPROVED -->
+<tr th:if="${displayApplication.status == 'JoiningApproved'}">
+<td class="text-left"><b>Status: </b>The applicant has approved for Joining.<br><b>Joining Date: </b><span id= "joiningDateText"  th:text="${#calendars.format(user.join_date, 'dd-MM-yyyy')}"></span> to <span id= "endDateText"  th:text="${#calendars.format(user.end_date, 'dd-MM-yyyy')}"></span>
+<span id="projectText" style="display:none;" th:text="${user.project}"></span>
+<span id="mentorText" style="display:none;" th:text="${user.mentorEmail}"></span>
+</td>
+
+<td class="text-left"><b>Score: </b>Java:<span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+Python:<span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+Android:<span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+SQL:<span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span>,&nbsp;
+Cloud:<span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span>,&nbsp;<br> <b>Interview Mark:</b> <span id="interview" th:text="${interviewMark}"></span>
+</td>
+<td>
+	<a class="btn btn-danger text-white" onclick="rejectAfterJoiningApprove();">Reject</a> 
+	<a class="btn btn-success text-white" data-toggle="modal"  onclick="getMentorsForInitialAssignmentWithProjectMentor();"  href="#interJoining">Get Joining</a>
+	
+<!-- Bootstrap Modal -->
+  <div class="modal fade" id="interJoining" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">  
+		<div class="modal-content">
+				<div class="modal-header">  <!-- modal header -->
+				<h5 class="modal-title" id="exampleModalLabel">Internship joining</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div> <!-- modal header close -->
+			<div class="modal-body">  <!-- Modal body -->
+			<form>
+			<div class="job mb-5">
+			<div><label><b>Internship joining</b></label></div>
+			<div class="cmr12" id= "imr12"></div>
+			<div class="form-group row">
+	        <label for="jobStartDateActual" class="col-2 col-form-label">Start Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobStartDateActual"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobEndDateActual" class="col-2 col-form-label">End Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobEndDateActual"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobProjectActual" class="col-2 col-form-label">Project</label>
+			<div class="col-10"><select class="form-control"  id="jobProjectActual">
+					<option value="BELA">BELA</option>
+					<option value="BLW">BLW</option>
+					<option value="MCFRBL">MCFRBL</option>
+					           </select></div>
+			</div>
+							
+			<div class="form-group row">
+			<label for="jobMentorActual" class="col-2 col-form-label">Mentor</label>
+			<div class="col-10"><select class="form-control"  id="jobMentorActual"></select></div>
+			</div>
+							
+			<button type="button" class="btn btn-primary float-right" id="jobSubmitButton" onclick="job()">Submit</button>
+			</div>
+			</form>
+			</div>   <!-- close modal body -->
+			</div>  <!-- close modal content -->
+			</div>  <!-- close modal dialog -->
+			</div>  <!-- close modal -->
+			<!-- close modal -->
+<!-- End of Bootstrap Modal -->
+</td>
+</tr>
+
+
+<!-- JOINED -->
+<tr th:if="${displayApplication.status == 'Joined'}">
+<td colspan=2 class="text-left"><b>Status: </b>The applicant is an intern at CRIS from <i><span id= "joiningDateText"  th:text="${#calendars.format(user.join_date, 'dd-MM-yyyy')}"></span></i> to <i><span id= "endDateText"  th:text="${#calendars.format(user.end_date, 'dd-MM-yyyy')}"></span></i>
+ in <i><span id="projectText"  th:text="${user.project}"></span></i>
+<span id="mentorText" style="display:none;" th:text="${user.mentorEmail}"></span> project
+</td>
+<td>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success text-white" href="#modifyJoiningDate" data-toggle="modal"   onclick="getMentorsForInitialAssignmentWithProjectMentor()" >Update Joining</a>
+    
+    <!-- Bootstrap Modal -->
+  <div class="modal fade" id="modifyJoiningDate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">  
+		<div class="modal-content">
+				<div class="modal-header">  <!-- modal header -->
+				<h5 class="modal-title" id="exampleModalLabel">Internship joining</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div> <!-- modal header close -->
+			<div class="modal-body">  <!-- Modal body -->
+			<form>
+			<div class="job mb-5">
+			<div><label><b>Internship joining</b></label></div>
+			<div class="cmr12" id= "imr12"></div>
+			<div class="form-group row">
+	        <label for="jobStartDateActual" class="col-2 col-form-label">Start Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobStartDateActual"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobEndDateActual" class="col-2 col-form-label">End Date</label>
+			<div class="col-10"><input class="form-control" type="text" value="" id="jobEndDateActual"></div>
+			</div>
+			<div class="form-group row">
+			<label for="jobProjectActual" class="col-2 col-form-label">Project</label>
+			<div class="col-10"><select class="form-control"  id="jobProjectActual">
+					<option value="BELA">BELA</option>
+					<option value="BLW">BLW</option>
+					<option value="MCFRBL">MCFRBL</option>
+					           </select></div>
+			</div>
+							
+			<div class="form-group row">
+			<label for="jobMentorActual" class="col-2 col-form-label">Mentor</label>
+			<div class="col-10"><select class="form-control"  id="jobMentorActual"></select></div>
+			</div>
+							
+			<button type="button" class="btn btn-primary float-right" id="jobSubmitButton" onclick="jobJoin()">Submit</button>
+			</div>
+			</form>
+			</div>   <!-- close modal body -->
+			</div>  <!-- close modal content -->
+			</div>  <!-- close modal dialog -->
+			</div>  <!-- close modal -->
+			<!-- close modal -->
+<!-- End of Bootstrap Modal -->
+    
+	<a class="btn btn-success text-white" href="#relieveModal" data-toggle="modal">Relieve</a>
+	<a class="btn btn-success text-white" href="#getCertificateModal" data-toggle="modal">Get Certificate</a>
+	
+</td>
+</tr>
+
+
+<!-- RELIEVED -->
+<tr th:if="${displayApplication.status == 'Relieved'}">
+<td colspan=2 class="text-center"><b>Status: </b>The applicant has successfully completed the internship here</td>
+<td>
+	<a class="btn btn-success text-white" href="#uploadCertificateModal" data-toggle="modal">Upload Certificate</a>
+	<a class="btn btn-success text-white" id="btnvc"  onclick="viewc()">View Certificate</a>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+<table class="table table-bordered table-hover" th:if="${applicationFound == 'No'}">
+<thead>
+<tr>
+<th colspan=3 class="text-center">No application with the given credentials found.</th>
+</tr>
+</thead>
+</table>
+
+
+
+
+
+<div class="alert alert-info mt-2" role="alert">
+In case of any discrepancy in the above mentioned information, kindly contact <b><i>cris.manoj.05@gmail.com</i></b>
+</div>
+</div>
+
+<!-- Allocate Modal HTML -->
+<div id="fileUploadModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="fileUploadForm">
+				<div class="modal-header">						
+					<h4 class="modal-title">Upload Files</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+						<input type="hidden" id="userId" name="userId">
+						<div class="form-group col-md-12">
+							<label for="resume">Resume (In PDF:size less than 1 mbs):</label> <input type="file"
+								id="resume" name="resume" accept=".pdf" onchange="previewResume();">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="idproof">ID Proof (In JPEG:size less than 512 KB):</label> <input
+								type="file" id="idproof" name="idproof" accept=".jpeg,.jpg" onchange="previewIdProof();">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="certificate">Certificate (In PDF:size less than 1 mbs):</label> <input
+								type="file" id="certificate" name="certificate" accept=".pdf" onchange="previewCertificate();">
+								<br>
+								<div class="alert alert-info mt-2" role="alert">If there are multiple certificates, merge them into one file and upload here</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" name="allocationButton" onclick="uploadFiles()" class="btn btn-success" value="Upload">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Relieving Modal -->
+<div class="modal fade" id="relieveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+									<div class="modal-content">
+									
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									
+								<div class="modal-body">
+					               <div class="form-group">
+							        <h5>Are you sure of relieving this intern </h5>
+								    </div>
+								    <div class="form-group"><label for="relieveDate"><b>Relieve Date</b></label>
+							<input type="text" class="form-control" id="relieveDate" placeholder="Enter Relieving Date" autocomplete="off"  >
+							      </div>
+						<div class="form-group"><button type="button" style="float:right; margin-top:0.5%;margin-right:32%; " id="irelieve"  class="btn btn-primary" onclick = "relieveIntern()" >Submit</button>
+														</div>
+								</div>   <!-- close modal body -->
+</div>  <!-- close modal content -->
+</div> <!-- close modal dialog -->
+</div>  <!-- close modal -->
+
+
+<!-- End of Relieving Modal -->
+
+
+<!-- Get Certificate Modal -->
+<div class="modal fade" id="getCertificateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Certificate</h5>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>  <!-- close modal header div -->
+						<div class="modal-body">
+					       <div class="form-group"> <label for="duration">Duration </label>
+								<input type="text" class="form-control" value="6 months" id="duration" placeholder="Enter Duration">
+							</div>
+							<div class="form-group"><label for="startDate">Start Date</label>
+								<input type="text" class="form-control" id="startDate" placeholder="Enter Start Date" autocomplete="off"/>
+							</div>
+							<div class="form-group"><label for="endDate">End Date</label>
+								<input type="text" class="form-control" id="endDate" placeholder="Enter End Date" autocomplete="off" >
+							</div>
+							<div class="form-group">
+							<button type="button" style="float:right; margin-top:0.5%;margin-right:32%; " id="gsd" value="'+$('#email').html()+'" class="btn btn-primary" onclick = "getstartdate()">Get start and end dates</button>
+							</div>
+						</div>  <!-- End of Modal Body -->			
+									
+								<div class="modal-footer"><button type="button" style="position:relative;margin-right:42%;" class="btn btn-primary" onclick = "mailCertificate()">Submit</button>
+								</div>
+									
+								</div>   <!-- end of Modal content -->
+								</div> <!-- End of Modal Dialog -->
+                                 </div>  <!-- End of Modal -->
+
+<!-- End of Certificate Modal -->
+<!-- Upload Certificate modal -->
+ <div class="modal fade" id="uploadCertificateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelc" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+   				<h5 class="modal-title" id="uploadcmodalLabel" style="color:black;">Upload certificate</h5>
+   				 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   		   </div>  <!-- End of Header -->
+      <div class="modal-body" style="background-color:#80e5ff;">
+         <div class="form-group">
+           <div class="col-md-6"><img id="userImagec" src="" alt="" /></div>
+           <div class="form-group col-md-6"><label for="photo2">Select a pdf to upload(less than 1 mbs):</label> <input type="file"  id="photoc" name="photo" accept=".pdf" onchange="Validateforpdf(this);" ></div>
+         </div> <!-- close form- group -->	
+ 	 </div> <!-- close modal body -->
+   			<div class="modal-footer">'
+   			   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+   			   <button type="button" onclick="uploadsubmitc()" class="btn btn-primary">Upload</button>
+   		   </div>  <!-- close footer -->
+   	    </div>   <!-- close modal content -->
+   	</div>  <!-- close modal dialog -->
+   </div> <!-- close modal -->
+<!-- end of view final cris certificate -->
+
+<!-- ACCEPT/REJECT MODAL -->
+	<div class="modal fade" id="acceptRejectModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Accept/Reject</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="mb-5">
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="accept"
+									name="decisionAR" checked> <label
+									class="form-check-label" for="accept">Accept</label>
+							</div>
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="reject"
+									name="decisionAR"> <label class="form-check-label"
+									for="reject">Reject</label>
+							</div>
+							<button type="button" class="btn btn-primary float-right"
+								onclick="decision()">Submit</button>
+						</div>
+						<div class="exam mb-5">
+							<div>
+								<label><b>Exam Required</b></label>
+							</div>
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="examYes"
+									name="examYN" value="Yes" checked disabled
+									onclick="enableExamStartDate(this)"> <label
+									class="form-check-label" for="examYes">Yes</label>
+							</div>
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="examNo"
+									name="examYN" value="No" disabled
+									onclick="enableExamStartDate(this)"> <label
+									class="form-check-label" for="examNo">No</label>
+							</div>
+							<div class="form-group row">
+								<label for="examStartDate" class="col-2 col-form-label"><b>Start
+									Date</b></label>
+								<div class="col-10">
+									<input class="form-control" type="datetime-local"
+										id="examStartDate" disabled>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="meetingLink" class="col-2 col-form-label"><b>Meeting Link</b></label>
+								<div class="col-10">
+									<input class="form-control" type="text"
+										id="meetingLink" disabled>
+								</div>
+							</div>
+							<select class="form-control" id="set_drop" name="set_desc"
+								required disabled></select><br>
+							<button type="button" id="examSubmitButton"
+								class="btn btn-primary float-right" onclick="exam()" disabled>Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ACCEPT/REJECT MODAL -->
+	
+	
+	
+	<!-- EDIT MODAL -->
+	<div class="modal fade" id="editExamModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Edit Exam Details</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="exam mb-5">
+							<div>
+								<label><b>Exam Required</b></label>
+							</div>
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="editexamYes"
+									name="editexamYN" value="Yes" checked onclick="editenableExamStartDate(this)"> <label
+									class="form-check-label" for="editexamYes">Yes</label>
+							</div>
+							<div class="form-check">
+								<input type="radio" class="form-check-input" id="editexamNo"
+									name="editexamYN" value="No" onclick="editenableExamStartDate(this)"> <label
+									class="form-check-label" for="editexamNo">No</label>
+							</div>
+							<div class="form-group row">
+								<label for="editexamStartDate" class="col-2 col-form-label"><b>Start
+									Date</b></label>
+								<div class="col-10">
+									<input class="form-control" type="datetime-local" id="editexamStartDate">
+								</div>
+							</div>
+							<div class="form-group row">
+							<label for="editset_drop" class="col-2 col-form-label"><b>Select
+									Set</b></label>
+							<div class="col-10">
+							<select class="form-control" id="editset_drop" name="editset_desc"
+								required></select>
+								</div>
+								</div>
+							<div class="form-group row">
+							<label for="meetingLinkForExam" class="col-2 col-form-label"><b>Meeting
+									Link</b></label>
+							<div class="col-10">
+							<input type="text" class="form-control" id="meetingLinkForExam" name="meetingLinkForExam"
+								required/>
+								</div>
+								</div>
+							<button type="button" id="editexamSubmitButton"
+								class="btn btn-primary float-right" onclick="editexam()">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- editIndividualFile Modal HTML -->
+<div id="editIndividualFileModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="editIndividualFileForm">
+				<div class="modal-header">						
+					<h4 class="modal-title">Edit File</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+				
+					<div class="form-group" hidden=true>
+           					<label>Type: </label> 
+                            <input type="text" id="editIndividualFileType" class="form-control" disabled/>                            
+                    </div>	
+                    					
+					<div class="form-group">
+           					<label> Upload File: </label> 
+                            <input type="file" name="editIndividualFile" id="editIndividualFile" class="form-control" onchange="previeweditIndividual(this);"/>                            
+                    </div>					
+                    
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-danger" data-dismiss="modal" value="Cancel">
+					<input type="button" onclick="uploadeditIndividualFile();" class="btn btn-success" value="Upload">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+	
+	
+	
+	<!-- MARKS SETTING ON PARTICULAR RECORD -->
+	<div class="modal fade" id="offlineMarksDetailsModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel" >Submit Offline Test Marks</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:rgb(151, 206, 233);">
+								
+								<div class="row">								
+								<input type="text" class="form-control"  id="applicationIdOffline" hidden=true>								
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="examStartOffline">Start Date</label>
+								<input type="datetime-local" class="form-control"  id="examStartOffline" th:attr="min=${#dates.format(#dates.createNow(), 'dd-MM-yyyy')}">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="examEndOffline">End Date</label>
+								<input type="datetime-local" class="form-control"  id="examEndOffline">
+								</div>
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="javaOfflineObtained">Java Obtained Marks</label>
+								<input type="number" class="form-control"  id="javaOfflineObtained">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="javaOfflineTotal">Java Total Marks</label>
+								<input type="number" class="form-control"  id="javaOfflineTotal">
+								</div>
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="pythonOfflineObtained">Python Obtained Marks</label>
+								<input type="number" class="form-control"  id="pythonOfflineObtained">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="pythonOfflineTotal">Python Total Marks</label>
+								<input type="number" class="form-control"  id="pythonOfflineTotal">
+								</div>
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="sqlOfflineObtained">Sql Obtained Marks</label>
+								<input type="number" class="form-control"  id="sqlOfflineObtained">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="sqlOfflineTotal">Sql Total Marks</label>
+								<input type="number" class="form-control"  id="sqlOfflineTotal">
+								</div>
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="androidOfflineObtained">Android Obtained Marks</label>
+								<input type="number" class="form-control"  id="androidOfflineObtained">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="androidOfflineTotal">Android Total Marks</label>
+								<input type="number" class="form-control"  id="androidOfflineTotal">
+								</div>
+								</div>
+								
+								<div class="row">
+								<div class = col-sm-5>
+								<label for="cloudOfflineObtained">Cloud Obtained Marks</label>
+								<input type="number" class="form-control"  id="cloudOfflineObtained">
+								</div>
+								<div class = col-sm-1>
+								</div>
+								<div class = col-sm-5>
+								<label for="cloudOfflineTotal">Cloud Total Marks</label>
+								<input type="number" class="form-control"  id="cloudOfflineTotal">
+								</div>
+								</div>
+									
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="button" onclick="saveValuesForOfflineExam();"
+										class="btn btn-primary">Save Marks</button>
+								</div>
+							</div>
+						</div>
+					</div>
+	
+	
+	
+																		
+									<!-- CALL FOR INTERVIEW MODAL -->
+
+					<div class="modal fade" id="callForInterviewModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel" >Call For Interview</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:rgb(151, 206, 233);">
+								
+								<div class="form-group row">
+								<label for="interviewOption" class="col-3 font-weight-bold col-form-label">Interview:</label>								
+					
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="interviewOption" id="interviewOptionYes" value="interviewOptionYes" onclick="activateInterviewValues();" checked>
+								  <label class="form-check-label" for="interviewOptionYes">Yes</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="interviewOption" id="interviewOptionNo" value="interviewOptionNo" onclick="dismissInterviewValues();">
+								  <label class="form-check-label" for="interviewOptionNo">No</label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="interviewOption" id="interviewRadioReject" value="interviewRadioReject" onclick="dismissInterviewValues();">
+								  <label class="form-check-label" for="inlineRadioReject">Reject</label>
+								</div>
+								</div>
+								
+								<div class="form-group row">
+								<label for="callForInterviewStartDate" class="col-3 font-weight-bold col-form-label">Start Date:</label>
+								<div class="col-9"><input class="form-control" type="datetime-local" value="" id="callForInterviewStartDate">
+								</div>
+								</div>
+								<div class="form-group row">
+								<label for="meetingLinkInterview" class="col-3 font-weight-bold col-form-label">Interview Link:</label>
+								<div class="col-9"><input class="form-control" type="text" value="" id="meetingLinkInterview" placeholder="meeting link for interview">
+								</div>
+								</div>
+								</div>
+					
+								<div class="modal-footer">
+									<button type="button" id="callForInterviewSubmitButton" class="btn btn-primary" onclick="callForInterviewDetailsSubmit();">Submit</button>
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>								
+														<!-- RE EXAM MODAL -->
+					
+					<div class="modal fade" id="reExamModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel" >Conduct Exam Again</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								
+								<div class="modal-body" style="background-color:rgb(151, 206, 233);">
+								
+							
+																
+								<div class="form-group row">
+								<label for="reExamStartDate" class="col-3 font-weight-bold col-form-label">Exam Date:</label>
+								<div class="col-9"><input class="form-control" type="datetime-local" value="" id="reExamStartDate">
+								</div>
+								</div>
+								
+								<div class="form-group row">
+								<label for="reExamSetDrop" class="col-3 font-weight-bold col-form-label">Exam Set:</label>
+								<div class="col-9">
+								<select class="form-control" id="reExamSetDrop"></select>
+								</div>
+								</div>
+								<div class="form-group row">
+								<label for="meetingLinkForReExam" class="col-3 font-weight-bold col-form-label">Meeting Link:</label>
+								<div class="col-9">
+								<input class="form-control" type="text" id="meetingLinkForReExam" placeholder="Meeting link for exam" maxlength="60">
+								</div>
+								</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" id="callForInterviewSubmitButton" class="btn btn-primary" onclick="reExamDetailsSubmit();">Submit</button>
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+												<!-- RE EXAM MODAL -->
+								
+										
+	<!-- modal for Store interview marks -->
+	<div class="modal fade" id="interviewMarkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+							<div class="modal-header"  style="background-color: #0480be;">   <!-- header modal -->
+				<h5 class="modal-title" id="exampleModalLabel" style="color: white;">Marks for interview</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				           </div>  <!-- close header -->
+							<div class="modal-body">  <!-- modal body start -->
+							<form>  <!-- start form -->
+							<div class="job mb-5">
+							<div><label><b>Marks for interview</b></label></div>
+							<div class="form-group row">
+							<label for="marksinterview" class="col-2 col-form-label">Marks</label>
+							<div class="col-10"><input class="form-control" type="text" value="" id="marksinterview"></div>
+							</div>
+							<div class="form-group row">
+							<label for="remarksinterview" class="col-2 col-form-label">Remarks</label>
+							<div class="col-10"><input class="form-control" type="text" value="" id="remarksinterview"></div>
+							</div>
+							</div>
+							<button type="button" class="btn btn-primary float-right" id="jobSubmitButton"  onclick = "saveinterviewmarks()">Submit</button>
+							</form>  <!-- modal form close -->
+							</div>  <!-- modal body close -->
+							</div>  <!-- modal content close -->
+							</div>  <!-- modal dialog close -->
+							</div>  <!-- close modal -->
+	
+	
+	
+	<!-- End of modal code for interview marks -->
+
+</body>
+
+<script>
+
+
+function loadCallForInterviewModal(){
+		//alert($('#applicantId').text());
+		 $("#applicationIdForInterview").val($('#applicantId').text());
+	}
+
+
+var dateOriginal = '';
+
+$(document).ready(function(){
+
+	
+	
+	$("#relieveDate").datepicker(
+	          {
+			  dateFormat:"dd-mm-yy",
+			  changeMonth:true,
+			  changeYear:true,
+			  autoclose:true,
+			  minDate:new Date(),
+			  constrainInput:true,
+			  orientation: "right bottom",
+			  gotocurrent:true,
+			  beforeShow: function (input, inst) {
+			        var rect = input.getBoundingClientRect();
+			        setTimeout(function () {
+				        inst.dpDiv.css({ top: rect.top + 40, left: rect.left + 0 });
+			        }, 0);
+			    }
+	});	 
+
+	$("#startDate").datepicker(
+	          {
+			  dateFormat:"dd-mm-yy",
+			  changeMonth:true,
+			  changeYear:true,
+			  autoclose:true,
+			  minDate:new Date(),
+			  constrainInput:true,
+			  orientation: "right bottom",
+			  gotocurrent:true,
+			  beforeShow: function (input, inst) {
+			        var rect = input.getBoundingClientRect();
+			        setTimeout(function () {
+				        inst.dpDiv.css({ top: rect.top + 40, left: rect.left + 0 });
+			        }, 0);
+			    }
+	});
+	$("#endDate").datepicker(
+	          {
+			  dateFormat:"dd-mm-yy",
+			  changeMonth:true,
+			  changeYear:true,
+			  autoclose:true,
+			  minDate:new Date(),
+			  constrainInput:true,
+			  orientation: "right bottom",
+			  gotocurrent:true,
+			  beforeShow: function (input, inst) {
+			        var rect = input.getBoundingClientRect();
+			        setTimeout(function () {
+				        inst.dpDiv.css({ top: rect.top + 40, left: rect.left + 0 });
+			        }, 0);
+			    }
+	});
+	$("#jobStartDate").datepicker(
+			{
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  minDate:new Date(),
+					  changeYear:true,
+					  constrainInput:true,
+					  gotocurrent:true,
+					  onSelect: function(selected) {
+				          $("#jobEndDate").datepicker("option","minDate", selected)
+				        }
+
+			});
+	
+	$("#jobEndDate").datepicker(
+			{
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  minDate:new Date(),
+					  changeYear:true,
+					  constrainInput:true,
+					  gotocurrent:true,
+					  onSelect: function(selected) {
+				          $("#jobStartDate").datepicker("option","maxDate", selected)
+				        }
+
+			});
+			
+			  	
+	
+  		
+  		$(document).ready(function()
+  			{
+    				elem = document.getElementById("editexamStartDate")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});
+			
+			
+			
+		$(document).ready(function()
+  			{
+    				elem = document.getElementById("reExamStartDate")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});
+			
+			
+		$(document).ready(function()
+  			{
+    				elem = document.getElementById("examStartDate")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});
+			
+			
+		$(document).ready(function()
+  			{
+    				elem = document.getElementById("examStartOffline")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});
+			
+			
+		$(document).ready(function()
+  			{
+    				elem = document.getElementById("examEndOffline")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});
+			
+			
+		$(document).ready(function()
+  			{
+    				elem = document.getElementById("callForInterviewStartDate")
+    				var iso = new Date().toISOString();
+    				var minDate = iso.substring(0,iso.length-8);
+    				elem.min = minDate
+			});		
+	
+	$("#jobStartDateActual").datepicker(
+			{
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  minDate:new Date(),
+					  changeYear:true,
+					  constrainInput:true,
+					  gotocurrent:true,
+					  onSelect: function(selected) {
+				          $("#jobEndDateActual").datepicker("option","minDate", selected)
+				        }
+
+			});
+	
+	$("#jobEndDateActual").datepicker(
+			{
+					  dateFormat:"dd-mm-yy",
+					  changeMonth:true,
+					  minDate:new Date(),
+					  changeYear:true,
+					  constrainInput:true,
+					  gotocurrent:true,
+					  onSelect: function(selected) {
+				          $("#jobStartDateActual").datepicker("option","maxDate", selected)
+				        }
+
+			});
+	// Trigger action when the contexmenu is about to be shown
+	$('#resumeViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#resumeFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#resumeFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#resumeFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#resumeFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewResume": document.getElementById('resumeViewFile').click(); break;
+	        case "EditResume":  document.getElementById('editIndividualFileType').value = 0; 
+	    						$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#resumeFileList").hide(100);
+	  });
+
+
+
+	//Trigger action when the contexmenu is about to be shown
+	$('#certiViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#certiFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#certiFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#certiFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#certiFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewCerti": document.getElementById('certiViewFile').click(); break;
+	        case "EditCerti": document.getElementById('editIndividualFileType').value = 2;  
+					        	$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#certiFileList").hide(100);
+	  });
+
+
+
+	//Trigger action when the contexmenu is about to be shown
+	$('#idViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#idFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#idFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#idFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#idFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewId": document.getElementById('idViewFile').click(); break;
+	        case "EditId": document.getElementById('editIndividualFileType').value = 3;  
+					        	$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#idFileList").hide(100);
+	  });
+
+
+	});
+
+
+
+function uploadFiles() {
+	  var emailId= $('#email').html();	 
+	  var userId = $('#applicationId').html();
+	  var form = new FormData();
+	  var file = document.getElementById("resume").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 0);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	    	url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  form = new FormData();
+	  file = document.getElementById("certificate").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 2);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	        url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  form = new FormData();
+	  file = document.getElementById("idproof").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 3);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	    	url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  $.ajax({
+	    	type: 'POST',
+	        url: "/internapp/api/v4/applications/Initiated",
+	        data: { 
+	        	"userId" : userId,
+	    		"status": "Initiated"
+	    	},
+	    	success: function(data) {
+	    		  console.log(data);
+	    		  if(data=="Initiated"){
+	    			  alert("Documents uploaded successfully. ");
+	    			  window.location.reload();
+	    		  }
+	    		  else{
+	    			  alert("Some error occured uploading while the documents. Please try again.");
+	    			  $('#fileUploadModal').modal('toggle');
+	    		  }
+	    	}
+  });
+ }
+
+ function relieveIntern()
+ {
+		if(($('#relieveDate').val())=='')
+		{
+		alert("Kindly enter relieving Date");
+	return;
+		}
+		 var emailId= $('#email').html();	 
+		 var userId = $('#applicationId').html();
+		
+	$.ajax({
+		type : 'POST',
+		url : "/internapp/api/v1/applications/relieve",
+		data : {
+			"userId" : userId,
+			"relievingDate": $('#relieveDate').val(),
+			"email" : emailId,
+		},
+		success : function(data) {
+			alert("relieved");
+			  window.location.reload();
+				
+			
+		}
+	});
+		
+ }
+ function getMentorsForInitialAssignmentWithProjectMentor()
+ {
+	
+	 var from=$('#joiningDateText').html(), to=$('#endDateText').html(), projectName=$('#projectText').html(), mentorEmail=$('#mentorText').html();
+
+	 if(from!=null)
+		 {
+		 var defaultStartDate=from.substring(0,10);   //24-06-2021
+	    	var startDateArray=defaultStartDate.split("-");  // 24, 06, 2021  new Date(2021, 05, 01)
+	    	$("#jobStartDateActual").datepicker("setDate", new Date(startDateArray[2],startDateArray[1]-1,startDateArray[0]));
+		 }
+	 if(to!=null)
+	 {
+	 var defaultEndDate=to.substring(0,10);   //01-06-2021
+    	var endDateArray=defaultEndDate.split("-");  // 2021, 06, 01  new Date(2021, 05, 01)
+    	$("#jobEndDateActual").datepicker("setDate", new Date(endDateArray[2],endDateArray[1]-1,endDateArray[0]));
+	 }
+	 $("#jobProjectActual").val(projectName);  
+ 	
+	 $.ajax({
+			
+			url : "/internapp/api/mentor/get/getMentor",
+         type : "get",
+			contentType: "application/json; charset=utf-8",
+         dataType: "json",
+			success : function(data) {
+				$('#jobMentorActual').find('option').remove().end();
+				$('#jobMentorActual').append("<option value=''>SELECT</option>");
+				if(data!=null)
+					{
+	              if(data.length>=0)
+					{
+					 for(var i=0;i<data.length;i++)
+						 $('#jobMentorActual').append("<option value='"+data[i].email+"'>"+data[i].name+"/"+data[i].designation+"</option>");
+					}
+				
+					}
+				
+             
+				$('#jobMentorActual').val(mentorEmail);
+				
+			},
+		error : function(error) {
+			alert("Something went wrong!")
+		}
+		});
+	 
+	 
+	 
+ }
+ 
+ 
+ function loadValuesForOfflineExam(){
+	
+		$("#applicationIdOffline").val($('#applicationId').html());
+		
+		$.ajax({
+		   url : "/internapp/api/v1/getFlagForDates",
+		   type : "GET",
+		   data:
+			{
+				"applicationId" : $('#applicationId').html()		
+			},
+		   success: function (data){
+			   if(data!=null){
+				   //alert(data);
+				   $("#examStartOffline").val(data.split('+')[0]);
+			   }
+		   },
+		   error: function(){
+			   alert("Something went wrong");
+			   $('#offlineMarksDetailsModal').modal('toggle');
+		   }
+		});
+		
+	}
+	
+	
+	
+	function saveValuesForOfflineExam(){
+		
+		var d = new Date($("#examStartOffline").val());
+		var es = d.getTime();
+		var de = new Date($("#examEndOffline").val());
+		var en = de.getTime();
+		
+		
+		$.ajax({
+			url : "/internapp/api/v1/saveOfflineDetailsInFlag",
+			type : "POST",
+			data:
+			{
+				"applicationId" : $("#applicationIdOffline").val(),
+				"javaOfflineObtained" : $("#javaOfflineObtained").val(),
+				"javaOfflineTotal" : $("#javaOfflineTotal").val(),
+				"pythonOfflineObtained" : $("#pythonOfflineObtained").val(),
+				"pythonOfflineTotal" : $("#pythonOfflineTotal").val(),
+				"androidOfflineObtained" : $("#androidOfflineObtained").val(),
+				"androidOfflineTotal" : $("#androidOfflineTotal").val(),
+				"sqlOfflineObtained" : $("#sqlOfflineObtained").val(),
+				"sqlOfflineTotal" : $("#sqlOfflineTotal").val(),
+				"cloudOfflineObtained" : $("#cloudOfflineObtained").val(),
+				"cloudOfflineTotal" : $("#cloudOfflineTotal").val(),
+				"examStart" : es,
+				"examEnd" : en
+				
+			},
+		   success: function (data){
+			   if(data==1){
+				  alert("Details saved successfully");
+				  window.location.reload();
+			   }
+			   else{
+				   alert("Some error occured");
+			   }
+		   },
+		   error: function(){
+			   alert("Something went wrong");
+			   $('#offlineMarksDetailsModal').modal('toggle');
+		   }
+		});
+		
+	}
+	
+	
+
+ function saveinterviewmarks(){
+ 		
+ 		$.ajax({
+ 			url : "/internapp/api/v3/saveinterviewmarks",
+ 			type : "POST",
+ 			data : {
+ 				
+ 				"id": $('#applicationId').html(),
+ 				"marks": $("#marksinterview").val(),
+ 				"remarks":$("#remarksinterview").val(),
+ 				"status" : "Marked"
+ 			},
+ 			success : function(data) {
+ 				if(data==0){
+ 					alert("could not be saved");
+ 				}
+ 				else{
+ 					
+ 					alert("Data saves successfully");
+ 					
+ 					window.location.reload();
+ 				}
+ 			},
+ 			error : function(error) {
+ 			}
+ 		});
+ 	}
+ 	
+ 
+ function getstartdate()
+	{
+	var email=$('#email').html();
+		
+	$.ajax({
+			  url:"/internapp/api/v3/getusersid",
+			  type:"GET",
+			  data:{
+				  "email":email
+			  },
+			  success: function(data){
+				  
+				 var sd=(data[0].join_date).toString();
+				 var ed=(data[0].end_date).toString();
+				
+				 tdate=sd;
+				 
+				 mdate=tdate.split("T");
+				
+				 sdate=mdate[0];
+				 sdates=sdate.split("-");
+				 sday= sdates[2];
+					 smonth=sdates[1];
+					 
+						 syear=sdates[0];
+						 tdate2=ed;
+						 
+						 mdate2=tdate2.split("T");
+						 edate=mdate2[0];
+						 
+						 edates=edate.split("-");
+						 eday= edates[2];
+							 emonth=edates[1];
+								 eyear=edates[0];
+						
+								 $('#startDate').datepicker("setDate", new Date(syear,smonth-1,sday) );
+								 $('#endDate').datepicker("setDate", new Date(eyear,emonth-1,eday) );
+				   }
+			   }); 
+		
+	}
+ 
+ 
+	function loadReExamModal(){
+		
+		
+			$.ajax({
+				url : "/internapp/api/v3/sets/display/ques",
+				type : "GET",
+				contentType: "application/json; charset=utf-8",
+		        dataType: "json",
+				success : function(data) {
+				if(data==null)
+					{
+						alert("null values");
+					}
+					
+					else{
+					
+					$('#reExamSetDrop').find('option').remove().end();
+					
+					for(var i=0;i<data.length;i++)
+					{
+						$('#reExamSetDrop').append('<option value='+data[i].id+'>'+data[i].setname+'</option>');
+					}}
+				}
+					
+			});
+
+	}
+	
+	function reExamDetailsSubmit(){
+		var set = $('#reExamSetDrop').val();
+		if ($("#reExamStartDate").val() == '') {
+			alert("Please enter Start Date");
+			return;
+		}	
+		var d = new Date($('#reExamStartDate').val());
+		var milliseconds = d.getTime();
+		
+		$.ajax({
+			url : "/internapp/api/v3/reExam",
+			type : "POST",
+			data : {
+				"id" : $('#applicationId').html(),
+				"examDate" : milliseconds,
+				"setId" : set,
+				"meetingLink":$("#meetingLinkForReExam").val()
+			},
+			success : function(data) {
+				alert("Details submitted successfully!");
+				window.location.reload();
+			},
+			
+			error : function() {
+				alert("Some error occured!");
+				window.location.reload();
+			}
+			
+			});
+	}
+ 
+	
+	function callForInterviewDetailsSubmit() {
+		
+			var option = $('input[name="interviewOption"]:checked').val();
+			
+			var id = $('#applicationId').html();
+			
+			
+			if(option == 'interviewOptionYes'){
+				//alert("Here");
+				if ($("#callForInterviewStartDate").val() == '') {
+					alert("Please enter Start Date");
+					
+					return;
+				} 
+				if($("#meetingLinkInterview").val()=='')
+				{
+				alert("Please enter interview method/Link");
+				return;
+				}
+				
+				var d = new Date($("#callForInterviewStartDate").val());
+				
+				var milliseconds = d.getTime();
+				
+				$.ajax({
+					url : "/internapp/api/v1/applications/statusForInterview",
+					type : "POST",
+					data : {
+						
+						"applicationId" : id,
+						"status" : "Interview",
+						"startDate" : milliseconds,
+						"meetingLink":$("#meetingLinkInterview").val()
+					},
+					success : function(data) {
+						$("#meetingLinkInterview").val('');
+								alert("Information sent successfully");
+								$("#callForInterviewModal").modal('hide');
+								window.location.reload();
+							},
+					
+					error : function(error) {
+						alert("Something went wrong");
+					}
+				});
+				
+			}
+			
+			else if(option == 'interviewOptionNo'){
+				$.ajax({
+					type : 'POST',
+					url : "/internapp/api/v1/applications/status",
+					data : {
+						"userId" : id,
+						"status" : "NoInterview"
+					},
+					success : function(data) {
+					
+						$("#meetingLinkInterview").val('');
+						alert("Information sent successfully");
+						$("#callForInterviewModal").modal('hide');
+						window.location.reload();
+					}
+				});				
+			
+			}
+			
+			else if(option == 'interviewRadioReject'){
+				$.ajax({
+					url : "/internapp/api/v1/applications/rejectAfterExam",
+					type : "POST",
+					data : {
+						"applicationId" : id,
+						"status" : "RejectedAfterExam"
+					},
+					success : function(data) {
+					
+						$("#meetingLinkInterview").val('');
+						alert("Information sent successfully");
+						$("#callForInterviewModal").modal('hide');
+						window.location.reload();
+						
+					},
+					error : function(error) {
+					}
+				});
+			
+			}
+			
+		
+	} 
+	
+	
+ function mailCertificate()
+ {
+		if($("#startDate").val()=='')
+		{
+		alert("Kindly Enter Start Date of Training");
+		return;
+		}
+	if($("#endDate").val()=='')
+	{
+	alert("Kindly Enter End Date of Training");
+	return;
+	}
+	var start = new Date($("#startDate").val());
+	var fms = start.getTime();
+	var end = new Date($("#endDate").val());
+	var tms = end.getTime();
+	if(fms>tms)
+		{
+		alert("Training Start Date should come before training End Date");
+		return;
+		}
+	
+	$.ajax({
+		url : "/internapp/api/v1/mail5",
+		type : "POST",
+		data : {
+			"id" : $('#applicationId').html(),
+			"name" : $('#applicantName').html(),
+			"collegeName" : $('#applicantCollegeName').html(),
+			"duration" : $("#duration").val(),
+			"startDate" : $("#startDate").val(),
+			"endDate" : $("#endDate").val(),
+			"contact" :$('#applicantContact').html()
+		},
+		success : function(data) {
+		
+			window.location.href='/internapp/api/v1/download'
+			//window.location.href="http://127.0.0.1:3000/certificate.docx";
+			//window.location.href="http://203.176.112.83/uploads/certificate.docx";
+		
+/*			$.ajax({
+				type : 'POST',
+				url : "/internapp/api/v1/applications/status",
+				data : {
+					"userId" : id,
+					"status" : "Relieved"
+				},
+				success : function(data) {
+					window.location.reload();
+				}
+			}); */
+		},
+		error : function(data) {
+			
+		}
+		}); 
+	 
+	 
+ }
+function previewResume(){
+	//alert("in preview PO chk 1");
+     var fileResume=document.getElementById("resume").files;
+     if(fileResume.length>0){
+    	 //alert("in preview PO chk 2");
+    	 var filename = document.getElementById("resume").files[0].name;
+    	 var filesize = document.getElementById("resume").files[0].size;
+    	 if(filesize>1024*1000)
+    		 {
+    		 //alert("in preview PO chk 3");
+    		 alert("Only file size of 1 MB allowed");
+    		 $("#resume").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[1].toLowerCase() == 'pdf') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	    	//alert("in preview PO chk 6");
+ 	   	alert("Only pdf format allowed");
+ 	    $("#resume").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function previewIdProof(){
+	//alert("in preview INVOICE chk 1");
+     var fileId=document.getElementById("idproof").files;
+     if(fileId.length>0){
+    	 //alert("in preview INVOICE chk 2");
+    	 var filename = document.getElementById("idproof").files[0].name;
+    	 var filesize = document.getElementById("idproof").files[0].size;
+    	 if(filesize>512*1000)
+    		 {
+    		 //alert("in preview INVOICE chk 3");
+    		 alert("Only file size of 512 KB allowed");
+    		 $("#idproof").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[1].toLowerCase() == 'jpeg' || checkExt[1].toLowerCase() == 'jpg') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	    	//alert("in preview INVOICE chk 6");
+ 	   	alert("Only JPEG format allowed");
+ 	    $("#idproof").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function previewCertificate(){
+	//alert("in preview INVOICE chk 1");
+     var fileId=document.getElementById("certificate").files;
+     if(fileId.length>0){
+    	 //alert("in preview INVOICE chk 2");
+    	 var filename = document.getElementById("certificate").files[0].name;
+    	 var filesize = document.getElementById("certificate").files[0].size;
+    	 if(filesize>1024*1000)
+    		 {
+    		 alert("Only file size of 1 MB allowed");
+    		 $("#certificate").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[1].toLowerCase() == 'pdf') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	   	alert("Only pdf format allowed");
+ 	    $("#certificate").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function dismissInterviewValues(){
+	$("#callForInterviewStartDate").val('');
+	$("#callForInterviewStartDate").prop('disabled',true);	
+	$("#meetingLinkInterview").prop('disabled',true);
+}					
+
+function activateInterviewValues(){
+	$("#callForInterviewStartDate").prop('disabled',false);
+	$("#meetingLinkInterview").prop('disabled',false);
+}
+function Validateforpdf(oInput) {    //if there is a need of specifying any other type, just add that particular type in var  _validFilePdf
+	var _validFilePdf = [".pdf"]; 
+	if (oInput.type == "file") {
+        var sFileName = oInput.value;
+         if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFilePdf.length; j++) {
+                var sCurExtension = _validFilePdf[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
+             
+            if (!blnValid) {
+                alert("Sorry, this file is invalid, allowed extension is: " + _validFilePdf.join(", "));
+                oInput.value = "";
+                return false;
+            }
+        }
+    }
+	
+		var maxSizepdf = '1024';
+		 if (fdata.files && fdata.files[0]) {
+	                var fsize = fdata.files[0].size/1024; //The files property of an input element returns a FileList. fdata is an input element,fdata.files[0] returns a File object at the index 0.
+	                if(fsize > maxSizepdf) {
+	                	 alert('Maximum file size exceeded, This file size is: ' + fsize + "KB. Files should be less than 5mbs ");
+	                	 fdata.value = "";     //so that the file name is not displayed on the side of the choose file button
+	                	 return false;
+	                } else {
+	                	return true;
+	                }
+	     }
+	 
+}
+function decision() {
+	if ($("#accept").is(":checked")) {
+		
+		getdropset();
+		
+		$.ajax({
+			url : "/internapp/api/v1/applications/approve",
+			type : "POST",
+			data : {
+				"id" : $('#applicationId').html()
+			},
+			success : function(data) {
+				
+				$.ajax({
+					url : "/internapp/api/v1/mail12",
+					type : "POST",
+					data : {
+						"fullName" : $('#applicantName').html(),
+						"userEmail" : $('#applicantEmail').html(),
+						"contact" : $('#applicantContact').html()
+					},
+					success : function(data) {
+						
+						alert("accepted succesfully");
+						$("#examYes").attr("disabled",false);
+						$("#examNo" ).attr("disabled",false);
+						$("#examStartDate" ).attr("disabled",false);
+						$("#set_drop" ).attr("disabled",false);
+						$("#examSubmitButton" ).attr("disabled",false);
+					},
+					error : function(error) {
+					}
+				});
+			},
+			error : function(error) {
+			}
+		});
+		
+	} else {
+		$.ajax({
+			url : "/internapp/api/v1/applications/reject",
+			type : "POST",
+			data : {
+				"id" : $('#applicationId').html()
+			},
+			success : function(data) {
+				$.ajax({
+					url : "/internapp/api/v1/mail1",
+					type : "POST",
+					data : {
+						"fullName" : $('#applicantName').html(),
+						"userEmail" : $('#applicantEmail').html(),
+						"contact" : $('#applicantContact').html()
+					},
+					success : function(data) {
+						$.ajax({
+							type : 'POST',
+							url : "/internapp/api/v1/applications/status",
+							data : {
+								"userId" : $('#applicationId').html(),
+								"status" : "Rejected"
+							},
+							success : function(data) {
+								alert("rejected succesfully. ");
+								console.log(data);
+								window.location.reload();
+								//window.location.reload();
+							}
+						});
+						
+					},
+					error : function(error) {
+					}
+				});
+			},
+			error : function(error) {
+			}
+		});
+	}
+}
+
+function job() {
+	if ($("#jobStartDate").val() == ''
+			|| $("#jobEndDate").val() == '') {
+		alert("Please enter Start and End Date")
+	} else {
+		
+		var mentor = $("#jobMentor").val();
+		//alert("Mentor is: " + mentor);
+		var project = $("#jobProject" ).val();
+		//alert("Project is: " + project);
+		
+		$.ajax({
+			url : "/internapp/api/v1/mail4",
+			type : "POST",
+			data : {
+				"fullName" : $('#applicantName').html(),
+				"userEmail" : $('#applicantEmail').html(),
+				"startDate" : $("#jobStartDate").val(),
+				"endDate" : $("#jobEndDate").val(),
+				"id":$('#applicationId').html(),
+				"contact":$('#applicantContact').html(),
+				"mentor":mentor,
+				"project":project
+			},
+			success : function(data) {
+				$.ajax({
+					type : 'POST',
+					url : "/internapp/api/v1/applications/status",
+					data : {
+						"userId" : id,
+						"status" : "JoiningApproved"
+					},
+					success : function(data) {
+						alert("Intern Joined Successfully");
+						window.location.reload();
+					}
+				});
+			
+			},
+			error : function(error) {
+				alert("Some error occured!")
+			}
+		});
+	}
+}
+
+
+
+function jobJoin() {
+	if ($("#jobStartDateActual").val() == ''
+			|| $("#jobEndDateActual").val() == '') {
+		alert("Please enter Start and End Date")
+	} else {
+		
+		var mentor = $("#jobMentorActual").val();
+		//alert("Mentor is: " + mentor);
+		var project = $("#jobProjectActual" ).val();
+		//alert("Project is: " + project);
+		
+		$.ajax({
+			url : "/internapp/api/v1/setJoining",
+			type : "POST",
+			data : {
+				"fullName" : $('#applicantName').html(),
+				"userEmail" : $('#applicantEmail').html(),
+				"startDate" : $("#jobStartDateActual").val(),
+				"endDate" : $("#jobEndDateActual").val(),
+				"id":$('#applicationId').html(),
+				"contact":$('#applicantContact').html(),
+				"mentor":mentor,
+				"project":project
+	
+			},
+			success : function(data) {
+				alert("Intern Joined Successfully");
+				window.location.reload();
+			},
+			error : function(error) {
+				alert("Some error occured!");
+			}
+		});
+	}
+}
+
+function getdropset(){
+	
+	$.ajax({
+		url : "/internapp/api/v3/sets/display",
+		type : "GET",
+		contentType: "application/json; charset=utf-8",
+         dataType: "json",
+		success : function(data) {
+		if(data==null)
+			{
+				alert("null values");
+			}
+			
+			else{
+			
+			$('#set_drop').find('option').remove().end();
+			for(var i=0;i<data.length;i++)
+			{
+				$('#set_drop').append('<option value='+data[i].id+'>'+data[i].setname+'</option>');
+			}}			
+		}		
+	});
+}
+
+function exam() {
+	
+	if ($("#examYes").is(":checked")) {
+		if ($("#examStartDate").val() == '') {
+			alert("Please enter Start Date")
+		} else {
+			var d = new Date($("#examStartDate").val());
+			var milliseconds = d.getTime();
+			
+			//LatestNow
+			$.ajax({
+						url : "/internapp/api/v1/mail2",
+						type : "POST",
+						data : {
+							
+							"fullName" : $('#applicantName').html(),
+							"userEmail" : $('#applicantEmail').html(),
+							"startDate" : milliseconds,
+							"contact" : $('#applicantContact').html(),
+							"setId": $('#set_drop').val()
+							
+						},
+						success : function(data) {
+							 $.ajax({   
+								
+							url:"/internapp/api/v3/setinflag",
+							type:"POST",
+							data:{
+								"id": $('#applicationId').html(),
+								"startDate": milliseconds,
+								"set": $('#set_drop').val()
+							
+	                         },
+							success : function(data){
+							
+							
+							
+									$.ajax({
+										type : 'POST',
+										url : "/internapp/api/v1/applications/status",
+										data : {
+											"userId" : $('#applicationId').html(),
+											"status" : "Exam"		
+											
+										},
+										success : function(data) {
+											
+											alert("Details updated succesfully! ");
+											window.location.reload();
+											//window.location.reload();
+										
+										}
+									});
+							
+							
+							}
+							});
+						},
+						error : function(error) {
+						}
+					});
+		}
+	} else {
+
+		//window.location.reload();
+	}
+}
+
+
+function editexam() {
+	
+	  if($("#editexamYes").is(":checked")) {
+		if ($("#editexamStartDate").val() == '') {
+			alert("Please enter Start Date")
+		} else {
+			var d = new Date($("#editexamStartDate").val());
+			var milliseconds = d.getTime();
+			
+			if(dateOriginal == ''){
+				
+			$.ajax({   
+					url:"/internapp/api/v3/saveEditedExamNew",
+					type:"POST",
+					data:{
+						"fullName" : $('#applicantName').html(),
+						"userEmail" : $('#applicantEmail').html(),
+						"contact" : $('#applicantContact').html(),
+						"userid": $('#applicationId').html(),
+						"examdate": milliseconds,
+						"setid": $('#editset_drop').val(),
+						"meetingLink":$("meetingLinkForExam").val()
+                     },
+					success : function(data){	
+						if(data==1){
+							alert("Details added succesfully! ");
+							$('#editExamModal').modal('toggle');
+							window.location.reload();
+						}
+						else{
+							alert("Something went wrong!");
+						}				
+					},
+					error : function(error) {
+						alert("Some error occured. Please try again");
+						$('#editExamModal').modal('toggle');
+					}
+					});
+				        return;				
+			}
+			
+			if(dateOriginal == $("#editexamStartDate").val()){
+				$.ajax({   
+					
+					url:"/internapp/api/v3/saveEditedExam",
+					type:"POST",
+					data:{
+						
+						"userid": $('#applicationId').html(),
+						"examdate": milliseconds,
+						"setid": $('#editset_drop').val()
+					
+                     },
+					success : function(data){				
+						if(data==1){
+							alert("Set edited succesfully! ");
+							$('#editExamModal').modal('toggle');
+							window.location.reload();						}
+						else{
+							alert("Something went wrong!");
+						}
+					},
+					error : function(error) {
+						alert("Some error occured. Please try again");
+						$('#editExamModal').modal('toggle');
+					}
+					});
+				return;
+			}
+			
+			//LatestNow
+			$.ajax({
+						url : "/internapp/api/v1/mail6",
+						type : "POST",
+						data : {
+							
+							"fullName" : $('#applicantName').html(),
+							"userEmail" : $('#applicantEmail').html(),
+							"eDate" : milliseconds,
+							"contact" :$('#applicantContact').html(),
+							"setId" : $('#editset_drop').val()
+							
+						},
+						success : function(data) {
+							$.ajax({   
+								
+							url:"/internapp/api/v3/saveEditedExam",
+							type:"POST",
+							data:{
+								"userid": $('#applicationId').html(),
+								"examdate": milliseconds,
+								"setid": $('#editset_drop').val()
+							
+	                         },
+							success : function(data){				
+							
+								if(data==1){
+									alert("Details edited succesfully! ");
+									$('#editExamModal').modal('toggle');
+									window.location.reload();								}
+								else{
+									alert("Something went wrong!");
+								}
+
+
+							},
+							error: function(){
+								alert("Some error occured");
+								$('#editExamModal').modal('toggle');
+
+							}
+							});
+						},
+						error : function(error) {
+							alert("Some error occured. Please try again");
+							$('#editExamModal').modal('toggle');
+						}
+					});
+		}
+	} else if($("#editexamNo").is(":checked")){
+
+		
+		if(dateOriginal == ''){
+			//alert('Returning');
+			return;
+		}
+			
+		//alert('Up for ajax');
+		$.ajax({
+			type : 'POST',
+			url : "/internapp/api/v3/saveNoExam",
+			data : {
+				"userid" : $('#applicationId').html(),
+			},
+			success : function(data) {
+				
+				if(data==1){
+					alert("Details removed succesfully! ");
+					$('#editExamModal').modal('toggle');
+					window.location.reload();				}
+				else{
+					alert("Something went wrong!");
+				}
+
+			}
+		});
+	}
+}
+
+
+function editenableExamStartDate(e)
+{
+	
+if(e.value=='No')
+	{
+	$("#editexamStartDate").attr("disabled",true);
+	$("#editset_drop").attr("disabled",true);
+	$("#meetingLinkForExam").attr("disabled",true);
+	}
+else
+	{
+	$("#editexamStartDate").attr("disabled",false);
+	$("#editset_drop").attr("disabled",false);
+	$("#meetingLinkForExam").attr("disabled",false);
+	}
+}
+
+function enableExamStartDate(id, e)
+{
+	
+if(e.value=='No')
+	{
+	$("#examStartDate" + id).attr("disabled",true);
+	$("#set_drop" + id).attr("disabled",true);
+	}
+else
+	{
+	$("#examStartDate" + id).attr("disabled",false);
+	$("#set_drop" + id).attr("disabled",false);
+	}
+}
+
+function getdropset(){
+	
+	$.ajax({
+		url : "/internapp/api/v3/sets/display",
+		type : "GET",
+		contentType: "application/json; charset=utf-8",
+         dataType: "json",
+		success : function(data) {
+		if(data==null)
+			{
+				alert("null values");
+			}
+			
+			else{
+			
+			$('#set_drop').find('option').remove().end();
+			for(var i=0;i<data.length;i++)
+			{
+				$('#set_drop').append('<option value='+data[i].id+'>'+data[i].setname+'</option>');
+			}}			
+		}		
+	});
+}
+
+function loadExistingExamDetails(){
+	geteditdropset();
+	$.ajax({
+		url : "/internapp/api/v3/flags/fetchInFlag",
+		type : "GET",
+        data:{
+			"id": $('#applicationId').html(),
+         },
+		success : function(data) {
+		if(data==null)
+			{
+				alert("null values");
+			}
+			
+			else{
+				$('#editexamStartDate').val(data.examdate.split('+')[0]);
+				dateOriginal = $('#editexamStartDate').val();
+				$('#editset_drop').val(data.set_id);
+			}			
+		},
+         
+         error : function() {
+     		alert("some error occured");	
+     			
+     		}
+	});
+}
+
+function geteditdropset(){
+	$.ajax({
+		url : "/internapp/api/v3/sets/display",
+		type : "GET",
+		contentType: "application/json; charset=utf-8",
+         dataType: "json",
+		success : function(data) {
+		if(data==null)
+			{
+				alert("null values");
+			}
+			
+			else{
+				
+				$('#editset_drop').find('option').remove().end();
+				for(var i=0;i<data.length;i++)
+				{
+					$('#editset_drop').append('<option value='+data[i].id+'>'+data[i].setname+'</option>');
+				}
+			}			
+		}		
+	});
+}
+
+function previeweditIndividual(element){
+	var type = $("#editIndividualFileType").val();
+	if(type == '0' || type == '2'){
+		var fileId=document.getElementById(element.id).files;
+	     if(fileId.length>0){
+	    	 //alert("in preview INVOICE chk 2");
+	    	 var filename = document.getElementById(element.id).files[0].name;
+	    	 var filesize = document.getElementById(element.id).files[0].size;
+	    	 if(filesize>1024*1000)
+	    		 {
+	    		 //alert("in preview INVOICE chk 3");
+	    		 alert("Only file size of 1 MB allowed");
+	    		 $("#" + element.id).val('');
+	    		 return false;
+	    		 }
+	    	 var checkExt = filename.split('.');
+	    	 
+	 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'pdf') 
+	 	    {   
+	 	    	//proceed
+	 	    }
+	 	    else
+	 	   	{
+	 	    	//alert("in preview INVOICE chk 6");
+	 	   	alert("Only pdf format allowed");
+	 	    $("#" + element.id).val('');
+	 	   	return false;
+	 	  	}
+	 }        
+	}
+	else if((type == '3')||(type == '1')){
+		var fileId=document.getElementById(element.id).files;
+	     if(fileId.length>0){
+	    	 //alert("in preview INVOICE chk 2");
+	    	 var filename = document.getElementById(element.id).files[0].name;
+	    	 var filesize = document.getElementById(element.id).files[0].size;
+	    	 if(filesize>512*1000)
+	    		 {
+	    		 //alert("in preview INVOICE chk 3");
+	    		 alert("Only file size of 512 KB allowed");
+	    		 $("#" + element.id).val('');
+	    		 return false;
+	    		 }
+	    	 var checkExt = filename.split('.');
+	    	 
+	 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'jpg' || checkExt[checkExt.length - 1].toLowerCase() == 'jpeg') 
+	 	    {   
+	 	    	//proceed
+	 	    }
+	 	    else
+	 	   	{
+	 	    	//alert("in preview INVOICE chk 6");
+	 	   	alert("Only jpg/jpeg format allowed");
+	 	    $("#" + element.id).val('');
+	 	   	return false;
+	 	  	}
+	 }  
+	}
+}
+
+function uploadeditIndividualFile(){
+	   if($('#editIndividualFile').val()==''){
+		   alert("Kindly upload a suitable file.");
+		   return;
+	   }
+	   
+	      var form = new FormData();
+		  var file = document.getElementById("editIndividualFile").files[0];
+		  var userId = $('#applicationId').html();
+		  var type = document.getElementById("editIndividualFileType").value;
+		  var url = window.location.origin + "/internapp/uploadEdit";
+		  
+		  form.append('file', file);  //to display the file name after it is selected
+		  form.append('id', userId); 
+		  form.append('type', type);
+		  
+		  $.ajax({
+		    	type: 'POST',
+		        url: url,
+		        data: form,
+		        enctype: 'multipart/form-data',
+		        processData: false,
+		        contentType: false,
+		        success: function(data) {
+		        	if(data=="1"){
+		        		alert("Document uploaded successfully.");
+		        		window.location.reload();		        	}
+		        		else{
+		 	    			  alert("Some error occured uploading while the documents. Please try again.");
+		 	    		  }
+		        	 $('#editIndividualFile').val('');
+		        	 $('#editIndividualFileModal').modal('toggle');
+		 	    		},
+		 	        error: function(){
+		 			    	  alert("Some error occured. Please try again");
+		 			    	  $('#editIndividualFile').val('');
+		 			    	  $('#editIndividualFileModal').modal('toggle');
+		 	        } 	
+		  
+		  });
+
+	   return;
+
+}
+function uploadsubmitc() {
+	
+	 var applicantId = $('#applicationId').html();
+	//if no photo selected then alert no photo selected
+	form = new FormData();
+	  file = document.getElementById("photoc").files[0];
+	  if(document.getElementById("photoc").files.length === 0 ){
+		  alert("Choose a photo");
+	  }
+	  else{
+		  
+		  
+	  form.append('file', file);  //to display the file name after it is selected
+	  form.append('id', applicantId); 
+	  form.append('type', 4);
+	  $.ajax({
+	    	type: 'POST',
+	        url: "/internapp/api/v4/uploadcert",
+	        
+	        data: form,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        contentType: false,
+	        success: function(data) {
+	        	alert("Uploaded certificate successfully");
+	        	
+	        	window.location.reload();
+	    	
+	  }
+	  });
+}
+	  
+
+}
+function rejectInternAfterInterview(){
+	
+	if (confirm('Are you sure you want to reject Candidate')) {
+		$.ajax({
+			url: "/internapp/api/v1/applications/rejectAfterInterview",
+			type : "POST",
+			data : {
+				"applicantId" : $('#applicationId').html()
+			},
+            dataType: "json",
+            
+			success : function(data) {
+				if(data==1)
+					{
+					alert("Selected candidate is rejected by Admin after interview");
+					window.location.reload();
+					}
+			},
+			error : function(error) {
+			}
+		});
+		
+		} else {
+		  // Do nothing!
+		 alert('You select cancel your action');
+		}
+	
+}
+
+function rejectAfterJoiningApprove(){
+	
+	if (confirm('Are you sure you want to reject Candidate')) {
+		$.ajax({
+			url: "/internapp/api/v1/applications/rejectAfterJoiningApproved",
+			type : "POST",
+			data : {
+				"applicantId" : $('#applicationId').html()
+			},
+            dataType: "json",
+            
+			success : function(data) {
+				if(data==1)
+					{
+					alert("Selected candidate is rejected by Admin after interview");
+					window.location.reload();
+					}
+			},
+			error : function(error) {
+			}
+		});
+		
+		} else {
+		  // Do nothing!
+		 alert('You select cancel your action');
+		}
+	
+}
+function getMentorsForInitialAssignment(){
+	$.ajax({
+			
+			url : "/internapp/api/mentor/get/getMentor",
+            type : "get",
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) {
+				$('#jobMentor').find('option').remove().end();
+				$('#jobMentor').append("<option value=''>SELECT</option>");
+				if(data!=null)
+					{
+				
+				if(data.length>=0)
+					{
+					 for(var i=0;i<data.length;i++)
+						 $('#jobMentor').append("<option value='"+data[i].email+"'>"+data[i].name+"/"+data[i].designation+"</option>");
+					}
+				
+					}
+					
+			},
+		error : function(error) {
+		}
+		});
+	}
+
+function viewc(){
+	var applicantId=$('#applicationId').html();
+	$.ajax(
+			{
+				url : "/internapp/api/v2/getCerti",
+				type : "GET",
+				
+			data : {
+						"id" : applicantId
+					},
+			success : function(data){
+
+				if(data.length<=0){
+					alert("No certificate uploaded yet");
+				}
+				else{
+			//window.location.href="http://127.0.0.1:3000/"+id.toString()+"/4/"+data;
+			window.open("http://203.176.112.83/uploads/"+applicantId.toString()+"/4/"+data, "_blank");
+				}
+			}
+			});
+}
+
+function launchEditIndividualForImage(){
+	document.getElementById('editIndividualFileType').value = 1;  
+	$('#editIndividualFileModal').modal('toggle');
+}
+
+
+
+
+
+</script>
+
+</html>

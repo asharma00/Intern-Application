@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Application Status</title>
+
+	
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+	
+<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+<link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css"> 
+
+<style>
+
+body {
+	color: #566787;
+	background: #f5f5f5;
+	font-family: 'Varela Round', sans-serif;
+	font-size: 16px;
+}
+
+.container-xl{
+	margin:auto;
+	width:90%;
+} 
+
+.table-title {        
+	padding-bottom: 15px;
+	background: #435d7d;
+	color: #fff;
+	padding: 16px 30px;
+	min-width: 100%;
+/* 	margin: -20px -8px 10px; */
+	border-radius: 3px 3px 0 0;
+}
+.table-title h2 {
+	margin: 5px 0 0;
+	font-size: 24px;
+}
+.table{
+	margin:auto;
+	background: #fff;
+	padding: 20px 5px;
+	border-radius: 3px;
+	width: 100%;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid, select.invalid {
+  background-color: #ffdddd;
+}
+
+#resumeFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#resumeFileList li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#resumeFileList li:hover {
+    background-color: #DEF;
+}
+
+#idFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#idFileList li{
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#idFileList li:hover {
+    background-color: #DEF;
+}
+
+#certiFileList {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+}
+
+#certiFileList li{
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#certiFileList li:hover {
+    background-color: #DEF;
+}
+
+ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+
+.containerX {
+  position: relative;
+  width: 50%;
+  margin: auto;
+}
+
+.image {
+  opacity: 1;
+/*   width: 100%; */
+/*   height: 100%; */
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.containerX:hover .image {
+  opacity: 0.3;
+}
+
+.containerX:hover .middle {
+  opacity: 1;
+}
+
+</style>
+</head>
+
+<ul id='resumeFileList'>
+  <li id='linkBtn' data-action = "ViewResume">View File</li>
+  <li data-action = "EditResume">Edit File</li>
+</ul>
+
+<ul id='idFileList'>
+  <li id='linkBtn' data-action = "ViewId">View File</li>
+  <li data-action = "EditId">Edit File</li>
+</ul>
+
+<ul id='certiFileList'>
+  <li id='linkBtn' data-action = "ViewCerti">View File</li>
+  <li data-action = "EditCerti">Edit File</li>
+</ul>
+
+<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+
+<a class="navbar-brand" href="#" th:href="@{/}"><img 
+     src="../static/images/0.jpg"
+     th:src="@{/images/0.jpg}"
+     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+</a>
+
+<ul class="navbar-nav">
+			<li class="nav-item mr-4 btn btn-primary active"><a class="nav-link" href="/"
+				th:href="@{/}">Go to Main Page</a></li>
+</ul>
+
+</nav>
+
+<br>
+<br>
+<body style="margin-top: 0px; margin-bottom: 5%">
+
+<div class="container-xl">
+<div class="table-title">
+	<h2 >Check Application Status (Email: <span id="email" th:text="${email}"></span>)</h2>
+</div>
+
+<table class="table table-bordered table-hover" th:if="${applicationFound == 'Yes'}">
+<thead>
+<tr>
+<th colspan=3 class="text-center"><b>--------------- APPLICATION ID: <span id="applicationId" th:text="${displayApplication.id}"></span> -------------</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th colspan=3 class="text-center">
+<b>------------ Personal Details -----------</b>
+</th>
+</tr>
+
+<tr>
+<td rowspan=4 style="padding:0px; margin:0px;" class="text-center">
+
+<div class="containerX text-center" style="margin-bottom:0px; padding:0px;">
+  <img th:if="${image != null}" th:src="${image}" alt="Image" class="image" style="height:180px; width:140px; vertical-align:bottom; padding-bottom:0px; margin-bottom:0px;"> 
+  <img th:if="${image == null}" th:src="@{/images/sampleimg.jpg}" style="height:180px; width:140px; vertical-align:bottom;" alt="Image"> 
+  <div class="middle">
+  	<div><a onclick="launchEditIndividualForImage();" href="#"><i class="material-icons">edit</i></a></div>
+  </div>
+</div>
+</td>
+
+<td colspan=2><b>Name: </b><span th:text="${displayApplication.fullName}"></span></td>
+</tr>
+
+<tr>
+<td><b>Parent's Name: </b><span th:text="${displayApplication.parentName}"></span></td>
+<td><b>Dob: </b><span th:text="${#dates.format(displayApplication.date_of_birth,'dd-MM-yyyy')}"></span></td>
+</tr>
+
+<tr>
+<td><b>Email: </b><span th:text="${displayApplication.email}"></span></td>
+<td><b>Contact: </b><span th:text="${displayApplication.contact}"></span></td>
+</tr>
+<tr>
+<td colspan=2><b>Address: </b><span th:text="${displayApplication.address}"></span></td>
+</tr>
+<tr>
+<th colspan=3 class="text-center">
+<b>------------ Academic Details -----------</b>
+</th>
+</tr>
+<tr>
+<td><b>College Name: </b><span th:text="${displayApplication.schoolName}"></span></td>
+<td><b>College Id: </b><span th:text="${displayApplication.schoolId}"></span></td>
+<td><b>Score: </b><span th:text="${displayApplication.score}"></span></td>
+</tr>
+<tr>
+<td colspan = 3 class="text-center text-muted">(Right click on the file to view or edit file)</td>
+</tr>
+<tr>
+<td><b>Resume: </b><span><a id="resumeViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/0|}" target="_blank">RESUME</a></span></td>
+<td><b>Id Proof: </b><span><a id="idViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/3|}" target="_blank">ID_PROOF</a></span></td>
+<td><b>Certificates: </b><span><a id="certiViewFile" th:href="@{|/downloadFiles/${displayApplication.id}/2|}" target="_blank">CERTIFICATES</a></span></td>
+</tr>
+<tr>
+<td colspan=3><b>Area of Interest: </b><span th:text="${displayApplication.area_of_interest}"></span></td>
+</tr>
+
+
+<!-- STARTED -->
+<tr th:if="${displayApplication.status == 'Started'}">
+<td colspan=3 class="text-center"><b>Status: </b>The required documents are yet to be uploaded. 
+     <a class="btn btn-success text-white" href="#fileUploadModal" data-toggle="modal">Upload Here</a>
+</td>
+</tr>
+
+
+<!-- INITIATED -->
+<tr th:if="${displayApplication.status == 'Initiated'}">
+<td colspan=3 class="text-center"><b>Status: </b>Your request for internship at CRIS is successfully registered.</td>
+</tr>
+
+
+<!-- APPROVED -->
+<tr th:if="${displayApplication.status == 'Approved'}">
+<td colspan=3 class="text-center"><b>Status: </b>Congratulations! Your request for internship at CRIS has been accepted.</td>
+</tr>
+
+
+<!-- REJECTED -->
+<tr th:if="${displayApplication.status == 'Rejected'}">
+<td colspan=3 class="text-center"><b>Status: </b>Your request for internship at CRIS has been rejected.</td>
+</tr>
+
+
+<!-- EXAM -->
+<tr th:if="${displayApplication.status == 'Exam'}">
+<td colspan=3 class="text-center"><b>Status: </b>Your request for internship has been accepted, and an examination has been scheduled as a part of the selection process.
+	<br><b>Date of examination: </b><span id="interviewTime" th:text="${#calendars.format(examMark.examdate, 'dd/MM/yyyy HH:mm')}"></span>
+	<br><b>Examination Link: </b><a th:href="@{${examMark.exam_meeting_link}}" target="_"><span th:text="${examMark.exam_meeting_link}"></span></a> 
+	<br><b>All the best!</b></td>
+</tr>
+
+
+<!-- NO EXAM -->
+<tr th:if="${displayApplication.status == 'NoExam'}">
+<td colspan=3 class="text-center"><b>Status: </b>Application has been accepted and No exam required.<br>If required, details will be updated accordingly.</td>
+</tr>
+
+
+<!-- EXAM OVER -->
+<tr th:if="${displayApplication.status == 'ExamOver'}">
+<td colspan=3 class="text-center"><b>Status: </b>You have successfully appeared for the scheduled test/ or have been shortlisted directly.
+<hr><b>Score:</b><br>
+<i>Java : </i><span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+<i>Python : </i><span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+<i>Android : </i><span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+<i>SQL : </i><span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span> ,&nbsp;
+<i>Cloud : </i><span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span> ,&nbsp;
+<i>Total : </i><span id="totalMark" th:text="${examMark.total_marks}"></span>/<span id="marksOutOf" th:text="${examMark.marks_out_of}"></span>
+</td> 
+</tr>
+
+
+<!-- REJECTED AFTER EXAM -->
+<tr th:if="${displayApplication.status == 'RejectedAfterExam'}">
+<td colspan=3 class="text-center"><b>Status: </b>Your request for internship has been rejected after Exam.
+</td>
+</tr>
+
+
+<!-- MARKED -->
+<tr th:if="${displayApplication.status == 'Marked'}">
+<td colspan=3 class="text-center"><b>Status: </b>You have successfully appeared for the scheduled interview.
+<hr><b>Score:</b><br>
+<i>Java : </i><span id="javaMark" th:text="${examMark.java_marks}"></span>/<span id="javaTotal" th:text="${examMark.java_total}"></span>  , &nbsp;
+<i>Python : </i><span id="pythonMark" th:text="${examMark.python_marks}"></span>/<span id="pythonTotal" th:text="${examMark.python_total}"></span> ,&nbsp;
+<i>Android : </i><span id="androidMark" th:text="${examMark.android_marks}"></span>/<span id="androidTotal" th:text="${examMark.android_total}"></span> ,&nbsp;
+<i>SQL : </i><span id="sqlMark" th:text="${examMark.sql_marks}"></span>/<span id="sqlTotal" th:text="${examMark.sql_total}"></span> ,&nbsp;
+<i>Cloud : </i><span id="cloudMark" th:text="${examMark.cloud_marks}"></span>/<span id="cloudTotal" th:text="${examMark.cloud_total}"></span> ,&nbsp;
+<i>Total : </i><span id="totalMark" th:text="${examMark.total_marks}"></span>/<span id="marksOutOf" th:text="${examMark.marks_out_of}"></span>&nbsp;
+<br> <b>Interview Mark :</b> <span id="interview" th:text="${interviewMark}"></span>
+</td>
+</tr>
+
+
+<!-- INTERVIEW -->
+<tr th:if="${displayApplication.status == 'Interview'}">
+<td colspan=3 class="text-center"><b>Status: </b>You have an interview scheduled as a part of the selection process. 
+	<br><b>Date of interview: </b><span id="interviewTime" th:text="${#calendars.format(examMark.interview_time, 'dd/MM/yyyy HH:mm')}"></span>
+	<br><b>Interview Link: </b><a th:href="@{${examMark.interview_meeting_link}}" target="_"><span th:text="${examMark.interview_meeting_link}"></span></a>
+	<br><b>All the best!</b></td>
+</tr>
+
+
+<!-- REJECT AFTER INTERVIEW -->
+<tr th:if="${displayApplication.status == 'RejectAfterInterview'}">
+<td colspan=2 class="text-center"><b>Status: </b>Your request for internship has been rejected after Interview.</td>
+</tr>
+
+
+<!-- JOINING APPROVED -->
+<tr th:if="${displayApplication.status == 'JoiningApproved'}">
+<td colspan=3 class="text-center"><b>Status: </b>You have been approved for Joining.<br><b>Internship duration: </b><span id= "joiningDateText"  th:text="${#calendars.format(user.join_date, 'dd/MM/yyyy')}"></span> <b>-</b> <span id= "endDateText"  th:text="${#calendars.format(user.end_date, 'dd/MM/yyyy')}"></span>
+</td>
+
+
+<!-- JOINED -->
+<tr th:if="${displayApplication.status == 'Joined'}">
+<td colspan="3" class="text-left">You are intern here from <i><span id= "joiningDateText"  th:text="${#calendars.format(user.join_date, 'dd-MM-yyyy')}"></span></i> to <i><span id= "endDateText"  th:text="${#calendars.format(user.end_date, 'dd-MM-yyyy')}"></span></i>
+ in <i><span id="projectText"  th:text="${user.project}"></span></i>
+<span id="mentorText" style="display:none;" th:text="${user.mentorEmail}"></span> project
+</td>
+</tr>
+
+
+<!-- RELIEVED -->
+<tr th:if="${displayApplication.status == 'Relieved'}">
+<td colspan=2 class="text-center"><b>Status: </b>You have successfully completed your internship here.
+	<br>Dated: <i><span id= "joiningDateText"  th:text="${#calendars.format(user.join_date, 'dd-MM-yyyy')}"></span></i> to <i><span id= "endDateText"  th:text="${#calendars.format(user.end_date, 'dd-MM-yyyy')}"></span></i></td>
+<td><a class="btn btn-success text-white" id="btnvc"  onclick="viewc()">View Certificate</a></td>
+</tr>
+
+</tbody>
+</table>
+
+<table class="table table-bordered table-hover" th:if="${applicationFound == 'No'}">
+<thead>
+<tr>
+<th colspan=3 class="text-center">No application with the given credentials found. You may apply <a th:href="@{/toregister}">here</a>.</th>
+</tr>
+</thead>
+</table>
+
+<div class="alert alert-info mt-2" role="alert">
+In case of any discrepancy in the above mentioned information, kindly contact <b><i>cris.manoj.05@gmail.com</i></b>
+</div>
+</div>
+
+<!-- File upload when status="started" -->
+<!-- Allocate Modal HTML -->
+<div id="fileUploadModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="fileUploadForm">
+				<div class="modal-header">						
+					<h4 class="modal-title">Upload Files</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+						<input type="hidden" id="userId" name="userId">
+						<div class="form-group col-md-12">
+							<label for="resume">Resume (In PDF:size less than 1 mbs):</label> <input type="file"
+								id="resume" name="resume" accept=".pdf" onchange="previewResume();">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="idproof">ID Proof (In JPEG:size less than 512 KB):</label> <input
+								type="file" id="idproof" name="idproof" accept=".jpeg,.jpg" onchange="previewIdProof();">
+						</div>
+						<div class="form-group col-md-12">
+							<label for="certificate">Certificate (In PDF:size less than 1 mbs):</label> <input
+								type="file" id="certificate" name="certificate" accept=".pdf" onchange="previewCertificate();">
+								<br>
+							<div class="alert alert-info mt-2" role="alert">If you have multiple certificates, merge them into one file and upload here</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<input type="button" name="allocationButton" onclick="uploadFiles()" class="btn btn-success" value="Upload">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- editIndividualFile Modal HTML -->
+<div id="editIndividualFileModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form id="editIndividualFileForm">
+				<div class="modal-header">						
+					<h4 class="modal-title">Edit File</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+				
+					<div class="form-group" hidden=true>
+           					<label>Type: </label> 
+                            <input type="text" id="editIndividualFileType" class="form-control" disabled/>                            
+                    </div>	
+                    					
+					<div class="form-group">
+           					<label> Upload File: </label> 
+                            <input type="file" name="editIndividualFile" id="editIndividualFile" class="form-control" onchange="previeweditIndividual(this);"/>                            
+                    </div>					
+                    
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-danger" data-dismiss="modal" value="Cancel">
+					<input type="button" onclick="uploadeditIndividualFile();" class="btn btn-success" value="Upload">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- div closed for file upload when status="started" -->
+
+
+
+</body>
+
+<script>
+
+$(document).ready(function()
+{
+
+// Trigger action when the contexmenu is about to be shown
+	$('#resumeViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#resumeFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#resumeFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#resumeFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#resumeFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewResume": document.getElementById('resumeViewFile').click(); break;
+	        case "EditResume":  document.getElementById('editIndividualFileType').value = 0; 
+	    						$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#resumeFileList").hide(100);
+	  });
+
+
+
+	//Trigger action when the contexmenu is about to be shown
+	$('#certiViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#certiFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#certiFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#certiFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#certiFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewCerti": document.getElementById('certiViewFile').click(); break;
+	        case "EditCerti": document.getElementById('editIndividualFileType').value = 2;  
+					        	$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#certiFileList").hide(100);
+	  });
+
+
+
+	//Trigger action when the contexmenu is about to be shown
+	$('#idViewFile').bind("contextmenu", function (event) {
+	    
+	    // Avoid the real one
+	    event.preventDefault();
+	  
+	    // Show contextmenu
+	    $("#idFileList").finish().toggle(100).
+	    
+	    // In the right position (the mouse)
+	    css({
+	        top: event.pageY + "px",
+	        left: event.pageX + "px"
+	    });
+	});
+
+
+	// If the document is clicked somewhere
+	$(document).bind("mousedown", function (e) {
+	    
+	    // If the clicked element is not the menu
+	    if (!$(e.target).parents("#idFileList").length > 0) {
+	        
+	        // Hide it
+	        $("#idFileList").hide(100);
+	    }
+	});
+
+
+	// If the menu element is clicked
+	$("#idFileList li").click(function(){
+	    
+	    // This is the triggered action name
+	    switch($(this).attr("data-action")) {
+	        
+	        // A case for each action. Your actions here
+	   
+	        case "ViewId": document.getElementById('idViewFile').click(); break;
+	        case "EditId": document.getElementById('editIndividualFileType').value = 3;  
+					        	$('#editIndividualFileModal').modal('toggle');
+					        	break;
+						  
+	    }
+	  
+	    // Hide it AFTER the action was triggered
+	    $("#idFileList").hide(100);
+	  });
+
+
+});
+
+
+function viewc(){
+	var applicantId=$('#applicationId').html();
+	$.ajax(
+			{
+				url : "/internapp/api/v2/getCerti",
+				type : "GET",
+				
+			data : {
+						"id" : applicantId
+					},
+			success : function(data){
+
+				if(data.length<=0){
+					alert("No certificate uploaded yet");
+				}
+				else{
+			//window.location.href="http://127.0.0.1:3000/"+id.toString()+"/4/"+data;
+			window.open("http://203.176.112.83/uploads/"+applicantId.toString()+"/4/"+data, "_blank");
+				}
+			}
+			});
+}
+
+
+function uploadFiles() {
+	  var emailId= $('#email').html();	 
+	  var userId = $('#applicationId').html();
+	  var form = new FormData();
+	  var file = document.getElementById("resume").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 0);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	    	url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  form = new FormData();
+	  file = document.getElementById("certificate").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 2);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	        url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  form = new FormData();
+	  file = document.getElementById("idproof").files[0];
+	  form.append('file', file);
+	  form.append('id', userId);
+	  form.append('type', 3);
+	  form.append('email', emailId);
+	  $.ajax({
+	    	type: 'POST',
+	    	url: "/internapp/api/v4/upload",
+	        data: form,
+	        processData: false,
+	        contentType: false
+	    	}).then(function(data) {
+	    	});
+	  $.ajax({
+	    	type: 'POST',
+	        url: "/internapp/api/v4/applications/Initiated",
+	        data: { 
+	        	"userId" : userId,
+	    		"status": "Initiated"
+	    	},
+	    	success: function(data) {
+	    		  console.log(data);
+	    		  if(data=="Initiated"){
+	    			  alert("Documents uploaded successfully");
+	    			  window.location.reload();
+	    		  }
+	    		  else{
+	    			  alert("Some error occured uploading while the documents. Please try again.");
+	    			  $('#fileUploadModal').modal('toggle');
+	    		  }
+	    	}
+  });
+ }
+
+ 
+function previewResume(){
+	//alert("in preview PO chk 1");
+     var fileResume=document.getElementById("resume").files;
+     if(fileResume.length>0){
+    	 //alert("in preview PO chk 2");
+    	 var filename = document.getElementById("resume").files[0].name;
+    	 var filesize = document.getElementById("resume").files[0].size;
+    	 if(filesize>1024*1000)
+    		 {
+    		 //alert("in preview PO chk 3");
+    		 alert("Only file size of 1 MB allowed");
+    		 $("#resume").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'pdf') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	    	//alert("in preview PO chk 6");
+ 	   	alert("Only pdf format allowed");
+ 	    $("#resume").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function previewIdProof(){
+	//alert("in preview INVOICE chk 1");
+     var fileId=document.getElementById("idproof").files;
+     if(fileId.length>0){
+    	 //alert("in preview INVOICE chk 2");
+    	 var filename = document.getElementById("idproof").files[0].name;
+    	 var filesize = document.getElementById("idproof").files[0].size;
+    	 if(filesize>512*1000)
+    		 {
+    		 //alert("in preview INVOICE chk 3");
+    		 alert("Only file size of 512 KB allowed");
+    		 $("#idproof").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'jpeg' || checkExt[checkExt.length - 1].toLowerCase() == 'jpg') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	    	//alert("in preview INVOICE chk 6");
+ 	   	alert("Only JPEG format allowed");
+ 	    $("#idproof").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function previewCertificate(){
+	//alert("in preview INVOICE chk 1");
+     var fileId=document.getElementById("certificate").files;
+     if(fileId.length>0){
+    	 //alert("in preview INVOICE chk 2");
+    	 var filename = document.getElementById("certificate").files[0].name;
+    	 var filesize = document.getElementById("certificate").files[0].size;
+    	 if(filesize>1024*1000)
+    		 {
+    		 //alert("in preview INVOICE chk 3");
+    		 alert("Only file size of 1 MB allowed");
+    		 $("#certificate").val('');
+    		 return false;
+    		 }
+    	 var checkExt = filename.split('.');
+    	 
+ 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'pdf') 
+ 	    {   
+ 	    	//proceed
+ 	    }
+ 	    else
+ 	   	{
+ 	    	//alert("in preview INVOICE chk 6");
+ 	   	alert("Only pdf format allowed");
+ 	    $("#certificate").val('');
+ 	   	return false;
+ 	  	}
+ }        
+}
+
+function previeweditIndividual(element){
+	var type = $("#editIndividualFileType").val();
+	if(type == '0' || type == '2'){
+		var fileId=document.getElementById(element.id).files;
+	     if(fileId.length>0){
+	    	 //alert("in preview INVOICE chk 2");
+	    	 var filename = document.getElementById(element.id).files[0].name;
+	    	 var filesize = document.getElementById(element.id).files[0].size;
+	    	 if(filesize>1024*2000)
+	    		 {
+	    		 //alert("in preview INVOICE chk 3");
+	    		 alert("Only file size of 2 MB allowed");
+	    		 $("#" + element.id).val('');
+	    		 return false;
+	    		 }
+	    	 var checkExt = filename.split('.');
+	    	 
+	 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'pdf') 
+	 	    {   
+	 	    	//proceed
+	 	    }
+	 	    else
+	 	   	{
+	 	    	//alert("in preview INVOICE chk 6");
+	 	   	alert("Only pdf format allowed");
+	 	    $("#" + element.id).val('');
+	 	   	return false;
+	 	  	}
+	 }        
+	}
+	else if((type == '3')||(type == '1')){
+		var fileId=document.getElementById(element.id).files;
+	     if(fileId.length>0){
+	    	 //alert("in preview INVOICE chk 2");
+	    	 var filename = document.getElementById(element.id).files[0].name;
+	    	 var filesize = document.getElementById(element.id).files[0].size;
+	    	 if(filesize>1024*1000)
+	    		 {
+	    		 //alert("in preview INVOICE chk 3");
+	    		 alert("Only file size of 1 MB allowed");
+	    		 $("#" + element.id).val('');
+	    		 return false;
+	    		 }
+	    	 var checkExt = filename.split('.');
+	    	 
+	 	    if (checkExt[checkExt.length - 1].toLowerCase() == 'jpg' || checkExt[checkExt.length - 1].toLowerCase() == 'jpeg') 
+	 	    {   
+	 	    	//proceed
+	 	    }
+	 	    else
+	 	   	{
+	 	    	//alert("in preview INVOICE chk 6");
+	 	   	alert("Only jpg/jpeg format allowed");
+	 	    $("#" + element.id).val('');
+	 	   	return false;
+	 	  	}
+	 }  
+	}
+}
+
+function uploadeditIndividualFile(){
+	   if($('#editIndividualFile').val()==''){
+		   alert("Kindly upload a suitable file.");
+		   return;
+	   }
+	   
+	      var form = new FormData();
+		  var file = document.getElementById("editIndividualFile").files[0];
+		  var userId = $('#applicationId').html();
+		  var type = document.getElementById("editIndividualFileType").value;
+		  var url = window.location.origin + "/internapp/uploadEdit";
+		  
+		  form.append('file', file);  //to display the file name after it is selected
+		  form.append('id', userId); 
+		  form.append('type', type);
+		  
+		  $.ajax({
+		    	type: 'POST',
+		        url: url,
+		        data: form,
+		        enctype: 'multipart/form-data',
+		        processData: false,
+		        contentType: false,
+		        success: function(data) {
+		        	if(data=="1"){
+		        		alert("Document uploaded successfully.");
+		        		window.location.reload();
+		        	}
+		        		else{
+		 	    			  alert("Some error occured uploading while the documents. Please try again.");
+		 	    		  }
+		        	 $('#editIndividualFile').val('');
+		        	 $('#editIndividualFileModal').modal('toggle');
+		 	    		},
+		 	        error: function(){
+		 			    	  alert("Some error occured. Please try again");
+		 			    	  $('#editIndividualFile').val('');
+		 			    	  $('#editIndividualFileModal').modal('toggle');
+		 	        } 	
+		  
+		  });
+
+	   return;
+
+}
+
+
+function launchEditIndividualForImage(){
+	document.getElementById('editIndividualFileType').value = 1;  
+	$('#editIndividualFileModal').modal('toggle');
+}
+
+
+</script>
+
+</html>

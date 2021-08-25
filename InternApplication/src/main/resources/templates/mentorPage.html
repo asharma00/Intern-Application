@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+	
+<head>
+	<meta charset="ISO-8859-1" >
+	<title>Intern Application Website</title>
+
+	<style id="antiClickjack"> body{display:none !important;} </style>
+
+	<script type="text/javascript">
+		if(self===top)
+		{
+			var antiClickjack = document.getElementById("antiClickjack");
+			antiClickjack.parentNode.removeChild(antiClickjack);
+		}
+		else
+		{
+			top.location= self.location;
+		}
+	</script>
+
+
+	<link rel="icon" href="../static/images/indian_railways.jpeg" th:href="@{images/indian_railways.jpeg}" type="image/png">
+	<link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+	
+	<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+
+	<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../src/main/resources/static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+	<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css"> 	
+	
+	<script>
+		
+		var numberOfPages = 0;
+		var currentPage = 1;
+		var currentUser = null;
+		var users = [];
+		var files = [];
+		var pendingAttendanceList = [];
+	
+	
+		$(document).ready(function() 
+		{
+			//to get current user
+			getCurrentUserName();
+			getCurrentUserName2();
+			
+			//for displaying attendance of particular student
+			$('#selectName').change(function()
+			{
+				var email=$('#selectName').val();
+				if(email!="")
+				{
+					getPendingAttendanceByMentor2(currentUser, email);
+				}
+				else
+				{
+					alert("Please select Name");
+				}
+			});
+			
+		});
+		
+		
+		//for entry time in roaster table
+		var currentdate = new Date();
+		var getCurrentDate = currentdate.getDate();   //date between 1-9
+		if(getCurrentDate<=9)
+			getCurrentDate = "0"+getCurrentDate;
+		var getCurrentMonth = currentdate.getMonth()+1;    //month between 1-9
+		if(getCurrentMonth<=9)
+			getCurrentMonth = "0"+getCurrentMonth;
+		var getCurrentHour = currentdate.getHours();    //hour between 0-9
+		if(getCurrentHour<=9)
+			getCurrentHour = "0"+getCurrentHour;
+		var getCurrentMinute = currentdate.getMinutes();    //hour between 0-9
+		if(getCurrentMinute<=9)
+			getCurrentMinute = "0"+getCurrentMinute;
+		var getCurrentSecond = currentdate.getSeconds();    //second between 0-9
+		if(getCurrentSecond<=9)
+			getCurrentSecond = "0"+getCurrentSecond;
+		var currDate = currentdate.getFullYear()+"-"+getCurrentMonth+"-"+getCurrentDate+" "+getCurrentHour+":"+getCurrentMinute+":"+getCurrentSecond;
+		
+		
+		//for current email logged in
+		var currentLoggedEmail = $.ajax
+		({
+		    type : "GET",       
+		    url : "/internapp/email",
+		    async:false,
+		    success: function(data) 
+		    {
+		        return data;
+		    }
+		}).responseText;
+		
+		
+		function getCurrentUserName()    //function to get email of logged in user and displaying pending attendance on main screen
+		{
+			$.ajax
+			({
+				url : "/internapp/email",
+				type : "GET",
+				success : function(data)
+				{
+					currentUser = data;
+					$.ajax
+					({
+						url : "/internapp/api/v3/attendance/pendingAttendanceMentor",
+						type : "GET",
+						data : 
+						{
+							"mentorEmail" : currentUser
+						},
+						success : function(data) 
+						{
+							if (data.length > 0) 
+							{
+								$('.removeAttendanceList').empty();
+								$('.removeAttendanceList')
+								.append
+								(
+									"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-3'>Target for Day</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
+									for (i = 0; i < data.length; i++) 
+									{
+										pendingAttendanceList.push(data[i])
+										var dateArray =data[i][4].split("-");
+										var targetWork=data[i][9]; 
+										if(targetWork==null) 
+										{
+											targetWork="N/A";
+										}
+										var workProgress=data[i][10]; 
+										if(workProgress==null) 
+										{
+											workProgress="N/A";
+										}
+										var outTime=data[i][6];
+										if(outTime==null) 
+										{
+											outTime="N/A";
+										}
+										$('.removeAttendanceList')
+										.append(
+											"<li class='list-group-item text-center'>"
+											+ "<div class='row align-items-center'>"
+											+ "<div class='col-1'>"
+											+ data[i][2]
+											+ "</div>"
+											+ "<div class='col-1'>"
+											+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+											+ "</div>"
+											+ "<div class='col-1'>"
+											+ data[i][5]
+											+ "</div>"
+											+ "<div class='col-1'>"
+											+ outTime
+											+ "</div>"
+											+ "<div class='col-1'>"
+											+ data[i][3]
+											+ "</div>"
+											+ "<div class='col-3'>"
+											+ targetWork
+											+ "</div>"
+											+ "<div class='col-3'>"
+											+ workProgress
+											+ "</div>"
+											+ "<div class='col-1'><div class='form-check'>"
+											+ "<div class='row'>"
+											+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+											+ data[i][0]
+											+ data[i][4].split("/")
+											.join('')
+											+ "' id="
+											+ data[i][0]
+											+ data[i][4]
+											+ " value='Accepted'>"
+											+ "<label class='form-check-label' for='decisionRadios"
+											+ data[i][0] + data[i][4]
+										    + "'>Accept</label>"
+											+ "</div>"
+											+ "<div class='col' align='left'>"
+											+ "<input class='form-check-input' type='radio' name='decisionRadios"
+											+ data[i][0]
+											+ data[i][4].split("/")
+											.join('')
+											+ "' id="
+											+ data[i][0]
+											+ data[i][4]
+											+ " value='Rejected'>"
+											+ "<label class='form-check-label' for='"
+											+ data[i][0] + data[i][4] 
+											+ "'>Reject</label>"
+											+"</div>"
+											+ "<div class='col' align='left'>"
+											+ "<input class='form-check-input' type='radio' name='decisionRadios"
+											+ data[i][0]
+											+ data[i][4].split("/")	
+											.join('')
+											+ "' id="
+											+ data[i][0]
+											+ data[i][4]
+											+ " value='Pending' checked> "
+											+ "<label class='form-check-label' for='"
+											+ data[i][0] + data[i][4] 
+											+ "'>Hold</label>"
+											+"</div>"
+											+"</div></div></div></div></li>");
+									}
+							} 
+							else 
+							{
+								$('.removeAttendanceList').empty();
+							}
+						},
+						error : function(error) 
+						{ }
+					});
+				},
+			});
+		}
+		
+		
+		function getCurrentUserName2()   //function to get email of logged in user and name selection regard to logged in user
+		{
+			$.ajax
+			({
+				url : "/internapp/email",
+				type : "GET",
+				success : function(data)
+				{
+					currentUser = data;
+					$.ajax
+					({
+						url : "/internapp/api/v3/attendance/getEmailMentorWise",
+						type : "GET",
+						data:
+						{ 
+							"mentorEmail" : currentUser
+						},
+						contentType: "application/json; charset=utf-8",
+		        		dataType: "json",
+						success : function(data) 
+						{
+							$('#selectName').find('option').remove();
+							$('#selectNameAllowedLeave').find('option').remove();
+							$('#userEmailInMarkAttendance').find('option').remove();
+							if(data.length>0)
+							{
+								$('#selectName').append("<option value=''>SELECT</option>");
+								$('#selectNameAllowedLeave').append("<option value=''>SELECT</option>");
+								$('#userEmailInMarkAttendance').append("<option value=''>SELECT</option>");
+								for(var i=0;i<data.length;i++)
+								{
+									$('#selectName').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+									$('#selectNameAllowedLeave').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+									$('#userEmailInMarkAttendance').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+								}
+							}
+							else
+							{
+								alert("No results found");
+							}
+				
+						},
+						error : function(error) 
+						{ }
+					});
+				}
+			});	
+		}
+		
+		
+		function getPendingAttendanceByMentor2(currentUser, email) 
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/pendingAttendanceByMentor2",
+				type : "GET",
+				data : 
+				{
+					"mentorEmail" : currentUser, 
+					"email" :email
+				},
+				success : function(data) 
+				{
+					if (data.length > 0) {
+					$('.removeAttendanceList').empty();
+					$('.removeAttendanceList')
+					.append(
+						"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-3'>Target for Day</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
+					for (i = 0; i < data.length; i++) 
+					{
+						pendingAttendanceList.push(data[i])
+						var dateArray =data[i][4].split("-");
+						var targetWork=data[i][9]; 
+						if(targetWork==null) {targetWork="N/A";}
+						var workProgress=data[i][10]; 
+						if(workProgress==null) {workProgress="N/A";}
+						var outTime=data[i][6];
+						if(outTime==null) {outTime="N/A";}
+						$('.removeAttendanceList')
+						.append(
+							"<li class='list-group-item text-center'>"
+							+ "<div class='row align-items-center'>"
+							+ "<div class='col-1'>"
+							+ data[i][2]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][5]
+							+ "</div>"
+							+ "<div class='col-1'>"					
+							+ outTime
+							+ "</div>"
+							+ "<div class='col-1'>"					
+							+ data[i][3]
+							+ "</div>"
+							+ "<div class='col-3'>"
+							+ targetWork
+							+ "</div>"
+							+ "<div class='col-3'>"
+							+ workProgress
+							+ "</div>"
+							+ "<div class='col-1'><div class='form-check'>"
+							+ "<div class='row'>"
+							+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Accepted'>"
+							+ "<label class='form-check-label' for='decisionRadios"
+							+ data[i][0] + data[i][4]
+						    + "'>Accept</label>"
+							+ "</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Rejected'>"
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Reject</label>"
+							+"</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Pending' checked> "
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Hold</label>"
+							+"</div>"
+							+"</div></div></div></div></li>");
+						}
+					} 
+					else 
+					{
+						$('.removeAttendanceList').empty();
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+	
+	
+		function markAttendance()      //function for add attendance
+		{
+			if($('#userEmailInMarkAttendance').val()=='')
+			{
+				alert("Kindly select intern first");
+				return;
+			}
+			if($("#date").val()=='')
+			{
+				alert("Kindly Enter attendance Date");
+				return;
+			}
+			var date = $("#date").val().split("-");
+			date = date[2] + "/" + date[1] + "/" + date[0];
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/adminMark",
+				type : "POST",
+				data : 
+				{
+					"email" : $('#userEmailInMarkAttendance').val(),
+					"markDate" : date,
+					"markInTime" : $("#inTime").val(),
+					"markOutTime" : $("#outTime").val(),
+					"workFrom" : $('input[name="workFrom"]:checked').val(),
+					"targetDay" : $("#workForDay").val(),
+					"workStatus" : $("#workStatus").val(), 
+					"currentUser" : currentLoggedEmail,
+					"entryTime" : currDate
+				},
+				success : function(data) 
+				{
+					if (data == 0) 
+					{
+						alert("Marked your attendance already");
+						$('#addAttendanceModal').modal('hide');
+					} 
+					else if(data==1)
+					{
+						alert("Marked your attendance successfully");
+						$('#addAttendanceModal').modal('hide');
+					}
+					else
+					{
+						alert("Some error occured. Attendance not marked.");
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+		
+		
+		function permitLeave()   //function for permit leave
+		{
+			if ($("#selectNameAllowedLeave").val()=="")
+			{
+				alert("Please select Intern to whome you allowed leave beyond 7 days");
+			}
+			else
+			{
+				$.ajax
+				({
+					url : "/internapp/api/v3/permitLeave",
+					type : "POST",
+					data:
+					{ 
+						"email":$("#selectNameAllowedLeave").val()
+					},
+					success : function(data) 
+					{
+						if(data==-1)
+						{
+							alert("Username does not exist");
+							$('#allowLeaveModal').hide();
+						}
+						else if(data==1)
+						{
+							alert("Permission granted to Apply Leave beyond 7 days");
+							$('#allowLeaveModal').hide();
+						}
+						else
+						{
+							alert("Error! Kindly try again");
+							$('#allowLeaveModal').hide();
+						}
+					}
+				});
+			}
+		}
+		
+		
+		function changePassword()   //function for changing password
+		{
+			if ($("#newPassword").val() == $("#confirmNewPassword").val()) 
+			{
+				$.ajax
+				({
+					url : "/internapp/changePassword",
+					type : "POST",
+					data : 
+					{
+						"currentPassword" : $("#currentPassword").val(),
+						"newPassword" : $("#newPassword").val()
+					},
+					success : function(data) 
+					{
+						if (data == 0) 
+						{
+							alert("Changed Password Successfully");
+						} 
+						else if (data == 1) 
+						{
+							//alert(email);
+							alert("Current Password does not match with the actual password");
+						}
+					},
+					error : function(error) 
+					{ }
+				});
+			} 
+			else 
+			{
+				alert("Confirm Password does not match new password")
+			}
+		}
+		
+		
+		function markPendingAttendance() 
+		{
+			for (i = 0; i < pendingAttendanceList.length; i++) 
+			{
+				var	statusField = "decisionRadios" + pendingAttendanceList[i][0] + pendingAttendanceList[i][4].split("/").join('');
+				$.ajax
+				({
+					url : "/internapp/api/v3/attendance/pendingAttendance",
+					type : "POST",
+					async : false,
+					data : 
+					{
+						"id" : pendingAttendanceList[i][0],
+						"markDate" : pendingAttendanceList[i][4],
+						"status" : $('input[name=' + statusField +']:checked').val(),
+						"currentUser" : currentLoggedEmail,
+						"entryTime" : currDate
+					},
+					success : function(data) 
+					{
+						if (data == 0) 
+						{
+							alert("Marked your attendance already");
+						} 
+						else 
+						{
+							alert("Marked your attendance successfully");
+						}
+					},
+					error : function(error) 
+					{ }
+				});
+			}
+			window.location.reload();
+		}
+		
+		
+		function acceptAttendance(id) 
+		{
+			console.log(id);
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/reject",
+				type : "DELETE",
+				data : 
+				{
+					"date" : $("#removeQueryDate").val(),
+					"id" : id,
+					"currentUser" : currentLoggedEmail,
+					"entryTime" : currDate
+				},
+				success : function(data) 
+				{
+					if (data == 0) 
+					{
+						alert("Rejecting attendance was unsuccessfull");
+					} 
+					else 
+					{
+						alert("Rejected your attendance successfully");
+						getAttendanceBasedOnDate();
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+
+
+		function rejectAttendance(id) 
+		{
+			console.log(id);
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/reject",
+				type : "DELETE",
+				data : 
+				{
+					"date" : $("#removeQueryDate").val(),
+					"id" : id,
+					"currentUser" : currentLoggedEmail,
+					"entryTime" : currDate
+				},
+				success : function(data) 
+				{
+					if (data == 0) 
+					{
+						alert("Rejecting attendance was unsuccessfull");
+					} 
+					else 
+					{
+						alert("Rejected your attendance successfully");
+						getAttendanceBasedOnDate();
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+		
+	</script>
+	
+</head>
+
+
+<body>	
+
+	<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#" th:href="@{/mentorPage}"><img 
+		     src="../static/images/0.jpg"
+		     th:src="@{images/0.jpg}"
+		     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+		</a> 
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-expand" id="navbarText"> 
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item mr-4">
+					<div class="dropdown nav-link">
+						<div class="dropdown-menu dropdown-menu-center p-5" style="width: 320px;margin-left:50%;" aria-labelledby="dropdownMenuButton">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</li>
+				
+				
+				<!-- MENU OF TOGGLE NAVIGATION -->
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnDashboard"><a th:href="@{/mentorPage}" style="color:white;">Dashboard</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary" id="btnChangePassword" data-toggle="modal" data-target="#mentorChangePassword">Change Password</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAddAttendance" data-toggle="modal" data-target="#addAttendanceModal">Add attendance</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnPermitLeave" data-toggle="modal" data-target="#allowLeaveModal">Permit leave</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave"><a th:href="@{/mentorLeaves}" style="color:white;">Approve leave</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask"><a th:href="@{/mentorAllocateTasks}" style="color:white;">Allocate Task</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout"><a th:href="@{/logout}" style="color:white;">Logout</a></button>
+				</li>
+				<!-- END OF MENU OF TOGGLE NAVIGATION -->
+				
+			</ul>
+		</div>
+	</nav>
+	
+	
+	<!-- DASHBOARD ROW OPTIONS -->
+	<div class="row dashboardRow">
+		<nav class="col-2 d-none d-md-block sidebar sidebar-mentor">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column pt-4">
+					<li class="nav-item"><a class="nav-link GetAttendanceUserwise" style="padding-bottom:20px;" 
+						th:href="@{/mentorEmailAttendance}">Get attendance user wise</a></li>
+					<li class="nav-item"><a class="nav-link GetLeaveUserwise" style="padding-bottom:20px;"
+						th:href="@{/mentorEmailLeave}">Get leave user wise</a></li>		
+					<li class="nav-item"><a class="nav-link GetAttendanceDatewise" style="padding-bottom:20px;"
+						th:href="@{/mentorDateWiseAttendance}">Get attendance date wise</a></li>	
+					<li class="nav-item"><a class="nav-link ViewHolidays" style="padding-bottom:20px;"
+						th:href="@{/mentorViewHolidays}">View holidays</a></li>	
+					<li class="nav-item"><a class="nav-link ViewQuestionBank" style="padding-bottom:20px;"
+						th:href="@{/mentorViewQuestionBank}">View question bank</a></li>
+					<li class="nav-item"><a class="nav-link ViewApplicationStatus" style="padding-bottom:20px;"
+						th:href="@{/mentorViewApplicationStatus}">View application status</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+		<!-- MAIN SCREEN -->
+		<div class="col-10 sidebar-content">
+			<div class="dashboardContent p-2">
+				<form>
+					<br>
+					<legend class="text-center" style="color:black; font-size:35px; font-family:Microsoft Tai Le; font-weight:bold;">Pending Attendance</legend>
+					<div class="text-center font-weight-bold m-4">
+						Attendance already applied for approval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<i>Select Name:</i>&nbsp;&nbsp;&nbsp;<select id="selectName"><option value="">Select</option></select>
+					</div>
+					<div class="removeAttendanceContent">
+						<ul class='list-group removeAttendanceList'></ul>
+						<div class="text-center m-4" id="mainPage">
+							<button type="button" class="btn btn-primary" onclick="markPendingAttendance()">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<ul class="pagination justify-content-center dashboardPagination">
+			</ul>
+		</div>
+		<!-- END OF MAIN SCREEN -->
+		
+	</div>
+	<!-- END OF DASHBOARD ROW OPTIONS -->
+		
+			
+	<!-- ADD ATTENDANCE MODAL -->
+	<div class="modal fade" id="addAttendanceModal" role="dialog">
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+        		<div class="modal-body">
+         			<div class="form-group">
+						<b>Name</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select  name="userEmail" id="userEmailInMarkAttendance">
+						<option value="SELECT" disabled="disabled">SELECT</option></select>
+					</div>
+	         		<div class="form-group">
+						<label for="date"><b>Date</b></label> <input class="form-control" type="date" value="" id="date">
+					</div>
+					<div class="form-group">
+						<label for="inTime"><b>In Time</b></label> <input class="form-control" type="time" value="" id="inTime">
+					</div>
+					<div class="form-group">
+						<label for="workForDay"><b>Work For Day</b></label> <textarea class="form-control" id="workForDay"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="outTime"><b>Out Time</b></label> <input class="form-control" type="time" value="" id="outTime">
+					</div>
+					<div class="form-group">
+						<label for="workStatus"><b>Work Status</b></label> <textarea class="form-control" id="workStatus"></textarea>
+					</div>
+					<div><b>Work From</b></div>
+					<div class="form-check-inline">
+						<label class="form-check-label" for="radio1">
+                        <input type="radio" class="form-check-input" id="radio1" name="workFrom" value="Home" checked>Home</label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                        <input type="radio" class="form-check-input" id="radio2" name="workFrom" value="Office">Office</label>
+                   	</div>
+					<div class="text-center m-4">
+						<button type="button" class="btn btn-primary" onclick="markAttendance()">Submit</button>
+					</div>
+        		</div>
+         		<div class="modal-footer"> 
+          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+         		</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF ADD ATTENDANCE MODAL-->
+	
+	
+	<!-- PERMIT LEAVE MODAL -->
+	<div class="modal fade" id="allowLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 35%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Permit Leave Beyond 7 Days</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+				</div>
+				<div class="modal-body" style="background-color:#80e5ff;">
+					<div class="form-inline">
+						<div class="form-group">
+							<label for="selectNameAllowedLeave" style="color:black;margin-left:10px;">Select Student</label> 
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<select class="form-control"  id="selectNameAllowedLeave">
+									<option value="">Select</option>
+			                    </select>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" onclick="permitLeave()" class="btn btn-primary">Permit Leave</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF PERMIT LEAVE MODAL -->
+	
+	
+	<!-- CHANGE PASSWORD MODAL -->
+	<div class="modal fade" id="mentorChangePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 35%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Change Password</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+				</div>
+				<div class="modal-body" style="background-color:#80e5ff;">
+					<div class="form-group">
+						<label for="currentPassword">Current Password</label>
+						<input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+					</div>
+					<div class="form-group">
+						<label for="newPassword">New Password</label> 
+						<input	type="password" class="form-control" id="newPassword" placeholder="Enter New Password">
+					</div>
+					<div class="form-group">
+						<label for="confirmNewPassword">Confirm New Password</label>
+						<input type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm New Password">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END OF CHANGE PASSWORD MODAL -->
+
+
+</body>
+</html>

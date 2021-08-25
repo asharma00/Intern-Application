@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns="http://www.w3.org/1999/xhtml"
+
+	xmlns:sec="http://www.thymeleaf.org">
+	<head>
+	
+	<meta charset="ISO-8859-1">
+<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+<link rel="stylesheet" href="../static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+
+  
+        <title>exam</title>
+        <meta charset="ISO-8859-1">
+        
+        <meta  content="width=device-width, initial-scale=1.0">
+        
+        <style>
+        
+        .question-panel{
+
+}
+
+
+
+          .question-label{
+	position: relative;
+	width: 70px;
+	height: 40px;
+	padding-top:17px;
+	float: left;
+	font-size: 21px;
+	color: white;
+	border-radius: 4px;
+	margin-left:15px;
+	text-align: center;
+	margin-top: -65px;
+    background:black;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+}
+        
+        
+        
+              .question{
+              text-align:left;
+	margin-top: 60px;
+	position: relative;
+	padding-top: 25px;
+	width: 78%;
+	min-height: 100px;
+	font-size: 24px;
+	background-color: white;
+box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+
+  .end{
+        height:200px;
+        background-color: white;
+        
+        }
+
+
+                        .answer{
+                         text-align:left;
+	margin-top: 4px;
+	position: relative;
+	width: 78%;
+	min-height: 60px;
+	background-color: #F2D1F7;
+box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+
+   .submitanswer{
+                        background:green;
+                        position:relative;
+                        margin-left:46%;
+           
+           
+                        }
+        
+ 
+        
+        
+        
+        
+        </style>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </head>
+        
+        <body>
+        
+        <script>
+	
+
+	
+	  var user = null;
+  	$(document).ready(function() {
+  		getCurrentUser();
+  	});
+
+  	function getCurrentUser() {
+  		$.ajax({
+  			url : "/internapp/currentUser",
+  			type : "GET",
+  			success : function(data) {
+  				if (data != null) {
+  					user = data;
+  					
+  					getexamtopicwise();
+  				}
+  			},
+  			error : function(error) {
+  			}
+  		});
+  	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function getexamtopicwise() {
+		
+		var set=null;
+		
+		$.ajax({
+			url : "/internapp/api/v3/getsetuser",
+			type : "GET",
+			data:{
+				"id":user[0]
+			},
+			success : function(data) {
+				set=data;
+				
+			
+		
+		$.ajax({
+			url : "/internapp/api/v3/topic/java",
+			type : "GET",
+			data:{
+				"set":set
+			},
+			success : function(data) {
+				
+				if (data != null) {
+					
+					for(var i = 0; i <data.length; i++) {
+						
+						var j=i+1;
+						  var k="ans"+i; 				                            
+							   document.body.innerHTML+='<center>'
+							   
+								   +' <div class="question-panel">'
+							+'<div class="question" >'
+							+'<label class="question-label">'+j+ '</label>'
+							+ data[i].question
+							+'</div>'
+							+'<div class="answer">'
+							
+							+'<input type="radio" id="op1" name="ans'+i+'" value="Option 1">'
+							+'<label for="op1">'+data[i].option1+ '</label><br>'
+							+'<input type="radio" id="op2" name="ans'+i+'" value="Option 2">'
+							+'<label for="op2">'+data[i].option2+ '</label><br>'
+							+'<input type="radio" id="op3" name="ans'+i+'" value="Option 3" >'
+							+'<label for="op3">'+data[i].option3+ '</label><br>'
+							+'<input type="radio"  id="op4" name="ans'+i+'" value="Option 4">'
+							+'<label for="op4" >'+data[i].option4+ '</label><br>'
+							+'<button onclick="submitans('+data[i].id+',\''+k+'\')" class="submitanswer" id="'+data[i].id+'"> submit </button>'	
+							
+							+'</div>'
+						+'</div> </center>'
+						  
+					                      
+						markanswered(data[i].id,k);            
+						
+						
+						                            
+						}
+					
+					
+					document.body.innerHTML+='<div class="end"></div>'
+					
+					
+					
+				}
+				
+			}
+		});
+		
+}
+		
+		
+			
+		});
+	}
+	
+	function submitansdemo(){ //this is not used in the program just made to test the working of the function submitans
+		//alert(d);
+		var ans=document.getElementsByName("ans0");
+        ans[1].checked=true;
+	
+		
+	}
+	
+	
+	function submitans( id,d) {
+		var ans=document.getElementsByName(d);
+		var answ;
+		for(var i=0;i<ans.length;i++)
+			{
+			if(ans[i].checked){
+			
+				answ=ans[i].value;
+				break;
+			}}
+			if(i==ans.length)
+				{
+				alert("please select an option");
+				}
+			
+			else{
+		 
+		$.ajax({
+			url : "/internapp/api/v3/submit",
+			type : "POST",
+			data : {
+				"id" : id,
+				"answer":answ,
+				"uid":user[0]
+				
+			},
+			success : function(data){
+				
+				if (data == 1) {
+					const button=document.getElementById(id);
+					button.disabled=true;
+					$('input[name='+d+']').attr("disabled",true);
+				} else {
+					alert("something went wrong");
+				}
+				
+				
+			}
+			});
+			}
+		 
+		}
+	
+	
+	function markanswered(id,k)
+	{
+
+		$.ajax({
+			url : "/internapp/api/v3/markanswered",
+			type : "GET",
+			data : {
+				"id" : id,
+				"uid":user[0]				
+			},
+			success : function(data){
+				
+				if(data.length>0){   
+					const button =document.getElementById(id);
+					button.disabled=true;
+				//	$("input[name=ans1]").each(function() {
+				//	$(this).attr('disabled', 'disabled');
+				//	}
+				$('input[name='+k+']').attr("disabled",true);
+					var ans=document.getElementsByName(k);
+				
+					for(var i=0;i<ans.length;i++)
+						{
+						if(ans[i].value==data[0].answer){
+						
+							ans[i].checked=true;
+							break;
+						}}
+					
+				}
+				
+				
+				
+				
+				
+				
+			}
+			});
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+        </script>
+        
+  
+  
+   
+   
+   
+    </body>
+    
+   
+</html>

@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Intern Application Website</title>
+
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+
+
+	<link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+	<link rel="icon" href="../static/images/indian_railways.jpeg" th:href="@{images/indian_railways.jpeg}" type="image/png">
+	<link rel="stylesheet" href="../css/style.css" th:href="@{css/style.css}">
+	<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	
+	<script src="../js/main.js" th:src="@{js/main.js}"></script>
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+	<script src="../static/js/jquery.validate.min.js" th:src="@{js/jquery.validate.min.js}"></script>
+	
+	<!-- from admin page-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+
+
+	    <title>exam</title>
+        <meta charset="ISO-8859-1">
+        
+        <meta  content="width=device-width, initial-scale=1.0">
+
+	<script>
+           
+    	
+    	$(document).ready(function() {		
+		
+		$('#projectName').change(function()      //from admin page
+		{
+			var project=$('#projectName').val();
+			if(project=="")
+			{
+				alert("Please select Project");
+				return false;
+			}
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":project
+				},
+				contentType: "application/json; charset=utf-8",
+	           	dataType: "json",
+				success : function(data) 
+				{
+					$('#selectName').find('option').remove();
+					if(data.length>0)
+					{
+						$('#selectName').append("<option value=''>SELECT</option>");
+						$('#selectName').append("<option value='All'>All</option>");
+						for(var i=0;i<data.length;i++)
+						{
+							$('#selectName').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+			
+				},
+				error : function(error) 
+				{ }
+			})
+		});
+		
+		
+		$('#projectNameInRoster').change(function()	     //from admin page
+		{
+			var project=$('#projectNameInRoster').val();
+			if(project=="")
+			{
+				alert("Please select Project");
+				return false;
+			}
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":project
+				},
+				contentType: "application/json; charset=utf-8",
+	           	dataType: "json",
+				success : function(data) 
+				{
+					$('#selectNameInRoster').find('option').remove();
+					if(data.length>0)
+					{
+						$('#selectNameInRoster').append("<option value=''>SELECT</option>");
+						$('#selectNameInRoster').append("<option value='All'>All</option>");
+						for(var i=0;i<data.length;i++)
+						{
+							$('#selectNameInRoster').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error) 
+				{ }
+			})
+		});
+		
+		
+		$('#projectNameAllowedLeave').change(function()        //from admin page
+		{
+			var project=$('#projectNameAllowedLeave').val();
+			if(project=="")
+			{
+				alert("Please select Project");
+				return false;
+			}
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":project
+				},
+				contentType: "application/json; charset=utf-8",
+	        	dataType: "json",
+				success : function(data) 
+				{
+					$('#selectNameAllowedLeave').find('option').remove();
+					if(data.length>0)
+					{
+						$('#selectNameAllowedLeave').append("<option value=''>SELECT</option>");
+						for(var i=0;i<data.length;i++)
+						{
+							$('#selectNameAllowedLeave').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error) 
+				{ }
+			})
+		});
+		
+		
+		$('#selectName').change(function()     //from admin page
+		{
+			var project=$('#projectName').val();
+			var email=$('#selectName').val();
+			if(email!="")
+			{
+				getPendingAttendanceByProject(project, email);
+				$('.rosterAllotmentContent').hide();
+				$('.attendanceContent').show();
+				$('.adminMarksModule').hide();
+			}
+			else
+			{
+				alert("Please select Name");
+			}
+		});
+
+		
+		$('#selectNameInRoster').change(function()      //from admin page
+		{
+			var project=$('#projectNameInRoster').val();
+			var email=$('#selectNameInRoster').val();
+			if(email!="")
+			{
+				getRosterOfIntern(project, email);
+				$('.adminMarksModule').hide();
+				$('.attendanceContent').hide();
+				$('.rosterAllotmentContent').show();
+			}
+			else
+			{
+				alert("Please select Name");
+			}
+		});
+		
+		
+		$('.attendance').click(function()       //from admin page
+		{
+			getPendingAttendance();
+			$('.adminMarksModule').hide();
+			$('.attendanceContent').show();
+			$('.rosterAllotmentContent').hide();
+		});
+		
+		
+		$('.rosterAllotment').click(function()        //from admin page
+		{
+			$('.rosterAllotmentContent').show();
+			$('.attendanceContent').hide();
+			$('.adminMarksModule').hide();
+		});
+		
+	});
+	
+	
+	var oldEmail;    //from admin page
+	var pendingAttendanceList = [];
+	
+	
+	//for entry time in roaster table
+	var currentdate = new Date();
+	var getCurrentDate = currentdate.getDate();   //date between 1-9
+	if(getCurrentDate<=9)
+		getCurrentDate = "0"+getCurrentDate;
+	var getCurrentMonth = currentdate.getMonth()+1;    //month between 1-9
+	if(getCurrentMonth<=9)
+		getCurrentMonth = "0"+getCurrentMonth;
+	var getCurrentHour = currentdate.getHours();    //hour between 0-9
+	if(getCurrentHour<=9)
+		getCurrentHour = "0"+getCurrentHour;
+	var getCurrentMinute = currentdate.getMinutes();    //hour between 0-9
+	if(getCurrentMinute<=9)
+		getCurrentMinute = "0"+getCurrentMinute;
+	var getCurrentSecond = currentdate.getSeconds();    //second between 0-9
+	if(getCurrentSecond<=9)
+		getCurrentSecond = "0"+getCurrentSecond;
+	var currDate = currentdate.getFullYear()+"-"+getCurrentMonth+"-"+getCurrentDate+" "+getCurrentHour+":"+getCurrentMinute+":"+getCurrentSecond;
+	
+	
+	//for current email logged in
+	var currentLoggedEmail = $.ajax
+	({
+	    type : "GET",       
+	    url : "/internapp/email",
+	    async:false,
+	    success: function(data) 
+	    {
+	        return data;
+	    }
+	}).responseText;
+    	      
+
+     function exportTableToExcel(tableID, filename = ''){
+    	
+    	 var downloadLink;
+    	    var dataType = 'application/vnd.ms-excel';
+    	    var tableSelect = document.getElementById(tableID);
+    	    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    	   
+    	    // Specify file name
+    	    filename = filename?filename+'.xls':'excel_data.xls';
+    	   
+    	    // Create download link element
+    	    downloadLink = document.createElement("a");
+    	   
+    	    document.body.appendChild(downloadLink);
+    	   
+    	    if(navigator.msSaveOrOpenBlob){
+    	        var blob = new Blob(['\ufeff', tableHTML], {
+    	            type: dataType
+    	        });
+    	        navigator.msSaveOrOpenBlob( blob, filename);
+    	    }else{
+    	        // Create a link to the file
+    	        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    	   
+    	        // Setting the file name
+    	        downloadLink.download = filename;
+    	       
+    	        //triggering the function
+    	        downloadLink.click();
+    	    }
+    	}
+     
+     
+  	function getResults() {
+  		if($("#fromdate").val()==''|| $("#todate").val()=='')
+  			{
+  			alert("Enter date");
+  			return;
+  			}
+  		var d1 = new Date($("#fromdate").val());
+		var fmilliseconds = d1.getTime();
+	
+		
+		var d2 = new Date($("#todate").val());
+		var tmilliseconds = d2.getTime();
+		
+  	
+  				$.ajax({
+  		  			url : "/internapp/api/v3/adminstudentmarks", 
+  		  			type : "GET",
+  		  			data:{
+  		  				"fromdate":fmilliseconds,
+  		  				"todate" :tmilliseconds
+  		  			},
+  		  			contentType: "application/json; charset=utf-8",
+  		            dataType: "json",
+  		  			success : function(data) {
+  		  			
+  		  				
+  		  				 
+  		  					document.getElementById("div123").innerHTML='';	
+  		  				
+  		  				if(data.length>0)
+  		  					{
+  		  				$('#exportexcel').show();
+  		  							//document.getElementById("div123").innerHTML =document.getElementById("div123").innerHTML+'<div class=bottom style="margin-left:5%;">'
+  		  							var resultTable='<div class=bottom style="margin-left:5%;">'
+  				  							+'<table border = "1" width = "96%" >'
+  				  							
+  				  						  	
+  				  						 	+' <tr>'
+  				  						 	+'<th rowspan="2" width="15%" bgcolor = "yellow"><center>Email</center></td>'
+  				  						 	+'<th rowspan="2" width="12%" bgcolor = "yellow"><center>Full Name</center></td>'
+  				  						 	+'<th rowspan="2" width="12%" bgcolor = "yellow"><center>Contact</center></td>'
+  				  						    +'<th colspan="2" scope="colgroup" width="7.8%" bgcolor = "yellow"><center>Java Marks</center></th>'
+  				  						    +'<th colspan="2" scope="colgroup" width="7.8%" bgcolor = "yellow"><center>Android Marks</center></th>'
+  				  						    +'<th colspan="2" scope="colgroup" width="7.8%" bgcolor = "yellow"><center>SQL Marks</center></th>'
+  				  						    +'<th colspan="2" scope="colgroup" width="7.8%" bgcolor = "yellow"><center>Cloud Marks</center></th>'
+  				  						    +'<th colspan="2" scope="colgroup" width="7.8%" bgcolor = "yellow"><center>Python Marks</center></th>'
+  				  						  	+'<th colspan="2"  scope="colgroup" width="7.8%" bgcolor = "yellow"><center>Total Marks</center></td>'
+  				  						  	
+  				  						  	+'</tr>'
+  				  						  	
+  				  						 	+'<tr>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  						  	+'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  						  	+'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  						  	+'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  						  	+'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+  				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  							+'<th scope="col" width="3.9%" bgcolor = "#FFDAB9"><center>Obtained</center></th>'
+				  						    +'<th scope="col" width="3.9%" bgcolor = "#90EE90"><center>Total</center></th>'
+  				  						 	+'</tr>';
+  				  						 	
+  				  							
+  		  							for(var i=0;i<data.length;i++)
+  		  							{
+  		  							
+  		  							resultTable+='<tr>'
+  		  								
+		  									
+		  							    	+'<td scope="col" width="15%" >'+data[i][0]+'</td>'
+		  							    	+'<td scope="col" width="12%">'+data[i][1]+'</td>'
+		  							    	+'<td scope="col" width="12%"><center>'+data[i][2]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][3]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][11]+'</center></td>'
+		  							    	
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][4]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][12]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][5]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][13]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][6]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][14]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%" ><center>'+data[i][7]+'</center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center>'+data[i][15]+'</center></td>'
+		  							    	+'<td  scope="col" width="3.9%"><center><b>'+data[i][8]+'</b></center></td>'
+		  							    	+'<td scope="col" width="3.9%"><center><b>'+data[i][16]+'</b></center></td>'
+		  							 		+'</tr>';
+		  							 		  		  						}
+  		  					
+  		  						resultTable+= '</table></div>';
+
+  							document.getElementById("div123").innerHTML=resultTable;
+  		  					
+  		  					}
+  		  				
+  		  				else{
+  		  					
+  		  					alert("No exams found between this time period");
+  		  				}
+  		  				
+  		  				
+  		  			},
+  		  			error : function(error) {
+  		  			}
+  		  		});
+  		  	
+  	
+  	}
+  	
+  	
+  	function getPendingAttendance()          //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/v3/attendance/pendingAttendance",
+			type : "GET",
+			success : function(data) 
+			{
+				if (data.length > 0) 
+				{
+					$('.removeAttendanceList').empty();
+					$('.removeAttendanceList')
+					.append("<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-2'>Target for Day</div><div class='col-2'>Work Status</div><div class='col-2'>Mentor</div><div class='col-1'>Actions</div></li>")
+					for (i = 0; i < data.length; i++) 
+					{
+						pendingAttendanceList.push(data[i])
+						var dateArray =data[i][4].split("-");
+						var targetWork=data[i][9]; 
+						if(targetWork==null) {targetWork="N/A";}
+						var workProgress=data[i][10]; 
+						if(workProgress==null) {workProgress="N/A";}
+						var outTime=data[i][6];
+						if(outTime==null) {outTime="N/A";}
+						$('.removeAttendanceList')
+						.append(
+							"<li class='list-group-item text-center'>"
+							+ "<div class='row align-items-center'>"
+							+ "<div class='col-1'>"
+							+ data[i][2]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][5]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ outTime
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][3]
+							+ "</div>"
+							+ "<div class='col-2'>"
+							+ targetWork
+							+ "</div>"
+							+ "<div class='col-2'>"
+							+ workProgress
+							+ "</div>"
+							+"<div class='col-2'>"
+							+ data[i][14]
+							+"</div>"
+							+ "<div class='col-1'><div class='form-check'>"
+							+ "<div class='row'>"
+							+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Accepted'>"
+							+ "<label class='form-check-label' for='decisionRadios"
+							+ data[i][0] + data[i][4]
+							+ "'>Accept</label>"
+							+ "</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Rejected'>"
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Reject</label>"
+							+"</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Pending' checked> "
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Hold</label>"
+							+"</div>"
+							+"</div></div></div></div></li>");
+					}
+				} 
+				else 
+				{
+					$('.removeAttendanceList').empty();
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+	}
+	
+	function changePassword()         //from admin page
+	{
+		if ($("#newPassword").val() == $("#confirmNewPassword").val()) 
+		{
+			$.ajax
+			({
+				url : "/internapp/changePassword",
+				type : "POST",
+				data : 
+				{
+					"currentPassword" : $("#currentPassword").val(),
+					"newPassword" : $("#newPassword").val()
+				},
+				success : function(data) 
+				{
+					if (data == 0) 
+					{
+						alert("Changed Password Successfully");
+					} 
+					else if (data == 1) 
+					{
+						alert("Current Password does not match with the actual password");
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		} 
+		else 
+		{
+			alert("Confirm Password does not match new password")
+		}
+	}
+	
+	
+	function resetpassword()        //from admin page
+	{
+		var pno=null;
+		if ($("#forgotpassuname").val()=="")
+		{
+			alert("Enter a username");
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v4/checkuser",
+				type : "GET",
+				data:
+				{ 
+					"email":$("#forgotpassuname").val()
+				},
+				success : function(data) 
+				{
+					if(data.length<=0)
+					{
+						alert("Username does not exist");
+					}
+					else
+					{
+						pno=data[0][1];
+						$.ajax
+						({
+							url : "/internapp/api/v3/resetpass",
+							type : "POST",
+							data:
+							{ 
+								"email":$("#forgotpassuname").val()
+							},
+							success : function(data) 
+							{
+								alert("Password reset successfull");//password is reset as the username 
+								location.reload();
+							}
+						});
+					}
+				}
+			});
+		}
+	}
+	
+	
+	function permitLeave()       //from admin page
+	{
+		if ($("#selectNameAllowedLeave").val()=="")
+		{
+			alert("Please select Intern to whome you allowed leave beyond 7 days");
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/permitLeave",
+				type : "POST",
+				data:
+				{ 
+					"email":$("#selectNameAllowedLeave").val()
+				},
+				success : function(data) 
+				{
+					if(data==-1)
+					{
+						alert("Username does not exist");
+						$('#allowLeaveModal').hide();
+					}
+					else if(data==1)
+					{
+						alert("Permission granted to Apply Leave beyond 7 days");
+						$('#allowLeaveModal').hide();
+					}
+					else
+					{
+						alert("Error! Kindly try again");
+						$('#allowLeaveModal').hide();
+					}
+				}	
+			});
+		}
+	}
+	
+	
+	function saveSet()       //from admin page
+	{
+		if($("#modalsetname").val()=='')
+		{
+			alert("Enter a set name");
+			return;
+		}
+		$.ajax
+		({
+			url : "/internapp/api/v3/setmastersave",
+			type : "POST",
+			data : 
+			{
+				"setname" : $("#modalsetname").val(),
+				"currentUser" : currentLoggedEmail,
+				"entryTime" : currDate
+			},  
+			success : function(data)
+			{
+				if(data==0)
+				{
+					alert("Something went wrong");
+				}
+				else
+				{
+					alert("Data saved successfully");
+					window.location.reload();
+				}
+			}
+		});
+	}
+	
+	
+	function showSet()         //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/v3/allsets/get",
+			type : "get",
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) 
+			{
+				document.getElementById("showexistingsets123").innerHTML='';
+				if(data.length<=0)
+				{
+					document.getElementById("showexistingsets123").innerHTML='<h1>no data in holiday master yet</h1>'
+				}
+				else
+				{
+				document.getElementById("showexistingsets123").innerHTML='<table class="table table-striped table-responsive-md"  >'
+		        	+'<col style="width:6%">'
+		           	+' <thead>'
+		            +'<tr>'
+		            +'<th style="width:6%">Set Name</th>'
+		            +'</tr>'
+		            +' </thead>'
+		          	+'</table>'
+		           	for(var i=0;i<data.length;i++)
+		           	{
+		        		document.getElementById("showexistingsets123").innerHTML+='<table class="table table-striped table-responsive-md"  >'
+		                    +'<col style="width:6%">'
+		            		+' <tbody>'
+		            		+'<tr>'
+	    					+'<td  style="width:6%">'+data[i]+'</td>'
+	    					+'</tr>'
+						    +' </tbody>' 
+						    +'</table>'
+		          	}
+				}
+			}
+		});
+	}
+	
+	
+	function saveRoasterData(studentId,dateField, workFrom)         //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/v3/roaster/saveIntern",
+			type : "POST",
+			data : 
+			{
+				"studentId" :studentId,
+				"dateValue":dateField,
+				"workFromValue":workFrom,
+				"currentUser" : currentLoggedEmail,
+				"entryTime" : currDate
+			},  
+			success : function(data)
+			{
+				if(data==0)
+				{
+					alert("Something went wrong");
+				}
+				else
+				{
+					alert("Data saved successfully");
+				}
+			}
+		});
+		window.location.reload();
+	}
+	
+	
+	function getRosterOfIntern(project, email)        //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/v3/roaster/getAllIntern",
+			type : "GET",
+			async:false,
+			data : 
+			{
+				"projectName" : project,
+				"email" :email
+			},
+			success : function(data) 
+			{
+				if (data!=null) 
+				{
+					var rowList="<table border=1 style='width:90%;'><tr>";
+						rowList=rowList+"<th rowspan=2>Name/ Date</th>";
+					for(var i=0; i<data.dayList.length; i++)
+					{
+						rowList+="<th>"+data.dayList[i][2]+"</th>"
+					}
+						rowList+="</tr><tr>";
+					for(var i=0; i<data.dayList.length; i++)
+					{
+						rowList=rowList+""
+					 	+"<th>"+data.dayList[i][1]+"</th>"
+					}
+						rowList+="</tr>"; 
+					for(var j=0; j<data.internList.length; j++)
+					{
+						rowList+="<tr><th>"+data.internList[j][2]+"</th>";
+						for(var i=0; i<data.dayList.length; i++)
+						{
+							var workFromValue=null;
+							$.ajax
+							({
+								url : "/internapp/api/v3/roaster/getRoasterData",
+								type : "GET",
+								async:false,
+								data : 
+								{
+									"studentid" : data.internList[j][0],
+									"roasterDate" :data.dayList[i][1]
+								},
+								success : function(data) 
+								{
+									if(data!=null)
+									{
+										if(data!="")
+										{
+											workFromValue =data;
+										}
+									}
+								}
+							});
+							if(workFromValue=="Home")
+							{
+								rowList+="<td><input type='radio' id='workFromHome"+i+"' name='workFrom"+i+"' value='Home'  onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)' checked >"
+								+  "<label for='workFromHome"+i+"'>Home</label><br>"
+								+ "<input type='radio' id='workFromOffice"+i+"' name='workFrom"+i+"' value='Office'  onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)'>"
+								+ "<label for='workFromOffice"+i+"'>Office</label></td>"
+							}
+							else if(workFromValue=="Office")
+							{
+								rowList+="<td><input type='radio' id='workFromHome"+i+"' name='workFrom"+i+"' value='Home'   onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)'>"
+								+  "<label for='workFromHome"+i+"'>Home</label><br>"
+								+ "<input type='radio' id='workFromOffice"+i+"' name='workFrom"+i+"' value='Office' onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)' checked >"
+								+ "<label for='workFromOffice"+i+"'>Office</label></td>"
+							}
+							else
+							{
+								rowList+="<td><input type='radio' id='workFromHome"+i+"' name='workFrom"+i+"' value='Home'  onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)'>"
+								+  "<label for='workFromHome"+i+"'>Home</label><br>"
+								+ "<input type='radio' id='workFromOffice"+i+"' name='workFrom"+i+"' value='Office'  onclick='saveRoasterData("+data.internList[j][0]+" ,\""+data.dayList[i][1]+"\", this.value)'>"
+								+ "<label for='workFromOffice"+i+"'>Office</label></td>"
+							}
+						}
+							rowList+="</tr>";
+					}
+						rowList+="</table>";
+					$('.removeRoasterList').empty();
+					$('.removeRoasterList').append(rowList);
+					$("input[name='workFrom0']").attr('disabled', 'disabled');
+					$("input[name='workFrom1']").attr('disabled', 'disabled');
+				} 
+				else 
+				{
+					$('.removeRoasterList').empty();
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+	}
+	
+	
+	function markAttendance()    //from admin page
+	{
+		var date = $("#date").val().split("-");
+		date = date[2] + "/" + date[1] + "/" + date[0];
+		$.ajax
+		({
+			url : "/internapp/api/v3/attendance/adminMark",
+			type : "POST",
+			data : 
+			{
+				"email" : $('#userEmailInMarkAttendance').val(),
+				"markDate" : date,
+				"markInTime" : $("#inTime").val(),
+				"markOutTime" : $("#outTime").val(),
+				"workFrom" : $('input[name="workFrom"]:checked').val(),
+				"targetDay" : $("#workForDay").val(),
+				"workStatus" : $("#workStatus").val(), 
+				"currentUser" : currentLoggedEmail,
+				"entryTime" : currDate
+			},
+			success : function(data) 
+			{
+				if (data == 0) 
+				{
+					alert("Marked the attendance already");
+				} 
+				else 
+				{
+					alert("Marked the attendance successfully");
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+		window.location.reload();
+	}
+	
+	
+	function getInternOnMarkAttendance(x)     //from admin page
+	{
+		var projectName=x.value;
+		if(projectName=='')
+		{
+			alert("Please select Project first");
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":projectName
+				},
+				contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+				success : function(data) 
+				{
+					$('#userEmailInMarkAttendance').find('option').remove();
+					if(data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							$('#userEmailInMarkAttendance').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error) 
+				{ }
+			})
+		}
+	}
+	
+	
+	function getPendingAttendanceByProject(project, email)       //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/v3/attendance/pendingAttendanceByProject",
+			type : "GET",
+			data : 
+			{
+				"projectName" : project,
+				"email" :email
+			},
+			success : function(data) 
+			{
+				if (data.length > 0) 
+				{
+					$('.removeAttendanceList').empty();
+					$('.removeAttendanceList')
+					.append("<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-2'>Target for Day</div><div class='col-2'>Work Status</div><div class='col-2'>Mentor</div><div class='col-1'>Actions</div></li>")
+					for (i = 0; i < data.length; i++) 
+					{
+						pendingAttendanceList.push(data[i])
+						var dateArray =data[i][4].split("-");
+						var targetWork=data[i][9]; 
+						if(targetWork==null) {targetWork="N/A";}
+						var workProgress=data[i][10]; 
+						if(workProgress==null) {workProgress="N/A";}
+						var outTime=data[i][6];
+						if(outTime==null) {outTime="N/A";}
+						$('.removeAttendanceList')
+						.append(
+							"<li class='list-group-item text-center'>"
+							+ "<div class='row align-items-center'>"
+							+ "<div class='col-1'>"
+							+ data[i][2]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][5]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ outTime
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][3]
+							+ "</div>"
+							+ "<div class='col-2'>"
+							+ targetWork
+							+ "</div>"
+							+ "<div class='col-2'>"
+							+ workProgress
+							+ "</div>"
+							+"<div class='col-2'>"
+							+ data[i][14]
+							+"</div>"
+							+ "<div class='col-1'><div class='form-check'>"
+							+ "<div class='row'>"
+							+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Accepted'>"
+							+ "<label class='form-check-label' for='decisionRadios"
+							+ data[i][0] + data[i][4]
+							+ "'>Accept</label>"
+							+ "</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Rejected'>"
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Reject</label>"
+							+"</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Pending' checked> "
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Hold</label>"
+							+"</div>"
+							+"</div></div></div></div></li>");
+					}
+				} 
+				else 
+				{
+					$('.removeAttendanceList').empty();
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+	}
+	
+	
+	function markPendingAttendance()     //from admin page
+	{
+		for (i = 0; i < pendingAttendanceList.length; i++) 
+		{
+			var	statusField = "decisionRadios" + pendingAttendanceList[i][0]
+				+ pendingAttendanceList[i][4].split("/").join('');
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/pendingAttendance",
+				type : "POST",
+				async : false,
+				data : 
+				{
+					"id" : pendingAttendanceList[i][0],
+					"markDate" : pendingAttendanceList[i][4],
+					"status" : $('input[name=' + statusField +']:checked').val(),
+					"currentUser" : currentLoggedEmail,
+					"entryTime" : currDate
+				},
+				success : function(data) 
+				{
+					if (data == 0) 
+					{
+						alert("Marked the attendance already");
+					} 
+					else 
+					{
+						alert("Marked the attendance successfully");
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+		window.location.reload();
+	}
+	
+	
+	function editMentorDetails()     //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/mentor/updateMentorDetails",
+			type : "POST", 
+			data : 
+			{
+				"newEmail" : $('#mentorEmail2').val(),
+				"oldEmail" : oldEmail,
+				"name" : $("#mentorName2").val(),
+				"designation" : $("#mentorDesignation2").val(),
+				"currentUser" : currentLoggedEmail,
+				"entryTime" : currDate
+			},
+			success : function(data)
+			{
+				if(data!=0)
+					alert("Details updated successfully");
+				else
+					alert("Details cannot be updated");
+			},
+			error : function(data)
+			{ }
+		});
+		window.location.reload();
+	}
+	
+	
+	function asignMentor()   //from admin page
+	{
+		var internEmail= $('#internNameInAsignedMentor').val();
+		var existingMentorEmail=$('#existingMentorEmailInAsignMentor').val();
+		var newMentorEmail=$('#newMentorName').val();
+		if(existingMentorEmail=='')
+		{
+			$.ajax
+			({
+				url : "/internapp/api/mentor/saveNewMentor",
+				type : "POST",
+				data : 
+				{
+					"internEmail" : internEmail,
+					"newMentor" :newMentorEmail
+				},
+				success : function(data) 
+				{
+					if (data == 1) 
+					{
+						alert("Mentor Asigned Successfully");
+					} 
+					else if (data == 1) 
+					{
+						alert("Failed to Save. Kindly tray after sometimes.");
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+		else
+		{
+			if(existingMentorEmail==newMentorEmail)
+			{
+				alert("Existing Mentor and New Mentor should not be same");
+				return false;
+			}
+			else
+			{
+				$.ajax
+				({
+					url : "/internapp/api/mentor/updateExistingMentor",
+					type : "POST",
+					data : 
+					{
+						"internEmail" : internEmail,
+						"existingMentor": existingMentorEmail,
+						"newMentor" :newMentorEmail
+					},
+					success : function(data) 
+					{
+						if (data == 1) 
+						{
+							alert("Mentor Update Successfully");
+						} 
+						else if (data == 1) 
+						{
+							alert("Failed to Update. Kindly tray after sometimes.");
+						}
+					},
+					error : function(error) 
+					{ }
+				});
+			}
+		}
+		window.location.reload();
+	}
+	
+	
+	function addMentor()    //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/mentor/add/addMentor",
+			type : "POST",
+			data : 
+			{
+				"email" : $('#mentorEmail').val(),
+				"name" : $("#mentorName").val(),
+				"designation" : $("#mentorDesignation").val(),
+				"currentUser" : currentLoggedEmail,
+				"entryTime" : currDate
+			},
+			success : function(data) 
+			{
+				if (data == 0) 
+				{
+					alert("Mentor Already exist");
+				} 
+				else 
+				{
+					alert("Mentor Added successfully");
+					$.ajax
+					({
+						url : "/internapp/api/v1/mailMentor",
+						type : "GET",
+						data : 
+						{
+							"mentorEmail" : $('#mentorEmail').val(),
+							"mentorFullName" : $('#mentorName').val()
+						},
+						success : function()
+						{ },
+						error : function(error) 
+						{ }
+					});
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+		window.location.reload();
+	}
+	
+	
+	function retrieveExistingMentor()      //from admin page
+	{
+        $.ajax
+        ({
+			url : "/internapp/api/mentor/get/getMentor",
+            type : "get",
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) 
+			{
+				var divElement="";
+				if(data!=null)
+				{
+					divElement+="<p style='text-align:center;background-color:powderblue;'>Existing Mentor</p>"
+						+"<table id='mentor' align='center'><tr><th>Name</th><th>Email</th><th>Designation</th><th>Edit</th><th>Delete</th></tr>";
+					if(data.length>=0)
+					{
+					 	for(var i=0;i<data.length;i++)
+						divElement+="<tr>  <td>"+data[i].name+"</td>  <td>"+data[i].email+"</td>  <td>"+data[i].designation+"</td>  <td><a class='btn btn-success' data-toggle='modal' data-target='#editMentorModal' id='editMentor"+i+"' onclick='getOldMail(this.id)'><i class='fas fa-user-edit ml-2'></i></a></td>  <td><a class='btn btn-danger' id='deleteMentorEmail"+i+"' onclick='deleteMentorDetails(this.id)'><i class='fas fa-user-times ml-2'></i></a></td>  </tr>" ;
+					}
+					else
+					{
+						divElement="<p style='text-align:center;background-color:powderblue;'>No Mentor Exist</p>"
+					}
+				}
+				$('#existingMentor').html(divElement);
+			},
+			error : function(error) 
+			{ }
+		});
+	}
+	
+	
+	function existingMentor()     //from admin page
+	{
+		$.ajax
+		({
+			url : "/internapp/api/mentor/get/getMentor",
+            type : "get",
+			contentType: "application/json; charset=utf-8",
+            dataType: "json",
+			success : function(data) 
+			{
+				$('#newMentorName').find('option').remove().end();
+				$('#newMentorName').append("<option value=''>SELECT</option>");
+				if(data!=null)
+				{
+					if(data.length>=0)
+					{
+					 	for(var i=0;i<data.length;i++)
+						$('#newMentorName').append("<option value='"+data[i].email+"'>"+data[i].name+"/"+data[i].designation+"</option>");
+					}
+				}
+			},
+			error : function(error) 
+			{ }
+		});
+	}
+	
+	
+	function getOldMail(id)     //from admin page
+	{
+    	var currRow = $("#"+id).closest("tr");    // Find the row
+    	var currName = currRow.find("td:eq(0)").text();
+    	var currMail = currRow.find("td:eq(1)").text();
+    	var currDesg = currRow.find("td:eq(2)").text();
+    	$('#mentorName2').val(currName);
+    	$('#mentorEmail2').val(currMail);
+    	$('#mentorDesignation2').val(currDesg);
+    	oldEmail = currMail;
+	}
+	
+	
+	function deleteMentorDetails(id)    //from admin page
+	{
+		if (confirm('Are you sure you want to delete the mentor?'))
+		{
+			var currRow = $("#"+id).closest("tr");    // Find the row
+	    	var currMail = currRow.find("td:eq(1)").text();
+			$.ajax
+			({
+				url : "/internapp/api/mentor/deleteMentorDetails",
+				type : "POST",
+				data : 
+				{
+					"oldEmail" : currMail,
+					"currentUser" : currentLoggedEmail,
+					"entryTime" : currDate	
+				},
+				success : function(data)
+				{
+					if(data!=0)
+					{
+						alert("Details deleted successfully")
+					}
+					else
+						alert("Details cannot be deleted");
+				},    
+				error : function(data)
+				{ }
+			});
+		}
+		else
+		{
+			alert("Delete action not performed")
+		}
+		window.location.reload();
+	}
+	
+	
+	function getExistingMentor(y)     //from admin page
+	{
+		var internEmail=y.value;
+		if(internEmail=='')
+		{
+			alert("Please Select Intern to asign Mentor");
+			return false;
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/mentor/get/getMentorByMailId",
+				type : "GET",
+				data:
+				{ 
+					"email":internEmail
+				},
+				contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+				success : function(data) 
+				{
+					if(data.length>0)
+					{
+				        $('#existingMentorInAsignMentor').val(data[0][1]+"/"+data[0][2]);
+				        $('#existingMentorEmailInAsignMentor').val(data[0][0]);
+					}
+					else
+					{
+						$('#existingMentorInAsignMentor').val('');
+						$('#existingMentorEmailInAsignMentor').val('');
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+	}
+	
+	
+	function getInternOnMarkAttendance(x)     //from admin page
+	{
+		var projectName=x.value;
+		if(projectName=='')
+		{
+			alert("Please select Project first");
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":projectName
+				},
+				contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+				success : function(data) 
+				{
+					$('#userEmailInMarkAttendance').find('option').remove();
+					if(data.length>0)
+					{
+						for(var i=0;i<data.length;i++)
+						{
+							$('#userEmailInMarkAttendance').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error) 
+				{ }
+			})
+		}
+	}
+	
+	
+	function getInternInMentor(x)      //from admin page
+	{
+		var projectName=x.value;
+		if(projectName=='')
+		{
+			alert("Please select Project first");
+		}
+		else
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailProjectWise",
+				type : "GET",
+				data:
+				{ 
+					"project":projectName
+				},
+				contentType: "application/json; charset=utf-8",
+	            dataType: "json",
+				success : function(data) 
+				{
+					$('#internNameInAsignedMentor').find('option').remove();
+					if(data.length>0)
+					{
+						$('#internNameInAsignedMentor').append("<option value=''>SELECT</option>");
+						for(var i=0;i<data.length;i++)
+						{
+							$('#internNameInAsignedMentor').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error) 
+				{ }
+			})
+		}
+	}
+
+	
+	</script>
+	
+	<style>
+	
+		.tile_div a {         /*from admin page*/
+    display: block;
+    float: left;
+    height: 40px;
+    width: 92.5px;
+    margin-right: 0px;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    color:white;
+    border-radius: 8px;
+	}
+	
+	.bts{				/*from admin page*/
+	 border-radius: 10px;
+	 background-color:orange;
+	 border:none;
+	}
+	
+	#mentor {           /*from admin page*/
+	  font-family: Arial, Helvetica, sans-serif;
+	  border-collapse: collapse;
+	 
+	  width: 750px;
+	  margin-left: auto;
+	  margin-right: auto;
+	  margin-bottom:10px;
+	}
+	
+	#mentor td, #mentor th {              /*from admin page*/
+	  border: 1px solid #ddd;
+	  padding: 10px;
+	  text-align: left;
+	}
+	
+	#mentor tr:nth-child(even){background-color: #f2f2f2;}         /*from admin page*/
+	
+	#mentor tr:hover {background-color: #ddd;}         /*from admin page*/
+	
+	#mentor th {                 /*from admin page*/
+	  padding-top: 8px;
+	  padding-bottom: 8px;
+	  text-align: center;
+	  background-color: #4CAF50;
+	  color: white;
+	}
+		
+	</style>
+        
+</head>
+        
+        
+<body style="background-color:#F0F8FF;">
+        
+	<nav class="navbar navbar-expand-tg navbar-dark bg-dark">   
+		<a class="navbar-brand" href="#" th:href="@{/}">
+			<img src="../static/images/0.jpg" th:src="@{images/0.jpg}" style="width:17%;margin-right:5%;"/>
+		     <span style="font-size:28px;">Intern Application Website</span>
+		</a>
+     	
+     	<div class="tile_div">      
+			<button class="bts"> <a th:href="@{/searchApplication}" style="color:white;">Application</a></button>
+		 	<button class="bts"> <a th:href="@{/setwisepaper}" style="color:white;">Set-Wise</a></button>
+		 	<button class="bts"> <a th:href="@{/leaves}" style="color:white;">Leaves</a></button>
+		 	<button class="bts"> <a th:href="@{/adminmarks}" style="color:white;">Results</a></button>
+		 	<button class="bts"> <a th:href="@{/holidays/list}" style="color:white;">Holiday Type</a></button>
+		 	<button class="bts"> <a th:href="@{/setholidaymapp}" style="color:white;">Set Holiday</a></button>
+		 	<button class="bts"> <a th:href="@{/questions/list}" style="color:white;">Set Question</a></button>
+			<button class="bts"> <a th:href="@{/logout}" style="color:white;">Logout</a></button>
+		</div>
+     	
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+		</button>     
+
+		<div class="collapse navbar-collapse"id="navbarText">      
+			<ul class="navbar-nav ml-auto">
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+					<div class="dropdown nav-link">
+						<a class="btn btn-primary " data-target="#changePassword"
+							data-toggle="modal" aria-haspopup="true" aria-expanded="false"  style="width:auto;float:right;margin-top:-1%;height:40px;margin-right:2%;">Change Password</a> 
+						<div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" style="max-width: 35%;" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Change Password</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body" style="background-color:#80e5ff;">
+										<div class="form-group">
+											<label for="currentPassword" style="color:black;">Current Password</label> 
+											<input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+										</div>
+										<div class="form-group">
+											<label for="newPassword" style="color:black;">New Password</label> 
+											<input type="password" class="form-control" id="newPassword" placeholder="Enter Password">
+										</div>
+										<div class="form-group">
+											<label for="confirmNewPassword" style="color:black;">Confirm New Password</label> 
+											<input type="password" class="form-control" id="confirmNewPassword" placeholder="Enter Password">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+					<button class="btn btn-primary nav-link attendance" style="width:auto;float:right;margin-top:-2.7%;height:40px;margin-right:12.5%;">Attendance</button>
+				</li>		
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+					<a th:href="@{/admin}"><button class="btn btn-primary nav-link dashboard" style="width:auto;float:right;margin-top:-2.7%;height:40px;margin-right:18.5%;color:white;">Dashboard</button></a>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+					<div class="dropdown nav-link">
+						<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#forgotpasswordmodal" style="width:auto;float:right;margin-top:-3.2%;height:40px;margin-right:24.2%;">Reset password?</a>
+						<div class="modal fade" id="forgotpasswordmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="forgotpasswordmodallLabel" style="color:black;">Reset password</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body" style="background-color:#80e5ff;">
+										<div class="form-group">
+											<label for="forgotpassuname" style="color:black;"> Username</label> 
+											<input class="form-control" type="text" value="" id="forgotpassuname" placeholder="Enter username">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" onclick="resetpassword()" class="btn btn-primary">Reset password</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+					<div class="dropdown nav-link">
+						<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#allowLeaveModal" style="width:auto;float:right;margin-top:-4.3%;height:40px;margin-right:34.2%;">Permit Leave</a>
+							<div class="modal fade" id="allowLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" style="max-width: 35%;" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Permit Leave Beyond 7 Days</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body" style="background-color:#80e5ff;">
+											<div class="form-inline">
+												<div class="form-group" >
+													<label for="projectNameAllowedLeave" style="color:black;">Select Project</label> 
+													<select class="form-control"  id="projectNameAllowedLeave">
+														<option value="">Select</option>
+						                                <option value="All">All</option>
+						                                <option value="BELA">BELA</option>
+			                               				<option value="BLW">BLW</option>
+			                                			<option value="MCFRBL">MCFRBL</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label for="selectNameAllowedLeave" style="color:black;margin-left:10px;">Select Project</label> 
+													<select class="form-control"  id="selectNameAllowedLeave">
+														<option value="">Select</option>
+				                                  	</select>
+												</div>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="button" onclick="permitLeave()" class="btn btn-primary">Permit Leave</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+			 		</li>
+			<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+				<button class="btn btn-primary nav-link rosterAllotment" style="width:auto;float:right;margin-top:-4.85%;height:40px;margin-right:42.4%;">Roaster Allotment</button>
+			</li>		
+			<li sec:authorize="isAuthenticated()" class="nav-item mr-4 active">
+				<div class="dropdown nav-link">
+					<a class="btn btn-primary" href="#" data-toggle="modal" data-target="#setmastermodal" style="width:auto;float:right;margin-top:-5.35%;height:40px;margin-right:51.5%;">Set Master</a>
+						<div class="modal fade" id="setmastermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="forgotpasswordmodallLabel" style="color:black;">Set Master</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body" style="background-color:#80e5ff;">
+										<div class="form-group">
+											<label for="modalsetname" style="color:black;">Set name</label> 
+											<input class="form-control" type="text" value="" id="modalsetname" placeholder="Enter set name">
+											<div id="showexistingsets123"></div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" onclick="saveSet()" class="btn btn-primary">Submit</button>
+										<button type="button" onclick="showSet()" class="btn btn-primary">Show existing sets</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	    
+	<div class="adminMarksModule">    
+	<button type="button" style="float:left;padding:0px; margin-top:auto;" class="btn btn-primary">
+		<a class="nav-link" th:href="@{/admin}" style="color:white;">Back</a>
+	</button>
+        <br>
+        <button type="button"  class="btn btn-info float-right" onclick = "exportTableToExcel('div123', 'result')" id="exportexcel" style="display:none;">Export To Excel</button>
+         <div id="exportExcelContent">
+       
+      <center><b style ="color:red;font-size:30px;">Report of the marks obtained by the students!!!</b></center>
+       
+    <div class="my-4" >
+                   
+                        <form style="text-align:center;">
+                    
+ 							 <label style="font-size:150%;">From</label>
+  							<input type="date"  id="fromdate" name="fromDate">
+  							
+  							
+  							
+  							 <label style="font-size:150%;">To</label>
+  							<input type="date"  id="todate" name="toDate">
+  							
+  							
+  							<button type="button"  class="btn btn-primary" onclick = "getResults() " id="btnsubmit">Submit</button>
+  							
+						</form>
+						<div id="div123">
+						
+						</div>
+						
+    
+    </div>
+ 
+ </div>
+ </div>
+ 
+
+	<div class="rosterAllotmentContent" style="display: none">      <!-- from admin page -->
+		<div class="text-center font-weight-bold m-4"><i>Select Project:</i>&nbsp;&nbsp;&nbsp;
+			<select id="projectNameInRoster">
+				<option value="">Select</option>
+				<option value="BELA">BELA</option>
+				<option value="BLW">BLW</option>
+				<option value="MCFRBL">MCFRBL</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Select Name:</i>&nbsp;&nbsp;&nbsp;
+			<select id="selectNameInRoster"><option value="">Select</option></select>
+		</div>
+		<div class="removeRoasterContent">
+			<div class= 'removeRoasterList'></div>	
+		</div>
+	</div>
+	
+	
+	<div class="attendanceContent" style="display: none">       <!-- from admin page -->
+		<center>
+			<form style="width: 96%; margin: auto;">
+				<button type="button" style="margin-right:auto;" class="btn btn-primary">
+					<a class="nav-link" th:href="@{/emailattendance}" style="color:white;" >Get Attendance User Wise</a>
+			   	</button>
+			   	<button type="button" style="margin-left:auto; margin-right:auto;" class="btn btn-primary">
+					<a class="nav-link" th:href="@{/emailleave}" style="color:white;" >Get Leave User wise</a>
+			 	</button>
+			   	<button type="button" style="margin-left:auto; margin-right:auto;" class="btn btn-primary">
+					<a class="nav-link" th:href="@{/datewiseattendance}" style="color:white;" >Get Attendance Date Wise</a>
+			   	</button>
+	 			<button type="button" class="btn btn-primary btn-lg" style="margin-left:auto; margin-right:auto;" data-toggle="modal" data-target="#addAttendanceModal">Add Attendance</button> 
+	      		<button type="button" class="btn btn-primary btn-lg" style="margin-left:auto; margin-right:auto;" data-toggle="modal" data-target="#addMentorModal"   onclick="retrieveExistingMentor()">Add Mentor</button>
+	      		<button type="button" class="btn btn-primary btn-lg" style="margin-left:auto;" data-toggle="modal" data-target="#asignMentorModal"   onclick="existingMentor()">Assign Mentor</button> 
+	      		<div class="text-center font-weight-bold m-4">Attendance already applied for approval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Select Project:</i>&nbsp;&nbsp;&nbsp;
+	      			<select id="projectName">
+						<option value="">Select</option>
+						<option value="All">All</option>
+						<option value="BELA">BELA</option>
+						<option value="BLW">BLW</option>
+						<option value="MCFRBL">MCFRBL</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Select Name:</i>&nbsp;&nbsp;&nbsp;<select id="selectName"><option value="">Select</option></select>
+				</div>
+				<div class="removeAttendanceContent">
+					<ul class='list-group removeAttendanceList'>
+					</ul>
+				<div class="text-center m-4">
+					<button type="button" class="btn btn-primary"
+						onclick="markPendingAttendance()">Submit</button>
+				</div>
+			</div>
+	    	</form>
+    	</center>
+	</div>
+	
+	
+	<div class="modal fade" id="addAttendanceModal" role="dialog">   <!-- from admin page -->
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+        		<div class="modal-body">
+         			<div class="form-group">
+						<b>Project:</b>&nbsp;
+						<select  name="projectNameInMarkAttendance" id="projectNameInMarkAttendance" onchange="getInternOnMarkAttendance(this)">
+							<option value="">SELECT</option>
+			                <option value="BELA">BELA</option>
+			                <option value="BLW">BLW</option>
+			                <option value="MCFRBL">MCFRBL</option>
+						</select>&nbsp;&nbsp;&nbsp;
+						<b>Name:</b>&nbsp;<select  name="userEmail" id="userEmailInMarkAttendance"><option value="SELECT" disabled="disabled">SELECT</option></select>
+					</div>
+         			<div class="form-group">
+						<label for="date"><b>Date</b></label> <input class="form-control" type="date" value="" id="date">
+					</div>
+					<div class="form-group">
+						<label for="inTime"><b>In Time</b></label> <input class="form-control" type="time" value="" id="inTime">
+					</div>
+					<div class="form-group">
+						<label for="workForDay"><b>Work For Day</b></label> <textarea class="form-control" id="workForDay"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="outTime"><b>Out Time</b></label> <input class="form-control" type="time" value="" id="outTime">
+					</div>
+					<div class="form-group">
+						<label for="workStatus"><b>Work Status</b></label> <textarea class="form-control" id="workStatus"></textarea>
+					</div>
+					<div><b>Work From</b></div>
+					<div class="form-check-inline">
+						<label class="form-check-label" for="radio1">
+                        <input type="radio" class="form-check-input" id="radio1" name="workFrom" value="Home" checked>Home</label>
+                    </div>
+               		<div class="form-check-inline">
+                        <label class="form-check-label" for="radio2">
+                        <input type="radio" class="form-check-input" id="radio2" name="workFrom" value="Office">Office</label>
+                   	</div>
+					<div class="text-center m-4">
+						<button type="button" class="btn btn-primary" onclick="markAttendance()">Submit</button>
+					</div>
+        		</div>
+         		<div class="modal-footer"> 
+          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+         		</div>
+			</div>
+    	</div>
+  	</div>
+  	
+  	
+  	<div class="modal fade" id="addMentorModal" role="dialog">     <!-- from admin page -->
+    	<div class="modal-dialog modal-lg">
+    		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+        		<div class="modal-body">
+        			<center>
+	        			<table>
+	        				<tr><th style='text-align:center;'>Mentor Name</th><th style='text-align:center;'>Email address</th><th style='text-align:center;'>Designation</th></tr>
+					        <tr>
+						        <td><input type="email" class="form-control" id="mentorName" aria-describedby="nameHelp" placeholder="Enter Name"></td>
+								<td><input type="email" class="form-control" id="mentorEmail" aria-describedby="emailHelp" placeholder="Enter email"></td>
+								<td>
+									<select class="form-control" id="mentorDesignation">
+								       <option value="">SELECT</option>
+								       <option value="Programmer">Programmer</option>
+								       <option value="Asst. Software Engg">Asst. Software Engg</option>
+								       <option value="Asst. Manager">Asst. Manager</option>
+	        						   <option value="Dy. Manager">Dy. Manager</option>
+	       							   <option value="Software Engg">Software Engg</option>
+	        						   <option value=" Sr Software Engg">Sr Software Engg</option>
+								       <option value="Project Engg">Project Engg</option>
+								       <option value="Sr Project Engg">Sr Project Engg</option>
+								       <option value="P Project Engg">P Project Engg</option>
+	     							</select>
+	     						</td>
+	     					</tr>
+	     					<tr>
+	     						<td colspan=3 style='text-align:center;'>
+	     							<button type="button" class="btn btn-primary" onclick="addMentor()">Submit</button>
+	     						</td>
+	     					</tr>
+	        			</table>
+        			</center>
+  				</div>
+       			<div id="existingMentor"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="asignMentorModal" role="dialog">    <!-- from admin page -->
+    	<div class="modal-dialog modal-lg">
+    		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+        		<div class="modal-body">
+        			<table>
+				        <tr><th style='text-align:center;width:15%;'>Select Project</th><th style='text-align:center;width:25%;'>Select Name</th><th style='text-align:center;width:30%;'>Existing Mentor</th><th style='text-align:center;width:30%;'>New Mentor</th></tr>
+				        <tr>
+        					<td>
+        						<select class="form-control" id="projectInAsignMentor"  onchange="getInternInMentor(this)" >
+        							<option value="">SELECT</option>
+							        <option value="BELA">BELA</option>
+							        <option value="BLW">BLW</option>
+							        <option value="MCFRBL">MCFRBL</option>
+        						</select>
+        					</td>
+        					<td>
+        						<select class="form-control" id="internNameInAsignedMentor"  onchange="getExistingMentor(this)">
+        							<option value="">SELECT</option>
+        						</select>
+        					</td>
+							<td><input type="text" class="form-control" id="existingMentorInAsignMentor" readonly>
+								<input type='hidden'  id='existingMentorEmailInAsignMentor'/>
+							</td>
+							<td>
+								<select class="form-control" id="newMentorName">
+       								<option value="">SELECT</option>
+       							</select>
+       						</td>
+     					</tr>
+     					<tr>
+     						<td colspan=4 style='text-align:center;'>
+     							<button type="button" class="btn btn-primary" onclick="asignMentor()">Assign Mentor</button>
+     						</td>
+     					</tr>
+        			</table>
+  				</div>
+      		</div>
+    	</div>
+  	</div>
+  	
+  	
+  	<div class="modal fade" id="editMentorModal" role="dialog">   <!-- from admin page -->
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+        		<div class="modal-header">
+          			<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		</div>
+        		<div class="modal-body">
+	         		<div class="form-group">
+						<label for="mentorName2"><b>Mentor Name</b></label> 
+						<input type="text" class="form-control" id="mentorName2" aria-describedby="nameHelp" disabled>
+					</div>
+					<div class="form-group">
+						<label for="mentorEmail2"><b>Email address</b></label> 
+						<input type="email" class="form-control" id="mentorEmail2" aria-describedby="nameEmail">
+					</div>
+					<div class="form-group">
+						<label for="mentorDesignation2"><b>Designation</b></label> 
+						<select class="form-control" id="mentorDesignation2">
+					    	<option value="">SELECT</option>
+					       	<option value="Programmer">Programmer</option>
+					       	<option value="Asst. Software Engg">Asst. Software Engg</option>
+					       	<option value="Asst. Manager">Asst. Manager</option>
+					        <option value="Dy. Manager">Dy. Manager</option>
+					       	<option value="Software Engg">Software Engg</option>
+					        <option value=" Sr Software Engg">Sr Software Engg</option>
+					       	<option value="Project Engg">Project Engg</option>
+					       	<option value="Sr Project Engg">Sr Project Engg</option>
+					       	<option value="P Project Engg">P Project Engg</option>
+				     	</select>
+					</div>
+					<div class="text-center m-4">
+						<input type="button" class="btn btn-primary" name="submit" value="Submit" onclick="editMentorDetails()" />
+					</div>
+        		</div>
+         		<div class="modal-footer"> 
+          			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+         		</div>
+			</div>
+		</div>
+	</div>
+ 
+   
+</body>
+    
+  
+
+</html>
+	
