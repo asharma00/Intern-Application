@@ -81,6 +81,12 @@ public class MentorPageController
 		return "mentorLeaves";
 	}
 	
+	@GetMapping("/mentorAllocateTasks")
+	public String mentorAllocateTasks()
+	{
+		return "mentorAllocateTasks";
+	}
+	
 	@GetMapping("/mentorViewHolidays")
 	public String mentorviewholidays()
 	{

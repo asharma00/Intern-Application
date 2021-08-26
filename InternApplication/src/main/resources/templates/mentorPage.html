@@ -661,7 +661,7 @@
 					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave"><a th:href="@{/mentorLeaves}" style="color:white;">Approve leave</a></button>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
-					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask"><a th:href="@{/mentorAllocateTasks}" style="color:white;">Allocate Task</a></button>
+					<a th:href="@{/mentorAllocateTasks}" style="color:white;"><button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask">Allocate Task</button></a>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
 					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout"><a th:href="@{/logout}" style="color:white;">Logout</a></button>

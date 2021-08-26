@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<head>
+
+<meta charset="ISO-8859-1" >
+<title>Intern Application Website</title>
+
+
+<style id="antiClickjack"> body{display:none !important;} </style>
+
+<script type="text/javascript">
+	if(self===top){
+		var antiClickjack = document.getElementById("antiClickjack");
+		antiClickjack.parentNode.removeChild(antiClickjack);
+	}
+	else{
+		top.location= self.location;
+	}
+</script>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<link rel="icon" href="../static/images/indian_railways.jpeg"
+	th:href="@{images/indian_railways.jpeg}" type="image/png">
+<link rel="stylesheet" href="../static/css/style.css"
+	th:href="@{css/style.css}">
+<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+
+	
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+
+<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
+
+
+<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css"
+	th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../src/main/resources/static/css/bootstrap.min.css"
+	th:href="@{css/bootstrap.min.css}">
+	
+	<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css">
+	
+<style>
+
+/*To add calendar ui*/
+
+.ui-datepicker {
+    width: 300px;
+    height: auto;
+    margin: 1px auto 0;
+    font: 12pt Times New Roman, sans-serif;
+    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);*/
+}
+
+    .ui-datepicker table {
+        width: 100%;
+        height: auto;
+    }
+
+.ui-datepicker-header {
+    background: #3399ff;
+    color: #ffffff;
+    font-family:'Times New Roman';
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: #111;
+}
+
+.ui-datepicker-title {
+    text-align: center;
+    font-size: 17px;
+
+}
+
+.ui-datepicker-prev {
+    float: left;
+    cursor: pointer;
+    /*background-position: center -30px;*/
+}
+
+.ui-datepicker-next {
+    float: right;
+    cursor: pointer;
+    /*background-position: center 0px;*/
+}
+
+.ui-datepicker thead {
+    background-color: #f7f7f7;
+
+    /*border-bottom: 1px solid #bbb;*/
+}
+
+.ui-datepicker th {
+    background-color:#808080;
+    text-transform: uppercase;
+    font-size: 8pt;
+    color: #ffffff;
+    /*text-shadow: 1px 0px 0px #fff;*/
+    /*filter: dropshadow(color=#fff, offx=1, offy=0);*/
+}
+
+.ui-datepicker tbody td {
+    padding: 0;
+    /*border-right: 1px solid #808080;*/
+}
+
+    .ui-datepicker tbody td:last-child {
+        border-right: 0px;
+    }
+
+.ui-datepicker tbody tr {
+    border-bottom: 1px solid #bbb;
+}
+
+    .ui-datepicker tbody tr:last-child {
+        border-bottom: 0px;
+    }
+
+.ui-datepicker a {
+    text-decoration: none;
+}
+
+.ui-datepicker td span, .ui-datepicker td a {
+    display: inline-block;
+    /*font-weight: bold;*/
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #ffffff;
+    /*text-shadow: 1px 1px 0px #fff;*/
+    /*filter: dropshadow(color=#fff, offx=1, offy=1);*/
+}
+
+.ui-datepicker-calendar .ui-state-default {
+      background: linear-gradient(#999999, #737373);
+      color:#ffffff;
+      height:40px;
+      width:40px;
+
+}
+
+.ui-datepicker-calendar .ui-state-hover {
+    background: #33adff;
+    color: #FFFFFF;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #33adff;
+    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+    color: #e0e0e0;
+    text-shadow: 0px 1px 0px #4d7a85;
+    border: 1px solid #55838f;
+    position: relative;
+    margin: -1px;
+}
+
+.ui-datepicker-unselectable .ui-state-default {
+    background: #D6F4BE;
+    color: #000000;
+}
+
+/*End of calendar ui*/
+
+
+#mentor {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+ 
+  width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom:10px;
+}
+
+#mentor td, #mentor th {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+#mentor tr:nth-child(even){background-color: #f2f2f2;}
+
+#mentor tr:hover {background-color: #ddd;}
+
+#mentor th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
+<style>
+
+.tile_div a {
+    display: block;
+    float: left;
+    height: 50px;
+    width: 100px;
+    margin-right: 5px;
+    text-align: center;
+    line-height: 50px;
+    text-decoration: none;
+    color:white;
+    border-radius: 8px;
+}
+
+.bts{
+ border-radius: 10px;
+ background-color:orange;
+ border:none;
+}
+
+</style>
+
+<script>
+   
+   //for current email logged in
+	var currentLoggedEmail = $.ajax
+	({
+	    type : "GET",       
+	    url : "/internapp/email",
+	    async:false,
+	    success: function(data) 
+	    {
+	        return data;
+	    }
+	}).responseText;
+	
+	function getCurrentUserName2()   //function to get email of logged in user and name selection regard to logged in user
+	  {
+				$.ajax
+				({
+					url : "/internapp/api/v3/attendance/getEmailMentorWise",
+					type : "GET",
+					data:
+					{ 
+						"mentorEmail" : currentLoggedEmail
+					},
+					contentType: "application/json; charset=utf-8",
+	        		dataType: "json",
+					success : function(data) 
+					{
+						$('#assigned_intern').find('option').remove();
+						if(data.length>0)
+						{
+							$('#assigned_intern').append("<option value=''>SELECT</option>");
+							for(var i=0;i<data.length;i++)
+							{
+								$('#assigned_intern').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+							}
+						}
+						else
+						{
+							alert("No results found");
+						}
+			
+					},
+					error : function(error) 
+					{ }
+				});
+			}
+   
+</script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#" th:href="@{/mentorPage}"><img 
+		     src="../static/images/0.jpg"
+		     th:src="@{images/0.jpg}"
+		     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+		</a> 
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+			aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-expand" id="navbarText"> 
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item mr-4">
+					<div class="dropdown nav-link">
+						<div class="dropdown-menu dropdown-menu-center p-5" style="width: 320px;margin-left:50%;" aria-labelledby="dropdownMenuButton">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					</div>
+				</li>
+				
+				
+				<!-- MENU OF TOGGLE NAVIGATION -->
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnDashboard"><a th:href="@{/mentorPage}" style="color:white;">Dashboard</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary" id="btnChangePassword" data-toggle="modal" data-target="#mentorChangePassword">Change Password</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAddAttendance" data-toggle="modal" data-target="#addAttendanceModal">Add attendance</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnPermitLeave" data-toggle="modal" data-target="#allowLeaveModal">Permit leave</button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave"><a th:href="@{/mentorLeaves}" style="color:white;">Approve leave</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask"><a th:href="@{/mentorAllocateTasks}" style="color:white;">Allocate Task</a></button>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
+					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout"><a th:href="@{/logout}" style="color:white;">Logout</a></button>
+				</li>
+				<!-- END OF MENU OF TOGGLE NAVIGATION -->				
+			</ul>
+		</div>
+</nav>
+
+<center>
+	<button type="button" style="float:left;" class="btn btn-primary">
+		<a class="nav-link" th:href="@{/mentorPage}" style="color:white;">Back</a>
+	</button>
+
+<button type="button" style="margin-left:auto; margin-right:auto;" class="btn btn-primary" data-toggle="modal" data-target="#allocateModal" onClick="getCurrentUserName2()">
+       ALLOCATE TASK
+</button>
+</center>
+
+<div class="modal fade" id="allocateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="max-width: 35%;" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Allocate Task</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+			</div>
+			Heading
+			Assigned To - drop down
+			Task allocated - text area
+			Start date - datepicker
+			End date - datepicker
+			Tester - drop down
+			Submit - button
+			Close - button
+			<div class="modal-body" style="background-color:#80e5ff;">
+				<div class="form-group">
+					<label for="newPassword" style="color:black;">Assign To</label> 
+					<select class="custom-select" id="assigned_intern">
+						<option value="" selected>SELECT</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="currentPassword" style="color:black;">Task</label> 
+					<input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+				</div>
+				<div class="form-group">
+					<label for="confirmNewPassword" style="color:black;">Assign Tester</label> 
+					<select class="custom-select" id="assigned_tester">
+						<option value="" selected>SELECT</option>
+					</select>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
