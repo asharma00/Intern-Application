@@ -2,295 +2,549 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org">
+	
 <head>
-
-<meta charset="ISO-8859-1" >
-<title>Intern Application Website</title>
-
-
-<style id="antiClickjack"> body{display:none !important;} </style>
-
-<script type="text/javascript">
-	if(self===top){
-		var antiClickjack = document.getElementById("antiClickjack");
-		antiClickjack.parentNode.removeChild(antiClickjack);
-	}
-	else{
-		top.location= self.location;
-	}
-</script>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-
-<link rel="icon" href="../static/images/indian_railways.jpeg"
-	th:href="@{images/indian_railways.jpeg}" type="image/png">
-<link rel="stylesheet" href="../static/css/style.css"
-	th:href="@{css/style.css}">
-<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
-
+	<meta charset="ISO-8859-1" >
+	<title>Intern Application Website</title>
 	
-	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+	<style id="antiClickjack"> body{display:none !important;} </style>
 
-	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
-	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	<script type="text/javascript">
+		if(self===top)
+		{
+			var antiClickjack = document.getElementById("antiClickjack");
+			antiClickjack.parentNode.removeChild(antiClickjack);
+		}
+		else
+		{
+			top.location= self.location;
+		}
+	</script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
-
-<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
-
-
-<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css"
-	th:href="@{css/jquery-ui-1.10.3.custom.css}">
-	<link rel="stylesheet" href="../src/main/resources/static/css/bootstrap.min.css"
-	th:href="@{css/bootstrap.min.css}">
-	
+	<link rel="icon" href="../static/images/indian_railways.jpeg" th:href="@{images/indian_railways.jpeg}" type="image/png">
+	<link rel="stylesheet" href="../static/css/style.css" th:href="@{css/style.css}">
+	<link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.css" th:href="@{css/jquery-ui-1.10.3.custom.css}">
+	<link rel="stylesheet" href="../src/main/resources/static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
 	<link th:href="@{'/css/Material+Icons.css'}" rel="stylesheet" type="text/css">
 	
-<style>
-
-/*To add calendar ui*/
-
-.ui-datepicker {
-    width: 300px;
-    height: auto;
-    margin: 1px auto 0;
-    font: 12pt Times New Roman, sans-serif;
-    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);*/
-}
-
-    .ui-datepicker table {
-        width: 100%;
-        height: auto;
-    }
-
-.ui-datepicker-header {
-    background: #3399ff;
-    color: #ffffff;
-    font-family:'Times New Roman';
-    border-width: 1px 0 0 0;
-    border-style: solid;
-    border-color: #111;
-}
-
-.ui-datepicker-title {
-    text-align: center;
-    font-size: 17px;
-
-}
-
-.ui-datepicker-prev {
-    float: left;
-    cursor: pointer;
-    /*background-position: center -30px;*/
-}
-
-.ui-datepicker-next {
-    float: right;
-    cursor: pointer;
-    /*background-position: center 0px;*/
-}
-
-.ui-datepicker thead {
-    background-color: #f7f7f7;
-
-    /*border-bottom: 1px solid #bbb;*/
-}
-
-.ui-datepicker th {
-    background-color:#808080;
-    text-transform: uppercase;
-    font-size: 8pt;
-    color: #ffffff;
-    /*text-shadow: 1px 0px 0px #fff;*/
-    /*filter: dropshadow(color=#fff, offx=1, offy=0);*/
-}
-
-.ui-datepicker tbody td {
-    padding: 0;
-    /*border-right: 1px solid #808080;*/
-}
-
-    .ui-datepicker tbody td:last-child {
-        border-right: 0px;
-    }
-
-.ui-datepicker tbody tr {
-    border-bottom: 1px solid #bbb;
-}
-
-    .ui-datepicker tbody tr:last-child {
-        border-bottom: 0px;
-    }
-
-.ui-datepicker a {
-    text-decoration: none;
-}
-
-.ui-datepicker td span, .ui-datepicker td a {
-    display: inline-block;
-    /*font-weight: bold;*/
-    text-align: center;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    color: #ffffff;
-    /*text-shadow: 1px 1px 0px #fff;*/
-    /*filter: dropshadow(color=#fff, offx=1, offy=1);*/
-}
-
-.ui-datepicker-calendar .ui-state-default {
-      background: linear-gradient(#999999, #737373);
-      color:#ffffff;
-      height:40px;
-      width:40px;
-
-}
-
-.ui-datepicker-calendar .ui-state-hover {
-    background: #33adff;
-    color: #FFFFFF;
-}
-
-.ui-datepicker-calendar .ui-state-active {
-    background: #33adff;
-    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
-    color: #e0e0e0;
-    text-shadow: 0px 1px 0px #4d7a85;
-    border: 1px solid #55838f;
-    position: relative;
-    margin: -1px;
-}
-
-.ui-datepicker-unselectable .ui-state-default {
-    background: #D6F4BE;
-    color: #000000;
-}
-
-/*End of calendar ui*/
-
-
-#mentor {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
- 
-  width: 750px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom:10px;
-}
-
-#mentor td, #mentor th {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
-}
-
-#mentor tr:nth-child(even){background-color: #f2f2f2;}
-
-#mentor tr:hover {background-color: #ddd;}
-
-#mentor th {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  text-align: center;
-  background-color: #4CAF50;
-  color: white;
-}
-</style>
-
-<style>
-
-.tile_div a {
-    display: block;
-    float: left;
-    height: 50px;
-    width: 100px;
-    margin-right: 5px;
-    text-align: center;
-    line-height: 50px;
-    text-decoration: none;
-    color:white;
-    border-radius: 8px;
-}
-
-.bts{
- border-radius: 10px;
- background-color:orange;
- border:none;
-}
-
-</style>
-
-<script>
-   
-   //for current email logged in
-	var currentLoggedEmail = $.ajax
-	({
-	    type : "GET",       
-	    url : "/internapp/email",
-	    async:false,
-	    success: function(data) 
-	    {
-	        return data;
-	    }
-	}).responseText;
+	<script src="../static/js/main.js" th:src="@{js/main.js}"></script>
+	<script src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
+	<script src="../static/js/popper.min.js" th:src="@{js/popper.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="../static/js/jquery-3.3.1.js" th:src="@{js/jquery-3.3.1.js}"></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.js" th:src="@{js/jquery-ui-1.10.3.custom.js}"></script>
 	
-	function getCurrentUserName2()   //function to get email of logged in user and name selection regard to logged in user
-	  {
+	<style>
+		/*To add calendar ui*/
+	
+		.ui-datepicker 
+		{
+		    width: 300px;
+		    height: auto;
+		    margin: 1px auto 0;
+		    font: 12pt Times New Roman, sans-serif;
+		}
+	
+	    .ui-datepicker table 
+	    {
+	        width: 100%;
+	        height: auto;
+	    }
+	
+		.ui-datepicker-header 
+		{
+		    background: #3399ff;
+		    color: #ffffff;
+		    font-family:'Times New Roman';
+		    border-width: 1px 0 0 0;
+		    border-style: solid;
+		    border-color: #111;
+		}
+		
+		.ui-datepicker-title 
+		{
+		    text-align: center;
+		    font-size: 17px;
+		
+		}
+		
+		.ui-datepicker-prev 
+		{
+		    float: left;
+		    cursor: pointer;
+		}
+		
+		.ui-datepicker-next 
+		{
+		    float: right;
+		    cursor: pointer;
+		}
+		
+		.ui-datepicker thead 
+		{
+		    background-color: #f7f7f7;
+		}
+		
+		.ui-datepicker th 
+		{
+		    background-color:#808080;
+		    text-transform: uppercase;
+		    font-size: 8pt;
+		    color: #ffffff;
+		}
+		
+		.ui-datepicker tbody td 
+		{
+		    padding: 0;
+		}
+		
+	    .ui-datepicker tbody td:last-child 
+	    {
+	        border-right: 0px;
+	    }
+		
+		.ui-datepicker tbody tr 
+		{
+		    border-bottom: 1px solid #bbb;
+		}
+		
+	    .ui-datepicker tbody tr:last-child 
+	    {
+	        border-bottom: 0px;
+	    }
+		
+		.ui-datepicker a 
+		{
+		    text-decoration: none;
+		}
+		
+		.ui-datepicker td span, .ui-datepicker td a 
+		{
+		    display: inline-block;
+		    text-align: center;
+		    width: 30px;
+		    height: 30px;
+		    line-height: 30px;
+		    color: #ffffff;
+		}
+		
+		.ui-datepicker-calendar .ui-state-default 
+		{
+		      background: linear-gradient(#999999, #737373);
+		      color:#ffffff;
+		      height:40px;
+		      width:40px;
+		}
+		
+		.ui-datepicker-calendar .ui-state-hover 
+		{
+		    background: #33adff;
+		    color: #FFFFFF;
+		}
+		
+		.ui-datepicker-calendar .ui-state-active 
+		{
+		    background: #33adff;
+		    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    -moz-box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    box-shadow: inset 0px 0px 10px 0px rgba(0, 0, 0, .1);
+		    color: #e0e0e0;
+		    text-shadow: 0px 1px 0px #4d7a85;
+		    border: 1px solid #55838f;
+		    position: relative;
+		    margin: -1px;
+		}
+		
+		.ui-datepicker-unselectable .ui-state-default 
+		{
+		    background: #D6F4BE;
+		    color: #000000;
+		}
+		
+		/*End of calendar ui*/
+	
+		#btnAllocatedTask
+		{
+			margin-top:3px;
+			margin-right:5px;
+			font-size:18px;
+			width:10%;
+		}
+	</style>
+	
+	<script>
+	   
+	   	$(document).ready(function() 
+		{
+			getIntern();
+			
+			$("#assignStartDate").datepicker
+			({
+				  dateFormat:"dd-mm-yy",
+				  changeMonth:true,
+				  changeYear:true,
+				  constrainInput:true,
+				  minDate:new Date(),
+				  gotocurrent:true,
+				  onSelect: function(selected) 
+				  {
+			          $("#assignEndDate").datepicker("option","minDate", selected)
+			      }
+			});
+		  
+			$("#assignEndDate").datepicker
+			({
+				  dateFormat:"dd-mm-yy",
+				  changeMonth:true,
+				  changeYear:true,
+				  constrainInput:true,
+				  minDate:new Date(),
+				  gotocurrent:true,
+				  onSelect: function(selected) 
+				  {
+			          $("#assignStartDate").datepicker("option","minDate", selected)
+			      }
+			});
+		});
+		
+	   
+	   	//for current email logged in
+		var currentLoggedEmail = $.ajax
+		({
+		   type : "GET",      
+		   url : "/internapp/email",
+		   async:false,
+		   success: function(data)
+		   {
+		       return data;
+		   }
+		}).responseText;
+	
+		
+		function getIntern()   //function to get names of interns corresponding to logged in user
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/getEmailMentorWise",
+				type : "GET",
+				data:
+				{
+					"mentorEmail" : currentLoggedEmail
+				},
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success : function(data)
+				{
+					$('#assignIntern').find('option').remove();
+					$('#selectName').find('option').remove();
+					if(data.length>0)
+					{
+						$('#assignIntern').append("<option value=''>SELECT</option>");
+						$('#selectName').append("<option value=''>SELECT</option>");
+						for(var i=0;i<data.length;i++)
+						{
+							$('#assignIntern').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+							$('#selectName').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+						}
+					}
+					else
+					{
+						alert("No results found");
+					}
+				},
+				error : function(error)
+				{ }
+			});
+		}
+		
+		
+		function getAssignedTester(x)    //function to get remaining names for selecting tester
+		{
+			var internEmail = x.value;
+			if(internEmail=='')
+			{
+				alert("Please select intern to assign task");
+			}
+			else
+			{
 				$.ajax
 				({
 					url : "/internapp/api/v3/attendance/getEmailMentorWise",
 					type : "GET",
 					data:
-					{ 
+					{
 						"mentorEmail" : currentLoggedEmail
 					},
 					contentType: "application/json; charset=utf-8",
-	        		dataType: "json",
-					success : function(data) 
+					dataType: "json",
+					success : function(data)
 					{
-						$('#assigned_intern').find('option').remove();
+						$('#assignTester').find('option').remove();
 						if(data.length>0)
 						{
-							$('#assigned_intern').append("<option value=''>SELECT</option>");
+							$('#assignTester').append("<option value=''>SELECT</option>");
 							for(var i=0;i<data.length;i++)
 							{
-								$('#assigned_intern').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
+								if(data[i][0]==internEmail)
+									continue;
+								else
+									$('#assignTester').append('<option value='+data[i][0]+'>'+data[i][1]+'</option>');
 							}
 						}
 						else
 						{
 							alert("No results found");
 						}
-			
 					},
-					error : function(error) 
+					error : function(error)
 					{ }
 				});
 			}
-   
-</script>
+		}
+		
+		
+		/*function getTaskHistory()    //function to get task history of all the interns
+		{
+			$.ajax
+			({
+				//url : "/internapp/api/v3/attendance/pendingAttendanceMentor",
+				type : "GET",
+				data : 
+				{
+					"mentorEmail" : currentLoggedEmail
+				},
+				success : function(data) 
+				{
+					if (data.length > 0) 
+					{
+						$('.removeAttendanceList').empty();   //need to change; just a template
+						$('.removeAttendanceList')     //need to change; just a template
+						.append
+						(
+							"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-3'>Target for Day</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
+							for (i = 0; i < data.length; i++) 
+							{
+								pendingAttendanceList.push(data[i])   //need to change; just a template
+								var dateArray =data[i][4].split("-");
+								var targetWork=data[i][9]; 
+								if(targetWork==null) 
+								{
+									targetWork="N/A";
+								}
+								var workProgress=data[i][10]; 
+								if(workProgress==null) 
+								{
+									workProgress="N/A";
+								}
+								var outTime=data[i][6];
+								if(outTime==null) 
+								{
+									outTime="N/A";
+								}
+								$('.removeAttendanceList')
+								.append(
+									"<li class='list-group-item text-center'>"
+									+ "<div class='row align-items-center'>"
+									+ "<div class='col-1'>"
+									+ data[i][2]
+									+ "</div>"
+									+ "<div class='col-1'>"
+									+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+									+ "</div>"
+									+ "<div class='col-1'>"
+									+ data[i][5]
+									+ "</div>"
+									+ "<div class='col-1'>"
+									+ outTime
+									+ "</div>"
+									+ "<div class='col-1'>"
+									+ data[i][3]
+									+ "</div>"
+									+ "<div class='col-3'>"
+									+ targetWork
+									+ "</div>"
+									+ "<div class='col-3'>"
+									+ workProgress
+									+ "</div>"
+									+ "<div class='col-1'><div class='form-check'>"
+									+ "<div class='row'>"
+									+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+									+ data[i][0]
+									+ data[i][4].split("/")
+									.join('')
+									+ "' id="
+									+ data[i][0]
+									+ data[i][4]
+									+ " value='Accepted'>"
+									+ "<label class='form-check-label' for='decisionRadios"
+									+ data[i][0] + data[i][4]
+								    + "'>Accept</label>"
+									+ "</div>"
+									+ "<div class='col' align='left'>"
+									+ "<input class='form-check-input' type='radio' name='decisionRadios"
+									+ data[i][0]
+									+ data[i][4].split("/")
+									.join('')
+									+ "' id="
+									+ data[i][0]
+									+ data[i][4]
+									+ " value='Rejected'>"
+									+ "<label class='form-check-label' for='"
+									+ data[i][0] + data[i][4] 
+									+ "'>Reject</label>"
+									+"</div>"
+									+ "<div class='col' align='left'>"
+									+ "<input class='form-check-input' type='radio' name='decisionRadios"
+									+ data[i][0]
+									+ data[i][4].split("/")	
+									.join('')
+									+ "' id="
+									+ data[i][0]
+									+ data[i][4]
+									+ " value='Pending' checked> "
+									+ "<label class='form-check-label' for='"
+									+ data[i][0] + data[i][4] 
+									+ "'>Hold</label>"
+									+"</div>"
+									+"</div></div></div></div></li>");
+							}
+					} 
+					else 
+					{
+						$('.removeAttendanceList').empty();
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}
+		
+		
+		
+		function getTaskHistoryByEmail()    //function to get task history of selected intern
+		{
+			$.ajax
+			({
+				url : "/internapp/api/v3/attendance/pendingAttendanceByMentor2",
+				type : "GET",
+				data : 
+				{
+					"mentorEmail" : currentLoggedEmail, 
+					"email" :email
+				},
+				success : function(data) 
+				{
+					if (data.length > 0) {
+					$('.removeAttendanceList').empty();
+					$('.removeAttendanceList')
+					.append(
+						"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-3'>Target for Day</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
+					for (i = 0; i < data.length; i++) 
+					{
+						pendingAttendanceList.push(data[i])
+						var dateArray =data[i][4].split("-");
+						var targetWork=data[i][9]; 
+						if(targetWork==null) {targetWork="N/A";}
+						var workProgress=data[i][10]; 
+						if(workProgress==null) {workProgress="N/A";}
+						var outTime=data[i][6];
+						if(outTime==null) {outTime="N/A";}
+						$('.removeAttendanceList')
+						.append(
+							"<li class='list-group-item text-center'>"
+							+ "<div class='row align-items-center'>"
+							+ "<div class='col-1'>"
+							+ data[i][2]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
+							+ "</div>"
+							+ "<div class='col-1'>"
+							+ data[i][5]
+							+ "</div>"
+							+ "<div class='col-1'>"					
+							+ outTime
+							+ "</div>"
+							+ "<div class='col-1'>"					
+							+ data[i][3]
+							+ "</div>"
+							+ "<div class='col-3'>"
+							+ targetWork
+							+ "</div>"
+							+ "<div class='col-3'>"
+							+ workProgress
+							+ "</div>"
+							+ "<div class='col-1'><div class='form-check'>"
+							+ "<div class='row'>"
+							+"<div class='col' align='left'><input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Accepted'>"
+							+ "<label class='form-check-label' for='decisionRadios"
+							+ data[i][0] + data[i][4]
+						    + "'>Accept</label>"
+							+ "</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Rejected'>"
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Reject</label>"
+							+"</div>"
+							+ "<div class='col' align='left'>"
+							+ "<input class='form-check-input' type='radio' name='decisionRadios"
+							+ data[i][0]
+							+ data[i][4].split("/")
+							.join('')
+							+ "' id="
+							+ data[i][0]
+							+ data[i][4]
+							+ " value='Pending' checked> "
+							+ "<label class='form-check-label' for='"
+							+ data[i][0] + data[i][4] 
+							+ "'>Hold</label>"
+							+"</div>"
+							+"</div></div></div></div></li>");
+						}
+					} 
+					else 
+					{
+						$('.removeAttendanceList').empty();
+					}
+				},
+				error : function(error) 
+				{ }
+			});
+		}*/
+	   
+	</script>
 </head>
-<body>
 
-<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
-		<a class="navbar-brand" href="#" th:href="@{/mentorPage}"><img 
-		     src="../static/images/0.jpg"
-		     th:src="@{images/0.jpg}"
-		     style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
-		</a> 
-		
+<body>
+	
+	<nav class="navbar navbar-expand-tg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#" th:href="@{/mentorPage}"><img
+		    src="../static/images/0.jpg"
+		    th:src="@{images/0.jpg}"
+		    style="width:17%;margin-right:5%;"/><span style="font-size:28px;">Intern Application Website</span>
+		</a>
+	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-			aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+		aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
 		</button>
-		
-		<div class="collapse navbar-expand" id="navbarText"> 
+	
+		<div class="collapse navbar-expand" id="navbarText">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item mr-4">
 					<div class="dropdown nav-link">
@@ -301,11 +555,10 @@
 						</div>
 					</div>
 				</li>
-				
-				
+	
 				<!-- MENU OF TOGGLE NAVIGATION -->
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
-					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnDashboard"><a th:href="@{/mentorPage}" style="color:white;">Dashboard</a></button>
+					<a th:href="@{/mentorPage}" style="color:white;"><button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnDashboard">Dashboard</button></a>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
 					<button type="button" style="font-size:13.7px;" class="btn btn-primary" id="btnChangePassword" data-toggle="modal" data-target="#mentorChangePassword">Change Password</button>
@@ -317,70 +570,89 @@
 					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnPermitLeave" data-toggle="modal" data-target="#allowLeaveModal">Permit leave</button>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
-					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave"><a th:href="@{/mentorLeaves}" style="color:white;">Approve leave</a></button>
+					<a th:href="@{/mentorLeaves}" style="color:white;"><button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnApproveLeave">Approve leave</button></a>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
-					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask"><a th:href="@{/mentorAllocateTasks}" style="color:white;">Allocate Task</a></button>
+					<a th:href="@{/mentorAllocateTasks}" style="color:white;"><button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnAllocateTask">Allocate task</button></a>
 				</li>
 				<li sec:authorize="isAuthenticated()" class="nav-item mr-3">
-					<button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout"><a th:href="@{/logout}" style="color:white;">Logout</a></button>
+					<a th:href="@{/logout}" style="color:white;"><button type="button" style="font-size:13.7px;" class="btn btn-primary"  id="btnLogout">Logout</button></a>
 				</li>
-				<!-- END OF MENU OF TOGGLE NAVIGATION -->				
+				<!-- END OF MENU OF TOGGLE NAVIGATION -->
+				
 			</ul>
 		</div>
-</nav>
-
-<center>
-	<button type="button" style="float:left;" class="btn btn-primary">
-		<a class="nav-link" th:href="@{/mentorPage}" style="color:white;">Back</a>
-	</button>
-
-<button type="button" style="margin-left:auto; margin-right:auto;" class="btn btn-primary" data-toggle="modal" data-target="#allocateModal" onClick="getCurrentUserName2()">
-       ALLOCATE TASK
-</button>
-</center>
-
-<div class="modal fade" id="allocateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style="max-width: 35%;" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Allocate Task</h5>
+	</nav>
+	
+	
+	<!-- MAIN SCREEN DISPLAYED TO MENTOR IN TASK ALLOCATION-->
+	<a class="nav-link" th:href="@{/mentorPage}" style="color:white;">
+		<button type="button" style="float:left;" class="btn btn-primary">Back</button>
+	</a>
+	
+	<div style="margin-top:30px;">
+		<center>
+			<legend class="text-center" style="color:black; font-size:30px; font-family:Microsoft Tai Le; font-weight:bold;">Allocated Tasks History</legend>
+			<button type="button" class="btn btn-primary" id="btnAllocatedTask" data-toggle="modal" data-target="#allocateTaskModal">Allocate Task</button>
+			<div class="text-center font-weight-bold m-4">
+				View task allocation history&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Select Name:</i>&nbsp;&nbsp;&nbsp;
+				<select id="selectName"><option value="">SELECT</option></select>
+			</div>
+			<!--<div class="removeAttendanceContent">
+				<ul class='list-group removeAttendanceList'></ul>
+				<div class="text-center m-4" id="mainPage">
+					
+				</div>
+			</div>-->
+		</center>
+	</div>
+	<!-- END OF MAIN SCREEN DISPLAYED TO MENTOR IN TASK ALLOCATION-->
+	
+	
+	<!-- TASK ALLOCATION MODULE -->
+	<div class="modal fade" id="allocateTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 35%;" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="allowLeaveModalLabel" style="color:black;">Task Allocation</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-			</div>
-			Heading
-			Assigned To - drop down
-			Task allocated - text area
-			Start date - datepicker
-			End date - datepicker
-			Tester - drop down
-			Submit - button
-			Close - button
-			<div class="modal-body" style="background-color:#80e5ff;">
-				<div class="form-group">
-					<label for="newPassword" style="color:black;">Assign To</label> 
-					<select class="custom-select" id="assigned_intern">
-						<option value="" selected>SELECT</option>
-					</select>
 				</div>
-				<div class="form-group">
-					<label for="currentPassword" style="color:black;">Task</label> 
-					<input type="password" class="form-control" id="currentPassword" placeholder="Enter Current Password">
+				<div class="modal-body" style="background-color:#80e5ff;">
+					<div class="form-group">
+						<label for="assignIntern">Assign To</label>
+						<select class="custom-select" id="assignIntern" onchange="getAssignedTester(this)">
+							<option value="">SELECT</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="assignTask" style="color:black;">Task To Be Assigned</label>
+						<input type="text" class="form-control" id="assignTask" placeholder="Input task to be assigned to the intern">
+					</div>
+					<div class="form-group">
+						<label for="assignStartDate" style="color:black;">Start Date</label>
+						<input class="form-control" id="assignStartDate">
+					</div>
+					<div class="form-group">
+						<label for="assignEndDate" style="color:black;">End Date</label>
+						<input class="form-control" id="assignEndDate">
+					</div>
+					<div class="form-group">
+						<label for="assignTester">Assigned Tester</label>
+						<select class="custom-select" id="assignTester">
+							<option value="">SELECT</option>
+						</select>
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="confirmNewPassword" style="color:black;">Assign Tester</label> 
-					<select class="custom-select" id="assigned_tester">
-						<option value="" selected>SELECT</option>
-					</select>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
 			</div>
 		</div>
 	</div>
-</div>
-
+	<!-- END OF TASK ALLOCATION MODULE -->
+	
 </body>
 </html>
