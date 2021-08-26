@@ -35,6 +35,9 @@ public class TaskAllotment {
 	
 	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "assigned_by")
+	private String assigned_by;
 
 	public TaskAllotment() {
 		super();

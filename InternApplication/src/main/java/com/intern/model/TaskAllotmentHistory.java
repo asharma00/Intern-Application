@@ -28,8 +28,8 @@ public class TaskAllotmentHistory {
 	@Column(name = "tester_id")
 	private String tester_id;
 	
-	@Column(name = "testing_name")
-	private String testing_name;
+	@Column(name = "testor_name")
+	private String testor_name;
 	
 	@Column(name = "start_date")
 	private Date start_date;
@@ -43,30 +43,31 @@ public class TaskAllotmentHistory {
 	@Column(name = "testing_action")
 	private String testing_action;
 	
-	@Column(name = "testing_status")
-	private String testing_status;
+	@Column(name = "status")
+	private String status;
 
 	public TaskAllotmentHistory() {
 		super();
 	}
-
+	
 	public TaskAllotmentHistory(long id, Date date, String intern_id, String intern_name, String tester_id,
-			String testing_name, Date start_date, Date end_date, String testing_result, String testing_action,
-			String testing_status) {
+			String testor_name, Date start_date, Date end_date, String testing_result, String testing_action,
+			String status) {
 		super();
 		this.id = id;
 		this.date = date;
 		this.intern_id = intern_id;
 		this.intern_name = intern_name;
 		this.tester_id = tester_id;
-		this.testing_name = testing_name;
+		this.testor_name = testor_name;
 		this.start_date = start_date;
 		this.end_date = end_date;
 		this.testing_result = testing_result;
 		this.testing_action = testing_action;
-		this.testing_status = testing_status;
+		this.status = status;
 	}
-	
+
+
 	public String getIntern_id() {
 		return intern_id;
 	}
@@ -90,13 +91,21 @@ public class TaskAllotmentHistory {
 	public void setTester_id(String tester_id) {
 		this.tester_id = tester_id;
 	}
-
-	public String getTesting_name() {
-		return testing_name;
+	
+	public String getTestor_name() {
+		return testor_name;
 	}
 
-	public void setTesting_name(String testing_name) {
-		this.testing_name = testing_name;
+	public void setTestor_name(String testor_name) {
+		this.testor_name = testor_name;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Date getStart_date() {
@@ -129,14 +138,6 @@ public class TaskAllotmentHistory {
 
 	public void setTesting_action(String testing_action) {
 		this.testing_action = testing_action;
-	}
-
-	public String getTesting_status() {
-		return testing_status;
-	}
-
-	public void setTesting_status(String testing_status) {
-		this.testing_status = testing_status;
 	}
 	
 }
