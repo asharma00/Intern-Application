@@ -3,10 +3,6 @@ package com.intern.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
-
 //composite classes must be serializable
 public class AttendanceCompositeKey implements Serializable {
 

@@ -3,24 +3,20 @@ package com.intern.model;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 public class DatewiseholidayId implements Serializable {
 	
 	private static final long serialVersionUID = 2L;
 	private long id;
 	private Date holidaydate;
 	
-	public DatewiseholidayId(){
-		
+	public DatewiseholidayId(){		
 	}
 	
 	 public DatewiseholidayId(long id, Date holidaydate) {
 		    super();
 	        this.id = id;
 	        this.holidaydate = holidaydate;
-	    }
-	 
+	 }
 	 
 	 @Override
 		public int hashCode() {
@@ -49,11 +45,5 @@ public class DatewiseholidayId implements Serializable {
 				return false;
 			return true;
 		}
-		
-		
-		
 
-	 
-	
 }
-

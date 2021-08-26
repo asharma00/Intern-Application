@@ -1,0 +1,142 @@
+package com.intern.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+
+@Entity
+@IdClass(TaskAllotmentHistoryId.class)
+public class TaskAllotmentHistory {
+	
+	@Id
+	@Column(name = "id")
+	private long id;
+	 
+	@Id
+	@Column(name = "date")
+	private Date date;
+	
+	@Column(name = "intern_id")
+	private String intern_id;
+
+	@Column(name = "intern_name")
+	private String intern_name;
+	
+	@Column(name = "tester_id")
+	private String tester_id;
+	
+	@Column(name = "testing_name")
+	private String testing_name;
+	
+	@Column(name = "start_date")
+	private Date start_date;
+	
+	@Column(name = "end_date")
+	private Date end_date;
+	
+	@Column(name = "testing_result")
+	private String testing_result;
+	
+	@Column(name = "testing_action")
+	private String testing_action;
+	
+	@Column(name = "testing_status")
+	private String testing_status;
+
+	public TaskAllotmentHistory() {
+		super();
+	}
+
+	public TaskAllotmentHistory(long id, Date date, String intern_id, String intern_name, String tester_id,
+			String testing_name, Date start_date, Date end_date, String testing_result, String testing_action,
+			String testing_status) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.intern_id = intern_id;
+		this.intern_name = intern_name;
+		this.tester_id = tester_id;
+		this.testing_name = testing_name;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.testing_result = testing_result;
+		this.testing_action = testing_action;
+		this.testing_status = testing_status;
+	}
+	
+	public String getIntern_id() {
+		return intern_id;
+	}
+
+	public void setIntern_id(String intern_id) {
+		this.intern_id = intern_id;
+	}
+
+	public String getIntern_name() {
+		return intern_name;
+	}
+
+	public void setIntern_name(String intern_name) {
+		this.intern_name = intern_name;
+	}
+
+	public String getTester_id() {
+		return tester_id;
+	}
+
+	public void setTester_id(String tester_id) {
+		this.tester_id = tester_id;
+	}
+
+	public String getTesting_name() {
+		return testing_name;
+	}
+
+	public void setTesting_name(String testing_name) {
+		this.testing_name = testing_name;
+	}
+
+	public Date getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(Date start_date) {
+		this.start_date = start_date;
+	}
+
+	public Date getEnd_date() {
+		return end_date;
+	}
+
+	public void setEnd_date(Date end_date) {
+		this.end_date = end_date;
+	}
+
+	public String getTesting_result() {
+		return testing_result;
+	}
+
+	public void setTesting_result(String testing_result) {
+		this.testing_result = testing_result;
+	}
+
+	public String getTesting_action() {
+		return testing_action;
+	}
+
+	public void setTesting_action(String testing_action) {
+		this.testing_action = testing_action;
+	}
+
+	public String getTesting_status() {
+		return testing_status;
+	}
+
+	public void setTesting_status(String testing_status) {
+		this.testing_status = testing_status;
+	}
+	
+}
