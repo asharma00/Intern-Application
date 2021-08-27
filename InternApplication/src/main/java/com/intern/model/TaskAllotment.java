@@ -19,18 +19,18 @@ public class TaskAllotment {
 	private Long id;
 	
 	@Column(name = "intern_id")
-	private String intern_id;
+	private Long intern_id;
 	
 	@Column(name = "tester_id")
-	private String tester_id;
+	private Long tester_id;
 	
 	@Column(name = "task_alloted")
 	private String task_alloted;
 	
-	@Column(name = "start_date")
+	@Column(name = "start_date", columnDefinition="date")
 	private Date start_date;
 	
-	@Column(name = "end_date")
+	@Column(name = "end_date", columnDefinition="date")
 	private Date end_date;
 	
 	@Column(name = "status")
@@ -39,20 +39,12 @@ public class TaskAllotment {
 	@Column(name = "assigned_by")
 	private String assigned_by;
 
-	public TaskAllotment() {
-		super();
+	public String getAssigned_by() {
+		return assigned_by;
 	}
 
-	public TaskAllotment(Long id, String intern_id, String tester_id, String task_alloted, Date start_date,
-			Date end_date, String status) {
-		super();
-		this.id = id;
-		this.intern_id = intern_id;
-		this.tester_id = tester_id;
-		this.task_alloted = task_alloted;
-		this.start_date = start_date;
-		this.end_date = end_date;
-		this.status = status;
+	public void setAssigned_by(String assigned_by) {
+		this.assigned_by = assigned_by;
 	}
 
 	public Long getId() {
@@ -63,19 +55,19 @@ public class TaskAllotment {
 		this.id = id;
 	}
 
-	public String getIntern_id() {
+	public Long getIntern_id() {
 		return intern_id;
 	}
 
-	public void setIntern_id(String intern_id) {
+	public void setIntern_id(Long intern_id) {
 		this.intern_id = intern_id;
 	}
 
-	public String getTester_id() {
+	public Long getTester_id() {
 		return tester_id;
 	}
 
-	public void setTester_id(String tester_id) {
+	public void setTester_id(Long tester_id) {
 		this.tester_id = tester_id;
 	}
 
@@ -109,6 +101,18 @@ public class TaskAllotment {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public TaskAllotment(Long intern_id, Long tester_id, String task_alloted, Date start_date,
+			Date end_date, String status, String assigned_by) {
+		super();
+		this.intern_id = intern_id;
+		this.tester_id = tester_id;
+		this.task_alloted = task_alloted;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.status = status;
+		this.assigned_by = assigned_by;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package com.intern.controller;
 
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,16 +14,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.intern.exception.ResourceNotFoundException;
 import com.intern.model.Application;
 import com.intern.model.Flags;
 import com.intern.model.Interview;
+import com.intern.model.TaskAllotment;
+import com.intern.model.TaskAllotmentHistory;
 import com.intern.model.User;
 import com.intern.repository.ApplicationRepository;
 import com.intern.repository.Flagsrepository;
 import com.intern.repository.InterviewRepository;
 import com.intern.repository.QuestionRepository;
+import com.intern.repository.TaskAllocationHistoryRepo;
+import com.intern.repository.TaskAllocationRepository;
 import com.intern.repository.UserRepository;
 
 @Controller
@@ -33,6 +42,12 @@ public class MentorPageController
 	
 	@Autowired
 	private ApplicationRepository applicationRepository;
+	
+	@Autowired
+	private TaskAllocationRepository taskAllocationRepo;
+	
+	@Autowired
+	private TaskAllocationHistoryRepo taskAllocationHistoryRepo;
 	
 	@Autowired
 	private FileController fc;
@@ -106,6 +121,22 @@ public class MentorPageController
         return "mentorViewApplicationStatus";
     }
 	
+	@GetMapping("/mentor/taskHistoryIntern") 
+	public ArrayList<Object> getTaskList(@RequestParam ("mentorEmail") String mentorEmail)
+	{ 
+		try 
+		{ 
+			ArrayList<Object> internAndTaskList = this.taskAllocationRepo.findAllInterns(mentorEmail); 
+			return internAndTaskList; 
+		} 
+		catch (Exception ex) 
+		{ 
+			System.out.println(ex);
+			return null; 
+		} 
+	}
+	 
+	
 	@PostMapping("/mentorCandidateApplication")
     public String getApplicationStatusForMentor(HttpServletRequest request, Model model)throws ResourceNotFoundException 
 	{
@@ -146,6 +177,27 @@ public class MentorPageController
 				model.addAttribute("email", email );
 		}
 		return "mentorCandidateApplication";
+	}
+	
+	@ResponseBody
+	@PostMapping("/mentor/allocateTask")
+	public int allocateTaskIntern(@RequestParam("assignedIntern") String assignedIntern, @RequestParam("assignedTask") String assignedTask, @RequestParam("assignedStartDate") Date assignedStartDate, @RequestParam("assignedEndDate") Date assignedEndDate, @RequestParam("assignedTester") String assignedTester, @RequestParam("currentUser") String currentUser) 
+	{
+         try
+         {
+			 User userIntern = userRepo.findByEmail(assignedIntern);
+        	 User userTester = userRepo.findByEmail(assignedTester);
+        	 TaskAllotment ta = new TaskAllotment(userIntern.getId(),userTester.getId(),assignedTask,assignedStartDate,assignedEndDate,"Allocated",currentUser);
+        	 TaskAllotmentHistory tah = new TaskAllotmentHistory(new Date(),userIntern.getId(),userIntern.getFullName(),userTester.getId(),userTester.getFullName(),assignedStartDate,assignedEndDate,null,null,"Allocated");
+        	 this.taskAllocationRepo.save(ta);
+        	 this.taskAllocationHistoryRepo.save(tah);
+        	 return 1;
+         }
+         catch(Exception ex)
+         {
+        	 System.out.println(ex);
+        	 return 0;
+         }
 	}
 	
 }

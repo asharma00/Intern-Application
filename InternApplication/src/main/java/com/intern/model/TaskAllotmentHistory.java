@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 
@@ -12,29 +14,30 @@ import javax.persistence.IdClass;
 public class TaskAllotmentHistory {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private long id;
 	 
 	@Id
-	@Column(name = "date")
+	@Column(name = "date", columnDefinition="timestamp")
 	private Date date;
 	
 	@Column(name = "intern_id")
-	private String intern_id;
+	private Long intern_id;
 
 	@Column(name = "intern_name")
 	private String intern_name;
 	
 	@Column(name = "tester_id")
-	private String tester_id;
+	private Long tester_id;
 	
 	@Column(name = "testor_name")
 	private String testor_name;
 	
-	@Column(name = "start_date")
+	@Column(name = "start_date", columnDefinition="date")
 	private Date start_date;
 	
-	@Column(name = "end_date")
+	@Column(name = "end_date", columnDefinition="date")
 	private Date end_date;
 	
 	@Column(name = "testing_result")
@@ -50,11 +53,10 @@ public class TaskAllotmentHistory {
 		super();
 	}
 	
-	public TaskAllotmentHistory(long id, Date date, String intern_id, String intern_name, String tester_id,
+	public TaskAllotmentHistory(Date date, Long intern_id, String intern_name, Long tester_id,
 			String testor_name, Date start_date, Date end_date, String testing_result, String testing_action,
 			String status) {
 		super();
-		this.id = id;
 		this.date = date;
 		this.intern_id = intern_id;
 		this.intern_name = intern_name;
@@ -68,11 +70,11 @@ public class TaskAllotmentHistory {
 	}
 
 
-	public String getIntern_id() {
+	public Long getIntern_id() {
 		return intern_id;
 	}
 
-	public void setIntern_id(String intern_id) {
+	public void setIntern_id(Long intern_id) {
 		this.intern_id = intern_id;
 	}
 
@@ -84,11 +86,11 @@ public class TaskAllotmentHistory {
 		this.intern_name = intern_name;
 	}
 
-	public String getTester_id() {
+	public Long getTester_id() {
 		return tester_id;
 	}
 
-	public void setTester_id(String tester_id) {
+	public void setTester_id(Long tester_id) {
 		this.tester_id = tester_id;
 	}
 	

@@ -176,6 +176,7 @@
    	$(document).ready(function() 
 	{
 		getIntern();
+		getTaskHistory();
 		
 		$("#assignStartDate").datepicker
 		({
@@ -199,12 +200,10 @@
 			  constrainInput:true,
 			  minDate:new Date(),
 			  gotocurrent:true,
-			  onSelect: function(selected) 
-			  {
-		          $("#assignStartDate").datepicker("option","minDate", selected)
-		      }
 		});
 	});
+   
+	var internHistoryList = [];
    
    	//for current email logged in
 	var currentLoggedEmail = $.ajax
@@ -217,6 +216,7 @@
 	       return data;
 	   }
 	}).responseText;
+	
 	
 	function getIntern()   //function to get names of interns corresponding to logged in user
 	{
@@ -300,11 +300,11 @@
 	}
 	
 	
-	/*function getTaskHistory()    //function to get task history of all the interns
+	function getTaskHistory()    //function to get task history of all the interns
 	{
 		$.ajax
 		({
-			//url : "/internapp/api/v3/attendance/pendingAttendanceMentor",
+			url : "/internapp/mentor/taskHistoryIntern",
 			type : "GET",
 			data : 
 			{
@@ -314,15 +314,15 @@
 			{
 				if (data.length > 0) 
 				{
-					$('.removeAttendanceList').empty();   //need to change; just a template
-					$('.removeAttendanceList')     //need to change; just a template
+					$('.removeTaskHistoryList').empty();   
+					$('.removeTaskHistoryList')     
 					.append
 					(
-						"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-1'>Name</div><div class='col-1'>Date</div><div class='col-1'>In Time</div><div class='col-1'>Out Time</div><div class='col-1'>Project</div><div class='col-3'>Target for Day</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
+						"<li class='list-group-item font-weight-bold text-center'><div class='row align-items-center'><div class='col-2'>Intern</div><div class='col-3'>Task Allocated</div><div class='col-2'>Tentative Start Date</div><div class='col-2'>Tentative End Date</div><div class='col-2'>Tester</div><div class='col-1'>View History</div><div class='col-3'>Work Status</div><div class='col-1'>Actions</div></li>")
 						for (i = 0; i < data.length; i++) 
 						{
-							pendingAttendanceList.push(data[i])   //need to change; just a template
-							var dateArray =data[i][4].split("-");
+							internHistoryList.push(data[i])   
+							/*var dateArray =data[i][4].split("-");
 							var targetWork=data[i][9]; 
 							if(targetWork==null) 
 							{
@@ -337,30 +337,30 @@
 							if(outTime==null) 
 							{
 								outTime="N/A";
-							}
-							$('.removeAttendanceList')
+							}*/
+							$('.removeTaskHistoryList')
 							.append(
 								"<li class='list-group-item text-center'>"
 								+ "<div class='row align-items-center'>"
-								+ "<div class='col-1'>"
-								+ data[i][2]
-								+ "</div>"
-								+ "<div class='col-1'>"
-								+ dateArray[2]+'/'+dateArray[1]+'/'+dateArray[0]
-								+ "</div>"
-								+ "<div class='col-1'>"
-								+ data[i][5]
-								+ "</div>"
-								+ "<div class='col-1'>"
-								+ outTime
-								+ "</div>"
-								+ "<div class='col-1'>"
-								+ data[i][3]
+								+ "<div class='col-2'>"
+								+ data[i][0]
 								+ "</div>"
 								+ "<div class='col-3'>"
-								+ targetWork
+								+ data[i][0]
 								+ "</div>"
-								+ "<div class='col-3'>"
+								+ "<div class='col-2'>"
+								+ data[i][0]
+								+ "</div>"
+								+ "<div class='col-2'>"
+								+ data[i][0]
+								+ "</div>"
+								+ "<div class='col-2'>"
+								+ data[i][0]
+								+ "</div>"
+								+ "<div class='col-1'>"
+								+ data[i][0]
+								+ "</div>"
+								/*+ "<div class='col-3'>"
 								+ workProgress
 								+ "</div>"
 								+ "<div class='col-1'><div class='form-check'>"
@@ -402,13 +402,13 @@
 								+ "<label class='form-check-label' for='"
 								+ data[i][0] + data[i][4] 
 								+ "'>Hold</label>"
-								+"</div>"
+								+"</div>"*/
 								+"</div></div></div></div></li>");
 						}
 				} 
 				else 
 				{
-					$('.removeAttendanceList').empty();
+					$('.removeTaskHistoryList').empty();
 				}
 			},
 			error : function(error) 
@@ -418,7 +418,7 @@
 	
 	
 	
-	function getTaskHistoryByEmail()    //function to get task history of selected intern
+	/*function getTaskHistoryByEmail()    //function to get task history of selected intern
 	{
 		$.ajax
 		({
@@ -523,6 +523,60 @@
 			{ }
 		});
 	}*/
+	
+	
+	function submitTask()
+	{
+		if($('#assignIntern').val()=='')
+		{
+			alert("Please select intern to assign task");
+			return;
+		}
+		if($('#assignStartDate').val()=='')
+		{
+			alert("Please select tentative start date");
+			return;
+		}
+		if($('#assignEndDate').val()=='')
+		{
+			alert("Please select tentative end date");
+			return;
+		}
+		if($('#assignTester').val()=='')
+		{
+			alert("Please select intern for testing");
+			return;
+		}
+		var startDate = $("#assignStartDate").val().split("-");
+		startDate = startDate[2] + "/" + startDate[1] + "/" + startDate[0];
+		var endDate = $("#assignEndDate").val().split("-");
+		endDate = endDate[2] + "/" + endDate[1] + "/" + endDate[0];
+		$.ajax
+		({
+			url : "/internapp/mentor/allocateTask",
+			type : "POST",
+			data : 
+			{
+				"assignedIntern" : $('#assignIntern').val(),
+				"assignedTask" : $('#assignTask').val(),
+				"assignedStartDate" : startDate,
+				"assignedEndDate" : endDate,
+				"assignedTester" : $('#assignTester').val(), 
+				"currentUser" : currentLoggedEmail,
+			},
+			success : function(data) 
+			{
+				alert(data);
+				if(data!=0)
+					alert("Task assigned successfully to the intern");
+				else
+					alert("Some error occured in performing the action");
+			},
+			error : function(error) 
+			{ }
+		})
+		window.location.reload();
+	}
 	   
 </script>
 </head>
@@ -593,12 +647,10 @@
 				View task allocation history&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Select Name:</i>&nbsp;&nbsp;&nbsp;
 				<select id="selectName"><option value="">SELECT</option></select>
 			</div>
-			<!--<div class="removeAttendanceContent">
-				<ul class='list-group removeAttendanceList'></ul>
-				<div class="text-center m-4" id="mainPage">
-					
-				</div>
-			</div>-->
+			<div class="removeTaskHistoryContent">
+				<ul class='list-group removeTaskHistoryList'></ul>
+				<div class="text-center m-4" id="mainPage"></div>
+			</div>
 		</center>
 	</div>
 	<!-- END OF MAIN SCREEN DISPLAYED TO MENTOR IN TASK ALLOCATION-->
@@ -622,14 +674,15 @@
 					</div>
 					<div class="form-group">
 						<label for="assignTask" style="color:black;">Task To Be Assigned</label>
-						<input type="text" class="form-control" id="assignTask" placeholder="Input task to be assigned to the intern">
+						<!--<textarea class="form-control" id="assignTask"" placeholder="Input task to be assigned to the intern"></textarea>-->
+						<textarea class="form-control" id="assignTask" placeholder="Input task to be assigned to intern"></textarea>
 					</div>
 					<div class="form-group">
-						<label for="assignStartDate" style="color:black;">Start Date</label>
+						<label for="assignStartDate" style="color:black;">Tentative Start Date</label>
 						<input class="form-control" id="assignStartDate">
 					</div>
 					<div class="form-group">
-						<label for="assignEndDate" style="color:black;">End Date</label>
+						<label for="assignEndDate" style="color:black;">Tentative End Date</label>
 						<input class="form-control" id="assignEndDate">
 					</div>
 					<div class="form-group">
@@ -640,7 +693,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
+					<button type="button" class="btn btn-primary" onclick="submitTask()">Submit</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -649,7 +702,7 @@
 	<!-- END OF TASK ALLOCATION MODULE -->
 	
 	<!-- ALLOCATED TASK DETAILS -->
-	<div class="container-xl">
+	<!--<div class="container-xl">
 		<div class="table-responsive">
 			<div class="table-wrapper">
 				<table class="table table-striped table-hover">
@@ -676,7 +729,7 @@
 				</table>
 			</div>
 		</div>        
-	</div>
+	</div>-->
 	<!-- END OF ALLOCATED TASK DETAILS -->
 	
 </body>
